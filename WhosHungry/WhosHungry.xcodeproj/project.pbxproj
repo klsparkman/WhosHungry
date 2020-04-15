@@ -12,6 +12,10 @@
 		359C402524476B40007C2AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 359C402324476B40007C2AEF /* Main.storyboard */; };
 		359C402724476B43007C2AEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 359C402624476B43007C2AEF /* Assets.xcassets */; };
 		359C402A24476B43007C2AEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 359C402824476B43007C2AEF /* LaunchScreen.storyboard */; };
+		359C40322447702E007C2AEF /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C40312447702E007C2AEF /* Restaurant.swift */; };
+		359C403624477083007C2AEF /* RestaurantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403524477083007C2AEF /* RestaurantController.swift */; };
+		359C403924477130007C2AEF /* RestaurantError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403824477130007C2AEF /* RestaurantError.swift */; };
+		359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403A24477A17007C2AEF /* InitialViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,10 @@
 		359C402624476B43007C2AEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		359C402924476B43007C2AEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		359C402B24476B43007C2AEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		359C40312447702E007C2AEF /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
+		359C403524477083007C2AEF /* RestaurantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantController.swift; sourceTree = "<group>"; };
+		359C403824477130007C2AEF /* RestaurantError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantError.swift; sourceTree = "<group>"; };
+		359C403A24477A17007C2AEF /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +62,42 @@
 		359C401C24476B40007C2AEF /* WhosHungry */ = {
 			isa = PBXGroup;
 			children = (
+				359C403424477046007C2AEF /* Resources */,
+				359C402324476B40007C2AEF /* Main.storyboard */,
+				359C40332447703B007C2AEF /* Model */,
+				359C403724477087007C2AEF /* ModelController */,
+				359C403824477130007C2AEF /* RestaurantError.swift */,
+				359C403A24477A17007C2AEF /* InitialViewController.swift */,
+			);
+			path = WhosHungry;
+			sourceTree = "<group>";
+		};
+		359C40332447703B007C2AEF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				359C40312447702E007C2AEF /* Restaurant.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		359C403424477046007C2AEF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				359C401D24476B40007C2AEF /* AppDelegate.swift */,
 				359C401F24476B40007C2AEF /* SceneDelegate.swift */,
-				359C402324476B40007C2AEF /* Main.storyboard */,
 				359C402624476B43007C2AEF /* Assets.xcassets */,
 				359C402824476B43007C2AEF /* LaunchScreen.storyboard */,
 				359C402B24476B43007C2AEF /* Info.plist */,
 			);
-			path = WhosHungry;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		359C403724477087007C2AEF /* ModelController */ = {
+			isa = PBXGroup;
+			children = (
+				359C403524477083007C2AEF /* RestaurantController.swift */,
+			);
+			path = ModelController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +173,10 @@
 			files = (
 				359C401E24476B40007C2AEF /* AppDelegate.swift in Sources */,
 				359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */,
+				359C403924477130007C2AEF /* RestaurantError.swift in Sources */,
+				359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */,
+				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,
+				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WhosHungry/Info.plist;
+				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -298,7 +338,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WhosHungry/Info.plist;
+				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
