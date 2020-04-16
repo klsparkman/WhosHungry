@@ -62,12 +62,11 @@
 		359C401C24476B40007C2AEF /* WhosHungry */ = {
 			isa = PBXGroup;
 			children = (
-				359C403424477046007C2AEF /* Resources */,
-				359C402324476B40007C2AEF /* Main.storyboard */,
 				359C40332447703B007C2AEF /* Model */,
-				359C403724477087007C2AEF /* ModelController */,
-				359C403824477130007C2AEF /* RestaurantError.swift */,
-				359C403A24477A17007C2AEF /* InitialViewController.swift */,
+				359C403F2448D867007C2AEF /* Views */,
+				359C403C2448D80C007C2AEF /* Controllers */,
+				359C403E2448D846007C2AEF /* Helpers */,
+				359C403424477046007C2AEF /* Resources */,
 			);
 			path = WhosHungry;
 			sourceTree = "<group>";
@@ -98,6 +97,39 @@
 				359C403524477083007C2AEF /* RestaurantController.swift */,
 			);
 			path = ModelController;
+			sourceTree = "<group>";
+		};
+		359C403C2448D80C007C2AEF /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				359C403D2448D81E007C2AEF /* ViewController */,
+				359C403724477087007C2AEF /* ModelController */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		359C403D2448D81E007C2AEF /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				359C403A24477A17007C2AEF /* InitialViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		359C403E2448D846007C2AEF /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				359C403824477130007C2AEF /* RestaurantError.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		359C403F2448D867007C2AEF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				359C402324476B40007C2AEF /* Main.storyboard */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

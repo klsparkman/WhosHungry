@@ -17,18 +17,18 @@ class RestaurantController {
     private init() {
     }
     
+    // Zomato URL Constants
     let baseURL = URL(string: "https://developers.zomato.com/api/v2.1/")
     let searchEndpoint = "search"
     let headerKey = "user-key"
     let apiKey = "f9d11770a0a651c546720e10c914e7d6"
     
+    // Mark: - Fetch Request
     func fetchRestaurants(completion: @escaping (Result<[Restaurant], RestaurantError>) -> Void) {
-        
         guard let baseURL = baseURL else {return}
         let searchURL =  baseURL.appendingPathComponent(searchEndpoint)
         var request = URLRequest(url: searchURL)
         request.addValue(apiKey, forHTTPHeaderField: headerKey)
-        
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             if let error = error {
