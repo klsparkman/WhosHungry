@@ -10,6 +10,7 @@ import UIKit
 
 class InitialViewController: UIViewController {
 
+    @IBOutlet weak var titleLabel: UILabel!
     
     
     override func viewDidLoad() {
@@ -20,7 +21,9 @@ class InitialViewController: UIViewController {
         }
     }
     
-
+   
+    
+    
     /*
     // MARK: - Navigation
 
