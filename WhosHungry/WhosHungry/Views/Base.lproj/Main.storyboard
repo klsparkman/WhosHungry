@@ -25,9 +25,6 @@
                                 <rect key="frame" x="92" y="604" width="230" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Click here to find your friends"/>
-                                <connections>
-                                    <segue destination="YfQ-zM-K2Z" kind="show" id="Ch8-Nu-sPZ"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -47,48 +44,20 @@
             </objects>
             <point key="canvasLocation" x="1002.8985507246377" y="-21.428571428571427"/>
         </scene>
-        <!--Player List Table View Controller-->
-        <scene sceneID="ciD-mn-Jw5">
+        <!--View Controller-->
+        <scene sceneID="UWQ-2k-1pW">
             <objects>
-                <tableViewController id="YfQ-zM-K2Z" customClass="PlayerListTableViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="kfY-I2-DpH">
+                <viewController id="zJm-ZB-Ks6" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5aT-UH-gl9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userNameCell" textLabel="gDU-Qx-2u6" style="IBUITableViewCellStyleDefault" id="PqY-rh-njL">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PqY-rh-njL" id="UvS-uo-jAQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gDU-Qx-2u6">
-                                            <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="YfQ-zM-K2Z" id="lfj-xl-80J"/>
-                            <outlet property="delegate" destination="YfQ-zM-K2Z" id="Nmy-dD-aVl"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="Goc-uh-kaN">
-                        <barButtonItem key="rightBarButtonItem" title="Start Swiping!" id="aqH-7b-BJm"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="userNameCell" destination="PqY-rh-njL" id="fQa-J2-ZRo"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7UN-HL-BqU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                        <viewLayoutGuide key="safeArea" id="0l6-oc-1G1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IAK-3N-T4n" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1725" y="-21"/>
+            <point key="canvasLocation" x="1726" y="-21"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dOS-MP-14K">

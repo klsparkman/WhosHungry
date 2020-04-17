@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import MultipeerConnectivity
+
+
 
 class User {
     let name: String
@@ -15,3 +18,4 @@ class User {
         self.name = name
     }
 }
+
