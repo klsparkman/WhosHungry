@@ -1,3 +1,4 @@
+
 //
 //  UserListViewController.swift
 //  WhosHungry
@@ -13,15 +14,16 @@ class UserListViewController: UIViewController, MCSessionDelegate, MCBrowserView
     
     var advertiser: MCNearbyServiceAdvertiser!
     var browser: MCNearbyServiceBrowser!
-    var peerID: MCPeerID?
+    var peerID = MCPeerID(displayName: UIDevice.current.name)
     var session: MCSession?
+    var mcAdvertiserAssistant: MCAdvertiserAssistant?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        peerID = MCPeerID(displayName: UIDevice.current.name)
-        session = MCSession(peer: peerID!, securityIdentity: nil, encryptionPreference: .none)
-        session!.delegate = self
+        session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+        session?.delegate = self
     }
+    
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
@@ -77,12 +79,12 @@ class UserListViewController: UIViewController, MCSessionDelegate, MCBrowserView
     }
     
     func hostSession() {
-        let advertiser = MCNearbyServiceAdvertiser(peer: peerID!, discoveryInfo: nil, serviceType: "my-test")
+        let advertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: "kls-whoshungry")
         advertiser.startAdvertisingPeer()
     }
     
     func joinSession() {
-        let browser = MCNearbyServiceBrowser(peer: peerID!, serviceType: "my-test")
+        let browser = MCNearbyServiceBrowser(peer: peerID, serviceType: "kls-whoshungry")
         browser.delegate = self
         browser.startBrowsingForPeers()
     }

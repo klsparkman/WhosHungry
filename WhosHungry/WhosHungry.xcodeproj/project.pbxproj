@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* UserListViewController.swift */; };
 		359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D6244A5181003A20BC /* SwipeScreenViewController.swift */; };
+		359558D9244A5B6B003A20BC /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D8244A5B6B003A20BC /* MPCManager.swift */; };
 		359C401E24476B40007C2AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C401D24476B40007C2AEF /* AppDelegate.swift */; };
 		359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C401F24476B40007C2AEF /* SceneDelegate.swift */; };
 		359C402524476B40007C2AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 359C402324476B40007C2AEF /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		359558D4244A37C1003A20BC /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		359558D6244A5181003A20BC /* SwipeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeScreenViewController.swift; sourceTree = "<group>"; };
+		359558D8244A5B6B003A20BC /* MPCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
 		359C401A24476B40007C2AEF /* WhosHungry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhosHungry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		359C401D24476B40007C2AEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		359C401F24476B40007C2AEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				359C40312447702E007C2AEF /* Restaurant.swift */,
+				359558D8244A5B6B003A20BC /* MPCManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 			files = (
 				359C401E24476B40007C2AEF /* AppDelegate.swift in Sources */,
 				359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */,
+				359558D9244A5B6B003A20BC /* MPCManager.swift in Sources */,
 				359C403924477130007C2AEF /* RestaurantError.swift in Sources */,
 				359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */,
 				359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */,
