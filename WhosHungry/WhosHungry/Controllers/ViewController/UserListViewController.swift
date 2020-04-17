@@ -9,8 +9,10 @@
 import UIKit
 import MultipeerConnectivity
 
-class UserListViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
+class UserListViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, MCNearbyServiceBrowserDelegate {
     
+    var advertiser: MCNearbyServiceAdvertiser!
+    var browser: MCNearbyServiceBrowser!
     var peerID: MCPeerID?
     var session: MCSession?
     
@@ -50,6 +52,14 @@ class UserListViewController: UIViewController, MCSessionDelegate, MCBrowserView
         
     }
     
+    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+        
+    }
+    
+    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        
+    }
+    
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
         browserViewController.dismiss(animated: true, completion: nil)
     }
@@ -67,14 +77,14 @@ class UserListViewController: UIViewController, MCSessionDelegate, MCBrowserView
     }
     
     func hostSession() {
-        let advertiser = MCAdvertiserAssistant(serviceType: "mg-testing", discoveryInfo: nil, session: session!)
-        advertiser.start()
+        let advertiser = MCNearbyServiceAdvertiser(peer: peerID!, discoveryInfo: nil, serviceType: "my-test")
+        advertiser.startAdvertisingPeer()
     }
     
     func joinSession() {
-        let browser = MCBrowserViewController(serviceType: "mg-testing", session: session!)
+        let browser = MCNearbyServiceBrowser(peer: peerID!, serviceType: "my-test")
         browser.delegate = self
-        self.present(browser, animated: true, completion: nil)
+        browser.startBrowsingForPeers()
     }
     
 }//End of class
