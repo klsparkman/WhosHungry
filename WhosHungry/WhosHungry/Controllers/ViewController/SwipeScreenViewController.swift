@@ -14,7 +14,4 @@ class SwipeScreenViewController: UIViewController {
         super.viewDidLoad()
 
     }
-    
-
-   
 }
