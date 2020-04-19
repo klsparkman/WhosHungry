@@ -17,7 +17,7 @@ protocol MPCManagerDelegate {
     
     func invitationWasReceived(fromPeer: String)
     
-    //func connectedWithPeer(peerID: MCPeerID)
+    func connectedWithPeer(peerID: MCPeerID)
     
 }
 
@@ -28,7 +28,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     var browser: MCNearbyServiceBrowser!
     var advertiser: MCNearbyServiceAdvertiser!
     var foundPeers = [MCPeerID]()
-    var invitationHandler: ((Bool, MCSession) -> Void)!
+    var invitationHandler: ((Bool, MCSession!) -> Void)!
     var delegate: MPCManagerDelegate?
     
     override init() {
@@ -86,7 +86,12 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     }
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        
+        self.invitationHandler = invitationHandler
+        delegate?.invitationWasReceived(fromPeer: peerID.displayName)
+    }
+    
+    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
+        print(error, error.localizedDescription)
     }
 }
 

@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class UserListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MPCManagerDelegate {
     
@@ -47,6 +48,11 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
         60.0
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedPeer = appDelegate.mpcManager.foundPeers[indexPath.row] as MCPeerID
+        appDelegate.mpcManager.browser.invitePeer(selectedPeer, to: appDelegate.mpcManager.session, withContext: nil, timeout: 20)
+    }
+    
     func foundPeer() {
         peersTableView.reloadData()
     }
@@ -56,12 +62,22 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func invitationWasReceived(fromPeer: String) {
+        let alert = UIAlertController(title: "", message: "\(fromPeer) wants to have dinner with you.", preferredStyle: .alert)
+        let acceptAction = UIAlertAction(title: "Accept", style: .default) { (alertAction) in
+            self.appDelegate.mpcManager.invitationHandler(true, self.appDelegate.mpcManager.session)
+        }
+        let declineAction = UIAlertAction(title: "Decline", style: .cancel) { (alertAction) in
+            self.appDelegate.mpcManager.invitationHandler(false, nil)
+        }
+        alert.addAction(acceptAction)
+        alert.addAction(declineAction)
         
+        self.present(alert, animated: true, completion: nil)
     }
     
-//    func connectedWithPeer(peerID: MCPeerID) {
-//
-//    }
+    func connectedWithPeer(peerID: MCPeerID) {
+
+    }
     
     @IBAction func startStopAdvertising(_ sender: Any) {
         let actionSheet = UIAlertController(title: "", message: "Change Visibility", preferredStyle: .actionSheet)
@@ -90,6 +106,5 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
         self.present(actionSheet, animated: true, completion: nil)
     }
     
-
    
 }//End of class
