@@ -8,85 +8,88 @@
 //
 
 import UIKit
-import MultipeerConnectivity
 
-class UserListViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, MCNearbyServiceBrowserDelegate {
+class UserListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MPCManagerDelegate {
     
-    var advertiser: MCNearbyServiceAdvertiser!
-    var browser: MCNearbyServiceBrowser!
-    var peerID = MCPeerID(displayName: UIDevice.current.name)
-    var session: MCSession?
-    var mcAdvertiserAssistant: MCAdvertiserAssistant?
+    // Mark: - Outlets
+    @IBOutlet weak var peersTableView: UITableView!
     
+    // Mark: - Properties
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var isAdvertising: Bool!
+    
+    // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
-        session?.delegate = self
+        peersTableView.delegate = self
+        peersTableView.dataSource = self
+        appDelegate.mpcManager.delegate = self
+        appDelegate.mpcManager.browser.startBrowsingForPeers()
+        appDelegate.mpcManager.advertiser.startAdvertisingPeer()
+        isAdvertising = true
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
     
-    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        switch state {
-        case .connected:
-            print("Connected to \(peerID.displayName)")
-        case .connecting:
-            print("Connecting: \(peerID.displayName)")
-        case .notConnected:
-            print("Not Connected: \(peerID.displayName)")
-        default:
-            print("")
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        appDelegate.mpcManager.foundPeers.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "peerCell", for: indexPath)
+        cell.textLabel?.text = appDelegate.mpcManager.foundPeers[indexPath.row].displayName
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        60.0
+    }
+    
+    func foundPeer() {
+        peersTableView.reloadData()
+    }
+    
+    func lostPeer() {
+        peersTableView.reloadData()
+    }
+    
+    func invitationWasReceived(fromPeer: String) {
+        
+    }
+    
+//    func connectedWithPeer(peerID: MCPeerID) {
+//
+//    }
+    
+    @IBAction func startStopAdvertising(_ sender: Any) {
+        let actionSheet = UIAlertController(title: "", message: "Change Visibility", preferredStyle: .actionSheet)
+        var actionTitle: String
+        if isAdvertising == true {
+            actionTitle = "Make me invisible to others"
         }
-    }
-    
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        else {
+            actionTitle = "Make me visible to others"
+        }
+        let visibilityAction: UIAlertAction = UIAlertAction(title: actionTitle, style: .default) { (alertAction) in
+            if self.isAdvertising == true {
+                self.appDelegate.mpcManager.advertiser.stopAdvertisingPeer()
+            }
+            else {
+                self.appDelegate.mpcManager.advertiser.startAdvertisingPeer()
+            }
+            self.isAdvertising = !self.isAdvertising
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (alertAction) in
+            
+        }
+        actionSheet.addAction(visibilityAction)
+        actionSheet.addAction(cancelAction)
         
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        
-    }
-    
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-        
-    }
-    
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        
-    }
-    
-    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-        
-    }
-    
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        
-    }
-    
-    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-        browserViewController.dismiss(animated: true, completion: nil)
-    }
-    
-    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-        browserViewController.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func hostButtonTapped(_ sender: Any) {
-        hostSession()
-    }
-    
-    @IBAction func joinButtonTapped(_ sender: Any) {
-        joinSession()
-    }
-    
-    func hostSession() {
-        let advertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: "kls-whoshungry")
-        advertiser.startAdvertisingPeer()
-    }
-    
-    func joinSession() {
-        let browser = MCNearbyServiceBrowser(peer: peerID, serviceType: "kls-whoshungry")
-        browser.delegate = self
-        browser.startBrowsingForPeers()
-    }
-    
+
+   
 }//End of class

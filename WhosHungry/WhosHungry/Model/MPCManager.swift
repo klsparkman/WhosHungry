@@ -17,7 +17,7 @@ protocol MPCManagerDelegate {
     
     func invitationWasReceived(fromPeer: String)
     
-    func connectedWithPeer(peerID: MCPeerID)
+    //func connectedWithPeer(peerID: MCPeerID)
     
 }
 
