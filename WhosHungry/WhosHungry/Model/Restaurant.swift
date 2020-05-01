@@ -21,14 +21,14 @@ struct Restaurant: Codable {
     enum CodingKeys: String, CodingKey {
         case name, cuisines, location
         case image = "featured_image"
-        case rating = "user_rating"
+        //case rating = "user_rating"
     }
     
     let name: String?
     let cuisines: String?
     let image: String?
     let location: ResLocation?
-    let rating: UserRating?
+//    let user_rating: UserRating?
 }
 
 struct ResLocation: Codable {
@@ -37,12 +37,12 @@ struct ResLocation: Codable {
     let zipcode: String?
 }
 
-struct UserRating: Codable {
-    
-    enum CodingKeys: String, CodingKey {
-        case rating = "aggregate_rating"
-    }
-    
-    let rating: String
-}
+//struct UserRating: Codable {
+//
+//    enum CodingKeys: String, CodingKey {
+//        case rating = "aggregate_rating"
+//    }
+//
+//    let rating: String?
+//}
 

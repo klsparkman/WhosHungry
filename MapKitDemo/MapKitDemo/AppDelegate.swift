@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  WhosHungry
+//  MapKitDemo
 //
-//  Created by Kelsey Sparkman on 4/15/20.
+//  Created by Kelsey Sparkman on 4/22/20.
 //  Copyright © 2020 Kelsey Sparkman. All rights reserved.
 //
 
@@ -11,14 +11,10 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var mpcManager: MPCManager!
+
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        
-        
-        mpcManager = MPCManager()
         return true
     }
 

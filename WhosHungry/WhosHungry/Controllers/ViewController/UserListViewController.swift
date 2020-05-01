@@ -76,7 +76,7 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func connectedWithPeer(peerID: MCPeerID) {
-
+        self.performSegue(withIdentifier: "idSegueSwipe", sender: self)
     }
     
     @IBAction func startStopAdvertising(_ sender: Any) {

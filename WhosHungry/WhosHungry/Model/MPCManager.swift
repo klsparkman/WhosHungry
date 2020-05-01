@@ -12,23 +12,18 @@ import MultipeerConnectivity
 protocol MPCManagerDelegate {
     
     func foundPeer()
-    
     func lostPeer()
-    
     func invitationWasReceived(fromPeer: String)
-    
     func connectedWithPeer(peerID: MCPeerID)
-    
 }
 
 class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate {
-    
     var session: MCSession!
     var peer: MCPeerID!
     var browser: MCNearbyServiceBrowser!
     var advertiser: MCNearbyServiceAdvertiser!
     var foundPeers = [MCPeerID]()
-    var invitationHandler: ((Bool, MCSession!) -> Void)!
+    var invitationHandler: ((Bool, MCSession?) -> Void)!
     var delegate: MPCManagerDelegate?
     
     override init() {
@@ -65,6 +60,18 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
         
     }
     
+    func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
+        switch state {
+        case MCSessionState.connected:
+            print("Connected to session: \(session)")
+            delegate?.connectedWithPeer(peerID: peerID)
+        case MCSessionState.connecting:
+            print("Connecting to session: \(session)")
+        default:
+            print("Did not connect to session: \(session)")
+        }
+    }
+    
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         foundPeers.append(peerID)
         delegate?.foundPeer()
@@ -93,6 +100,16 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
         print(error, error.localizedDescription)
     }
+    
+//    func sendData(dictionaryWithData dictionary: Dictionary<String, String>, toPeer targetPeer: MCPeerID) -> Bool {
+//        var error: NSError?
+//        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary, requiringSecureCoding: false)
+//        let peersArray = NSArray(object: targetPeer)
+//        if !session.sendData(dataToSend, toPeers: peersArray, withMode: MCSessionSendDataMode.reliable, error: &error) {
+//            return false
+//        }
+//        return true
+//    }
 }
 
 
