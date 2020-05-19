@@ -97,7 +97,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Find Friends" id="Fn6-v4-784">
                             <connections>
                                 <action selector="startStopAdvertising:" destination="zJm-ZB-Ks6" id="2s7-VX-bzn"/>
-                                <segue destination="UnS-DY-7C9" kind="show" identifier="idSegueSwipe" id="LEp-a4-y3X"/>
+                                <segue destination="HEx-x6-OYD" kind="show" id="9mY-H5-AqS"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -110,46 +110,96 @@
             <point key="canvasLocation" x="1726" y="-21"/>
         </scene>
         <!--Swipe Screen View Controller-->
-        <scene sceneID="xJX-Ch-92i">
+        <scene sceneID="qzo-zp-hTM">
             <objects>
-                <viewController id="UnS-DY-7C9" customClass="SwipeScreenViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="P1R-RW-cV5">
+                <viewController id="HEx-x6-OYD" customClass="SwipeScreenViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EVG-Pc-5PO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="food" translatesAutoresizingMaskIntoConstraints="NO" id="Bxe-9Y-5M6">
-                                <rect key="frame" x="77" y="262" width="240" height="364"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="0qW-fA-rSv" appends="YES" id="Yuv-vV-94j"/>
-                                </connections>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Restaurant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jwr-La-ZSV">
-                                <rect key="frame" x="156" y="327" width="83" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bvu-lH-BQ0">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="restaurantBackground" translatesAutoresizingMaskIntoConstraints="NO" id="ug7-pb-8vv">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SdS-s3-ji0">
+                                        <rect key="frame" x="50" y="136" width="314" height="429"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duq-os-idV">
+                                                <rect key="frame" x="8" y="8" width="298" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="Ftr-7k-J2c"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="breakfast" translatesAutoresizingMaskIntoConstraints="NO" id="Nd5-aT-uCG">
+                                                <rect key="frame" x="8" y="74" width="298" height="347"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fwu-Hm-0jT">
+                                                <rect key="frame" x="104" y="191" width="106" height="113"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Nd5-aT-uCG" secondAttribute="bottom" constant="8" id="233-8d-gBp"/>
+                                            <constraint firstItem="fwu-Hm-0jT" firstAttribute="leading" secondItem="SdS-s3-ji0" secondAttribute="leading" constant="104" id="4cm-H8-Gk2"/>
+                                            <constraint firstAttribute="trailing" secondItem="Nd5-aT-uCG" secondAttribute="trailing" constant="8" id="836-ed-ljE"/>
+                                            <constraint firstAttribute="trailing" secondItem="duq-os-idV" secondAttribute="trailing" constant="8" id="8JH-r3-E7o"/>
+                                            <constraint firstItem="Nd5-aT-uCG" firstAttribute="top" secondItem="duq-os-idV" secondAttribute="bottom" constant="16" id="PmH-6x-ZPL"/>
+                                            <constraint firstItem="duq-os-idV" firstAttribute="top" secondItem="SdS-s3-ji0" secondAttribute="top" constant="8" id="UW5-Lj-6xq"/>
+                                            <constraint firstItem="duq-os-idV" firstAttribute="leading" secondItem="SdS-s3-ji0" secondAttribute="leading" constant="8" id="ZBO-fU-GU2"/>
+                                            <constraint firstItem="Nd5-aT-uCG" firstAttribute="leading" secondItem="SdS-s3-ji0" secondAttribute="leading" constant="8" id="cO6-XI-CCk"/>
+                                            <constraint firstAttribute="trailing" secondItem="fwu-Hm-0jT" secondAttribute="trailing" constant="104" id="e3Q-bh-ttf"/>
+                                            <constraint firstAttribute="bottom" secondItem="fwu-Hm-0jT" secondAttribute="bottom" constant="125" id="tP1-kY-1z2"/>
+                                            <constraint firstItem="fwu-Hm-0jT" firstAttribute="top" secondItem="duq-os-idV" secondAttribute="bottom" constant="133" id="tRG-UN-wZR"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="vCy-eg-QPW" appends="YES" id="oOd-W2-clx"/>
+                                        </connections>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="SdS-s3-ji0" firstAttribute="top" secondItem="bvu-lH-BQ0" secondAttribute="top" constant="136" id="0FZ-jc-NTF"/>
+                                    <constraint firstItem="ug7-pb-8vv" firstAttribute="leading" secondItem="bvu-lH-BQ0" secondAttribute="leading" id="CpY-ha-Op8"/>
+                                    <constraint firstItem="SdS-s3-ji0" firstAttribute="leading" secondItem="bvu-lH-BQ0" secondAttribute="leading" constant="50" id="ETm-c8-LqT"/>
+                                    <constraint firstItem="ug7-pb-8vv" firstAttribute="top" secondItem="bvu-lH-BQ0" secondAttribute="top" id="Tel-aP-O60"/>
+                                    <constraint firstAttribute="trailing" secondItem="SdS-s3-ji0" secondAttribute="trailing" constant="50" id="e7P-TC-FaY"/>
+                                    <constraint firstAttribute="bottom" secondItem="SdS-s3-ji0" secondAttribute="bottom" constant="209" id="eep-FM-8Wf"/>
+                                    <constraint firstAttribute="bottom" secondItem="ug7-pb-8vv" secondAttribute="bottom" id="nC6-FS-8CZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="ug7-pb-8vv" secondAttribute="trailing" id="ylA-pK-2VD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="VHg-N2-mBn"/>
+                        <constraints>
+                            <constraint firstItem="YF1-yU-phe" firstAttribute="trailing" secondItem="bvu-lH-BQ0" secondAttribute="trailing" id="0Q5-39-u1H"/>
+                            <constraint firstItem="bvu-lH-BQ0" firstAttribute="top" secondItem="YF1-yU-phe" secondAttribute="top" id="4EY-vY-HOs"/>
+                            <constraint firstItem="YF1-yU-phe" firstAttribute="bottom" secondItem="bvu-lH-BQ0" secondAttribute="bottom" id="TBc-Ol-PO7"/>
+                            <constraint firstItem="bvu-lH-BQ0" firstAttribute="leading" secondItem="YF1-yU-phe" secondAttribute="leading" id="hRU-s6-VPa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="YF1-yU-phe"/>
                     </view>
-                    <navigationItem key="navigationItem" id="5gK-3M-ACC"/>
+                    <navigationItem key="navigationItem" id="nzY-Pm-oq8"/>
                     <connections>
-                        <outlet property="restaurantCardImageView" destination="Bxe-9Y-5M6" id="hGx-gD-BfG"/>
-                        <outlet property="swipGestureRecognizer" destination="0qW-fA-rSv" id="2wL-eV-ANc"/>
+                        <outlet property="card" destination="SdS-s3-ji0" id="pi8-7u-uTo"/>
+                        <outlet property="restaurantImageView" destination="Nd5-aT-uCG" id="XvR-gn-eOB"/>
+                        <outlet property="restaurantNameLabel" destination="duq-os-idV" id="7NX-o0-a6P"/>
+                        <outlet property="thumbImageView" destination="fwu-Hm-0jT" id="U0e-am-1fg"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="a6a-zd-Gs5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="0qW-fA-rSv">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a3C-0Y-rDD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="vCy-eg-QPW">
                     <connections>
-                        <action selector="swipeAction:" destination="UnS-DY-7C9" id="tT8-B7-W2s"/>
+                        <action selector="panCard:" destination="HEx-x6-OYD" id="ar8-ei-psV"/>
                     </connections>
-                </swipeGestureRecognizer>
+                </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2562.3188405797105" y="-21.428571428571427"/>
+            <point key="canvasLocation" x="2505.7971014492755" y="-21.428571428571427"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dOS-MP-14K">
@@ -171,6 +221,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="food" width="500" height="375"/>
+        <image name="breakfast" width="800" height="1034"/>
+        <image name="restaurantBackground" width="800" height="600"/>
     </resources>
 </document>
