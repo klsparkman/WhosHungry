@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3523DE012472F57D0035827D /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE002472F57D0035827D /* RestaurantService.swift */; };
+		3523DE03247342FC0035827D /* SwipeableCardViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */; };
 		359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* UserListViewController.swift */; };
 		359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D6244A5181003A20BC /* SwipeScreenViewController.swift */; };
 		359558D9244A5B6B003A20BC /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D8244A5B6B003A20BC /* MPCManager.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3523DE002472F57D0035827D /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
+		3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewDataSource.swift; sourceTree = "<group>"; };
 		359558D4244A37C1003A20BC /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		359558D6244A5181003A20BC /* SwipeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeScreenViewController.swift; sourceTree = "<group>"; };
 		359558D8244A5B6B003A20BC /* MPCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				359C403524477083007C2AEF /* RestaurantController.swift */,
+				3523DE002472F57D0035827D /* RestaurantService.swift */,
 			);
 			path = ModelController;
 			sourceTree = "<group>";
@@ -129,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				359C403824477130007C2AEF /* RestaurantError.swift */,
+				3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -220,6 +226,8 @@
 				359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */,
 				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
+				3523DE03247342FC0035827D /* SwipeableCardViewDataSource.swift in Sources */,
+				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
 				359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

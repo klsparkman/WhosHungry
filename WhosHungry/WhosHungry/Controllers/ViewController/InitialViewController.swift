@@ -17,9 +17,9 @@ class InitialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        RestaurantController.shared.fetchRestaurants { (result) in
-            print(result)
-        }
+//        RestaurantController.shared.fetchRestaurants { (result) in
+//            print(result)
+//        }
     }
 
 }

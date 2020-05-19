@@ -16,6 +16,7 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var peersTableView: UITableView!
     
     // Mark: - Properties
+//    let restaurantService = RestaurantService()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var isAdvertising: Bool!
     
