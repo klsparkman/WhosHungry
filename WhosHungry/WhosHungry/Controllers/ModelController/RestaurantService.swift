@@ -10,7 +10,7 @@ import Foundation
 import MultipeerConnectivity
 
 class RestaurantService: NSObject {
-    
+    // Mark: - Properties
     private let RestaurantServiceType = "ex-restaurant"
     private let myPeerId = MCPeerID(displayName: UIDevice.current.name)
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
@@ -23,7 +23,6 @@ class RestaurantService: NSObject {
         self.serviceAdvertiser.delegate = self
         self.serviceAdvertiser.startAdvertisingPeer()
     }
-    
     deinit {
         self.serviceAdvertiser.stopAdvertisingPeer()
     }
@@ -44,11 +43,9 @@ class RestaurantService: NSObject {
             }
         }
     }
-    
 }//End of class
-
+// Mark: - Advertiser Extension
 extension RestaurantService: MCNearbyServiceAdvertiserDelegate {
-    
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
         NSLog("%@", "didNotStartAdvertisingPeer: \(error)")
     }
@@ -58,9 +55,8 @@ extension RestaurantService: MCNearbyServiceAdvertiserDelegate {
         invitationHandler(true, self.session)
     }
 }
-
+// Mark: - Session Extension
 extension RestaurantService: MCSessionDelegate {
-    
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         NSLog("%@", "peer \(peerID) didChangeState: \(state.rawValue)")
         self.delegate?.connectedDevicesChanged(manager: self, connectedDevices:
@@ -85,9 +81,8 @@ extension RestaurantService: MCSessionDelegate {
         NSLog("%@", "didFinishReceivingResourceWithName")
     }
 }
-
+// Mark: - Browser Extension
 extension RestaurantService: MCNearbyServiceBrowserDelegate {
-    
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         NSLog("%@", "didNotStartBrowsingForPeers: \(error)")
     }
@@ -102,7 +97,7 @@ extension RestaurantService: MCNearbyServiceBrowserDelegate {
         NSLog("%@", "lostPeer: \(peerID)")
     }
 }
-
+// Mark: - Protocol
 protocol RestaurantServiceDelegate {
     func connectedDevicesChanged(manager: RestaurantService, connectedDevices: [String])
     func restaurantPicked(manager: RestaurantService, restaurantString: String)

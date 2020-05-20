@@ -97,7 +97,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Find Friends" id="Fn6-v4-784">
                             <connections>
                                 <action selector="startStopAdvertising:" destination="zJm-ZB-Ks6" id="2s7-VX-bzn"/>
-                                <segue destination="HEx-x6-OYD" kind="show" id="9mY-H5-AqS"/>
+                                <segue destination="HEx-x6-OYD" kind="show" identifier="toSwipeVC" id="9mY-H5-AqS"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

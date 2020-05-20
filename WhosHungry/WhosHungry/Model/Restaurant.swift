@@ -6,7 +6,7 @@
 //  Copyright © 2020 Kelsey Sparkman. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct TopLevelObject: Codable {
     let restaurants: [RestaurantContainer]
@@ -17,18 +17,19 @@ struct RestaurantContainer: Codable {
 }
 
 struct Restaurant: Codable {
-    
     enum CodingKeys: String, CodingKey {
         case name, cuisines, location
-        case image = "featured_image"
+        case imageEndpoint = "featured_image"
         //case rating = "user_rating"
     }
     
     let name: String?
     let cuisines: String?
-    let image: String?
+    let imageEndpoint: String?
     let location: ResLocation?
 //    let user_rating: UserRating?
+    var image: UIImage?
+    var liked: Bool?
 }
 
 struct ResLocation: Codable {
