@@ -37,7 +37,6 @@ class RestaurantController {
         var urlComponents = URLComponents(url: searchURL, resolvingAgainstBaseURL: true)
         urlComponents?.queryItems = [URLQueryItem(name: latKey, value: latitude), URLQueryItem(name: lonKey, value: longitude), URLQueryItem(name: radiusKey , value: radiusVal)]
         guard let finalURL = urlComponents?.url else {return completion(.failure(.invalidURL))}
-        print(finalURL)
         var request = URLRequest(url: finalURL)
         request.addValue(apiKey, forHTTPHeaderField: headerKey)
         URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -52,16 +51,17 @@ class RestaurantController {
             do {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).restaurants
                 let restaurants = restaurantContainers.compactMap({$0.restaurant})
-//                guard let restaurants = restaurants.randomElement() else {return}
+                //                guard let restaurants = restaurants.randomElement() else {return}
                 self.restaurants = restaurants
                 // Now that I have restaurants, go get their images
                 let group = DispatchGroup()
                 
                 var restaurantsWithImages: [Restaurant] = []
-                    
+                
                 for restaurant in restaurants {
                     group.enter()
                     var restaurantCopy = restaurant
+                    print(restaurant.imageEndpoint)
                     self.fetchImage(for: restaurant) { result in
                         switch result {
                         case .success(let image):
@@ -75,7 +75,7 @@ class RestaurantController {
                 }
                 
                 group.notify(queue: .main) {
-                    self.restaurants = restaurantsWithImages
+                    self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
                     completion(.success(restaurantsWithImages))
                 }
             } catch {
@@ -86,14 +86,15 @@ class RestaurantController {
     }
     
     func fetchImage(for restaurant: Restaurant, completion: @escaping (Result<UIImage, RestaurantError>) -> Void) {
+        
         guard let imageEndpoint = restaurant.imageEndpoint,
-            let restaurantImage = URL(string: imageEndpoint) else {
-                
+            let restaurantImage = URL(string: imageEndpoint)
+            else {
                 return completion(.failure(.noData)) }
         
         URLSession.shared.dataTask(with: restaurantImage) { (data, response, error) in
             if let error = error {
-                completion(.failure(.thrown(error)))
+                return completion(.failure(.thrown(error)))
             }
             guard let data = data else {
                 return completion(.failure(.noData))
