@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3523DE012472F57D0035827D /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE002472F57D0035827D /* RestaurantService.swift */; };
-		3523DE03247342FC0035827D /* SwipeableCardViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */; };
+		3554FC2A24A17D5100B38D59 /* GoogleService-Info (1).plist in Resources */ = {isa = PBXBuildFile; fileRef = 3554FC2924A17D5100B38D59 /* GoogleService-Info (1).plist */; };
+		3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */; };
+		35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A29247630AA0097299E /* neon_pixel-7.ttf */; };
+		35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A2B24763AE40097299E /* lunasol regular.ttf */; };
+		35847A2E2476E49C0097299E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35847A2D2476E49C0097299E /* MapViewController.swift */; };
 		359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* UserListViewController.swift */; };
 		359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D6244A5181003A20BC /* SwipeScreenViewController.swift */; };
 		359558D9244A5B6B003A20BC /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D8244A5B6B003A20BC /* MPCManager.swift */; };
@@ -21,11 +25,16 @@
 		359C403624477083007C2AEF /* RestaurantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403524477083007C2AEF /* RestaurantController.swift */; };
 		359C403924477130007C2AEF /* RestaurantError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403824477130007C2AEF /* RestaurantError.swift */; };
 		359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403A24477A17007C2AEF /* InitialViewController.swift */; };
+		35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3523DE002472F57D0035827D /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
-		3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewDataSource.swift; sourceTree = "<group>"; };
+		3554FC2924A17D5100B38D59 /* GoogleService-Info (1).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info (1).plist"; sourceTree = "<group>"; };
+		3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeautySchoolDropout.ttf; sourceTree = "<group>"; };
+		35847A29247630AA0097299E /* neon_pixel-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neon_pixel-7.ttf"; sourceTree = "<group>"; };
+		35847A2B24763AE40097299E /* lunasol regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lunasol regular.ttf"; sourceTree = "<group>"; };
+		35847A2D2476E49C0097299E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		359558D4244A37C1003A20BC /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		359558D6244A5181003A20BC /* SwipeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeScreenViewController.swift; sourceTree = "<group>"; };
 		359558D8244A5B6B003A20BC /* MPCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
@@ -40,6 +49,7 @@
 		359C403524477083007C2AEF /* RestaurantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantController.swift; sourceTree = "<group>"; };
 		359C403824477130007C2AEF /* RestaurantError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantError.swift; sourceTree = "<group>"; };
 		359C403A24477A17007C2AEF /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +63,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35847A282476308E0097299E /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				35847A29247630AA0097299E /* neon_pixel-7.ttf */,
+				35847A2B24763AE40097299E /* lunasol regular.ttf */,
+				3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		359C401124476B40007C2AEF = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +92,7 @@
 		359C401C24476B40007C2AEF /* WhosHungry */ = {
 			isa = PBXGroup;
 			children = (
+				35847A282476308E0097299E /* Fonts */,
 				359C40332447703B007C2AEF /* Model */,
 				359C403F2448D867007C2AEF /* Views */,
 				359C403C2448D80C007C2AEF /* Controllers */,
@@ -98,6 +119,7 @@
 				359C402624476B43007C2AEF /* Assets.xcassets */,
 				359C402824476B43007C2AEF /* LaunchScreen.storyboard */,
 				359C402B24476B43007C2AEF /* Info.plist */,
+				3554FC2924A17D5100B38D59 /* GoogleService-Info (1).plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -126,6 +148,7 @@
 				359C403A24477A17007C2AEF /* InitialViewController.swift */,
 				359558D4244A37C1003A20BC /* UserListViewController.swift */,
 				359558D6244A5181003A20BC /* SwipeScreenViewController.swift */,
+				35847A2D2476E49C0097299E /* MapViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -134,7 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				359C403824477130007C2AEF /* RestaurantError.swift */,
-				3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */,
+				35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -207,7 +230,11 @@
 			files = (
 				359C402A24476B43007C2AEF /* LaunchScreen.storyboard in Resources */,
 				359C402724476B43007C2AEF /* Assets.xcassets in Resources */,
+				35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */,
 				359C402524476B40007C2AEF /* Main.storyboard in Resources */,
+				3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */,
+				35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */,
+				3554FC2A24A17D5100B38D59 /* GoogleService-Info (1).plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,9 +251,10 @@
 				359C403924477130007C2AEF /* RestaurantError.swift in Sources */,
 				359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */,
 				359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */,
+				35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */,
 				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,
+				35847A2E2476E49C0097299E /* MapViewController.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
-				3523DE03247342FC0035827D /* SwipeableCardViewDataSource.swift in Sources */,
 				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
 				359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */,
 			);
@@ -375,7 +403,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 97JSCUVT38;
 				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -394,7 +422,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 97JSCUVT38;
 				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
