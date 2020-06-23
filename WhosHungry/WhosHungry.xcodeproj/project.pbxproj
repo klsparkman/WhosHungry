@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,7 +25,9 @@
 		359C403624477083007C2AEF /* RestaurantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403524477083007C2AEF /* RestaurantController.swift */; };
 		359C403924477130007C2AEF /* RestaurantError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403824477130007C2AEF /* RestaurantError.swift */; };
 		359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403A24477A17007C2AEF /* InitialViewController.swift */; };
+		359E26B324A19F640011358A /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359E26B224A19F640011358A /* StyleGuide.swift */; };
 		35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */; };
+		EA9AC0DF7585D3C98F944DCA /* Pods_WhosHungry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +51,11 @@
 		359C403524477083007C2AEF /* RestaurantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantController.swift; sourceTree = "<group>"; };
 		359C403824477130007C2AEF /* RestaurantError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantError.swift; sourceTree = "<group>"; };
 		359C403A24477A17007C2AEF /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		359E26B224A19F640011358A /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhosHungry.release.xcconfig"; path = "Target Support Files/Pods-WhosHungry/Pods-WhosHungry.release.xcconfig"; sourceTree = "<group>"; };
+		C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhosHungry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA936E4F06D45FAEC1716BD0 /* Pods-WhosHungry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhosHungry.debug.xcconfig"; path = "Target Support Files/Pods-WhosHungry/Pods-WhosHungry.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA9AC0DF7585D3C98F944DCA /* Pods_WhosHungry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			children = (
 				359C401C24476B40007C2AEF /* WhosHungry */,
 				359C401B24476B40007C2AEF /* Products */,
+				E817DA392287E118F0BC3DAF /* Pods */,
+				E7F229657F17A751324D82C7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,6 +167,7 @@
 			children = (
 				359C403824477130007C2AEF /* RestaurantError.swift */,
 				35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */,
+				359E26B224A19F640011358A /* StyleGuide.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -170,6 +180,23 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		E7F229657F17A751324D82C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E817DA392287E118F0BC3DAF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EA936E4F06D45FAEC1716BD0 /* Pods-WhosHungry.debug.xcconfig */,
+				3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -177,9 +204,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 359C402E24476B43007C2AEF /* Build configuration list for PBXNativeTarget "WhosHungry" */;
 			buildPhases = (
+				233B78AC83966C413F3B68AE /* [CP] Check Pods Manifest.lock */,
 				359C401624476B40007C2AEF /* Sources */,
 				359C401724476B40007C2AEF /* Frameworks */,
 				359C401824476B40007C2AEF /* Resources */,
+				FDC53596F7A84C4C605971CC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -240,6 +269,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		233B78AC83966C413F3B68AE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WhosHungry-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDC53596F7A84C4C605971CC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WhosHungry/Pods-WhosHungry-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WhosHungry/Pods-WhosHungry-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WhosHungry/Pods-WhosHungry-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		359C401624476B40007C2AEF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -257,6 +328,7 @@
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
 				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
 				359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */,
+				359E26B324A19F640011358A /* StyleGuide.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +470,7 @@
 		};
 		359C402F24476B43007C2AEF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA936E4F06D45FAEC1716BD0 /* Pods-WhosHungry.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -417,6 +490,7 @@
 		};
 		359C403024476B43007C2AEF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

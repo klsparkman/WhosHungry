@@ -7,57 +7,78 @@
 //
 
 import UIKit
+import Firebase
 
 class InitialViewController: UIViewController {
+    
+    private let db = Firestore.firestore()
 
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
-//    @IBOutlet weak var findFriendsButton: UIButton!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var confirmTextField: UITextField!
+    @IBOutlet weak var helpButton: UIButton!
+    @IBOutlet weak var faqButton: UIButton!
+    @IBOutlet weak var signMeUpButton: UIButton!
     
     // Mark: - Properties
-    var safeArea: UILayoutGuide {
-        return self.view.safeAreaLayoutGuide
-    }
+//    var safeArea: UILayoutGuide {
+//        return self.view.safeAreaLayoutGuide
+//    }
     
-    let findFriendsButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Lets Find Your Friends!", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.titleLabel?.font = UIFont(name: "Rockwell", size: 30)
-        return button
-    }()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        signMeUpButton.isHidden = true
+    }
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        activateButton()
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
+        }
         self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
             self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
         }, completion: nil)
+        setUpUI()
     }
     
-    override func loadView() {
-        super.loadView()
-        addAllSubviews()
-        findFriendsButton.anchor(top: nil, trailing: safeArea.trailingAnchor, bottom: safeArea.bottomAnchor, leading: safeArea.leadingAnchor, paddingTop: 0, paddingRight: 0, paddingBottom: -75, paddingLeft: 0, width: 100, height: 50)
+    fileprivate func setUpUI() {
+        signUpButton.rotate()
+        loginButton.rotate()
     }
     
-    func addAllSubviews() {
-        view.addSubview(findFriendsButton)
+    @IBAction func loginButtonTapped(_ sender: Any) {
+        toggleToLogin()
     }
     
-    private func activateButton() {
-        findFriendsButton.addTarget(self, action: #selector(findFriendsButtonTapped(sender:)), for: .touchUpInside)
+    @IBAction func signUpButtonTapped(_ sender: Any) {
+        toggleToSignUp()
     }
     
-    @objc func findFriendsButtonTapped(sender: UIButton) {
-        switch sender {
-        case findFriendsButton:
-            segueToUserList()
-        default:
-            print("How did we even get here?")
+    private func toggleToLogin() {
+        UIView.animate(withDuration: 0.2) {
+            self.loginButton.tintColor = UIColor.black
+            self.signUpButton.tintColor = UIColor.lightGray
+            self.signMeUpButton.setTitle("Log Me In", for: .normal)
+            self.confirmTextField.isHidden = true
+            self.helpButton.setTitle("Forgot?", for: .normal)
+            self.faqButton.setTitle("Remind", for: .normal)
+        }
+    }
+    
+    private func toggleToSignUp() {
+        UIView.animate(withDuration: 0.2) {
+            self.loginButton.tintColor = UIColor.lightGray
+            self.signUpButton.tintColor = UIColor.black
+            self.signMeUpButton.setTitle("Sign Me Up", for: .normal)
+            self.confirmTextField.isHidden = false
+            self.helpButton.setTitle("Help?", for: .normal)
+            self.faqButton.setTitle("FAQ", for: .normal)
         }
     }
     
