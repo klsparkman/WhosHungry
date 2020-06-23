@@ -75,7 +75,7 @@ class RestaurantController {
                 }
                 
                 group.notify(queue: .main) {
-                    self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
+//                    self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
                     completion(.success(restaurantsWithImages))
                 }
             } catch {
