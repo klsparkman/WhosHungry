@@ -8,40 +8,49 @@
 //
 
 import UIKit
-import MultipeerConnectivity
 import CoreLocation
 
-class UserListViewController: UIViewController, CLLocationManagerDelegate {
+class UserListViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 
     // Mark: - Outlets
-    @IBOutlet weak var playerLabel: UILabel!
+    @IBOutlet weak var generateCodeButton: UIButton!
+    @IBOutlet weak var codeLabel: UILabel!
+    @IBOutlet weak var haveACodeButton: UIButton!
+    @IBOutlet weak var pasteCodeTextField: UITextField!
+    @IBOutlet weak var userListTableView: UITableView!
+    @IBOutlet weak var readyToEatButton: UIButton!
     
     // Mark: - Properties
     static let shared = UserListViewController()
-    let restaurantService = RestaurantService()
+//    let restaurantService = RestaurantService()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var isAdvertising: Bool!
+//    var isAdvertising: Bool!
     var locManager = CLLocationManager()
     var currentLocation: CLLocation?
-    var safeArea: UILayoutGuide {
-        return self.view.safeAreaLayoutGuide
-    }
+    var user: User?
+//    var safeArea: UILayoutGuide {
+//        return self.view.safeAreaLayoutGuide
+//    }
     
-    let beginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Lets Begin!", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.titleLabel?.font = UIFont(name: "Lunasol", size: 37)
-        return button
-    }()
-
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        restaurantService.delegate = self
-        isAdvertising = true
+        codeLabel.isHidden = true
+        pasteCodeTextField.isHidden = true
+        userListTableView.isHidden = true
+        readyToEatButton.isHidden = true
+        generateCodeButton.layer.cornerRadius = 10
+        generateCodeButton.layer.borderWidth = 1
+        generateCodeButton.layer.borderColor = UIColor.white.cgColor
+        codeLabel.layer.cornerRadius = 10
+        pasteCodeTextField.layer.cornerRadius = 10
+        haveACodeButton.layer.cornerRadius = 10
+        haveACodeButton.layer.borderWidth = 1
+        haveACodeButton.layer.borderColor = UIColor.white.cgColor
+//        restaurantService.delegate = self
+//        isAdvertising = true
         locManager.requestAlwaysAuthorization()
+        pasteCodeTextField.delegate = self
         
         if CLLocationManager.locationServicesEnabled() {
             locManager.delegate = self
@@ -50,9 +59,42 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate {
             currentLocation = locManager.location
         }
         
-        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-            self.beginButton.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-        }, completion: nil)
+//        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+//            self.beginButton.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
+//        }, completion: nil)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        pasteCodeTextField.resignFirstResponder()
+        return true
+    }
+    
+    func randomAlphaNumericString(length: Int) -> String {
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let allowedCharsCount = UInt32(allowedChars.count)
+        var randomString = "Your invite code is:    "
+
+        for _ in 0..<length {
+            let randomNum = Int(arc4random_uniform(allowedCharsCount))
+            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
+            let newCharacter = allowedChars[randomIndex]
+            randomString += String(newCharacter)
+        }
+
+        return randomString
+    }
+    
+    @IBAction func generateCodeButtonPressed(_ sender: Any) {
+        codeLabel.isHidden = false
+        pasteCodeTextField.isHidden = true
+        codeLabel.text = randomAlphaNumericString(length: 10)
+        userListTableView.isHidden = false
+        readyToEatButton.isHidden = false
+    }
+    
+    @IBAction func haveACodeButtonPressed(_ sender: Any) {
+        pasteCodeTextField.isHidden = false
+        codeLabel.isHidden = true
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -75,23 +117,35 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        if segue.identifier == "toSwipeVC" {
-            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
-            destinationVC.location = currentLocation
-            destinationVC.user = restaurantService.players
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        super.prepare(for: segue, sender: sender)
+//        if segue.identifier == "toSwipeVC" {
+//            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
+//            destinationVC.location = currentLocation
+//            destinationVC.user = restaurantService.players
+//        }
+//    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            1
         }
-    }
+        
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = userListTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = "Game Leader: \(user?.debugDescription ?? "")"
+            return UITableViewCell()
+        }
 }//End of class
 
-extension UserListViewController: RestaurantServiceDelegate {
-    func restaurantPicked(manager: RestaurantService, restaurantString: String) {
-    }
-    
-    func connectedDevices(manager: RestaurantService, connectedDevices: [String]) {
-        OperationQueue.main.addOperation {
-            self.playerLabel.text = "Players: \(connectedDevices)"
-        }
-    }
-}
+//extension UserListViewController: RestaurantServiceDelegate {
+//    func restaurantPicked(manager: RestaurantService, restaurantString: String) {
+//    }
+//
+//    func connectedDevices(manager: RestaurantService, connectedDevices: [String]) {
+//        OperationQueue.main.addOperation {
+////            self.playerLabel.text = "Players: \(connectedDevices)"
+//        }
+//    }
+//}
+
+
