@@ -21,7 +21,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     static var shared = SwipeScreenViewController()
     
     var divisor: CGFloat!
-    let restaurantService = RestaurantService()
+//    let restaurantService = RestaurantService()
     var restaurant: Restaurant?
     var location: CLLocation?
     var currentCardIndex: Int = 0
@@ -32,16 +32,8 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         divisor = (view.frame.width / 2) / 0.61
         fetchRestaurants()
-        matchRestaurants()
+//        matchRestaurants()
     }
-    
-//    func likeList() {
-//        guard let restaurant = restaurant else {return}
-//        if restaurant.isLiked == true {
-//            liked.append(restaurant)
-//            print("restaurant has been added")
-//        }
-//    }
     
     func fetchRestaurants() {
         guard let location = location else {return}
@@ -145,15 +137,15 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func matchRestaurants() {
-        for restaurant in liked {
-            if liked.count == restaurantService.players.count {
-                restaurantPicked(manager: restaurantService, restaurantString: "\(restaurant)")
-            }
-        }
-    }
+//    func matchRestaurants() {
+//        for restaurant in liked {
+//            if liked.count == restaurantService.players.count {
+//                restaurantPicked(manager: restaurantService, restaurantString: "\(restaurant)")
+//            }
+//        }
+//    }
     
-    func restaurantPicked(manager: RestaurantService, restaurantString: String) {
+    func restaurantPicked(restaurantString: String) {
         OperationQueue.main.addOperation {
             let alertController = UIAlertController(title: "A MATCH HAS BEEN MADE!", message: "Would you like to see where you are eating today?", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Show Me Fool!", style: .default) { (_) in
