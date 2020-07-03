@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import Firebase
+import AuthenticationServices
 
 class InitialViewController: UIViewController {
+    
+    // Mark: - Properties
+    private let db = Firestore.firestore()
+   
 
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
@@ -16,10 +22,76 @@ class InitialViewController: UIViewController {
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        RestaurantController.shared.fetchRestaurants { (result) in
-//            print(result)
-//        }
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: "", sender: self)
+        }
+        self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
+        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+            self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
+        }, completion: nil)
+        setupView()
     }
+    
+    func setupView() {
+        let appleButton = ASAuthorizationAppleIDButton()
+        appleButton.translatesAutoresizingMaskIntoConstraints = false
+        appleButton.addTarget(self, action: #selector(didTapAppleButton), for: .touchUpInside)
+        view.addSubview(appleButton)
+        NSLayoutConstraint.activate([
+            appleButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
+            appleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            appleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+        ])
+    }
+    
+    @objc func didTapAppleButton() {
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        
+        controller.performRequests()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let mainVC = segue.destination as? UserListViewController, let user = sender as? User {
+            mainVC.user = user
+        }
+    }
+}
 
+extension UILabel {
+    func UILabelTextShadow(color: UIColor) {
+        self.textColor = .cyan
+        self.layer.masksToBounds = false
+        self.layer.shadowOffset = CGSize(width: 2, height: 2)
+        self.layer.shadowRadius = 8.0
+        self.layer.shadowOpacity = 1.0
+    }
+}
+
+extension InitialViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        switch authorization.credential {
+        case let credentials as ASAuthorizationAppleIDCredential:
+            let user = User(credentials: credentials)
+            performSegue(withIdentifier: "segue", sender: user)
+            
+        default: break
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Something bad happened", error)
+    }
+}
+
+extension InitialViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return view.window!
+    }
 }

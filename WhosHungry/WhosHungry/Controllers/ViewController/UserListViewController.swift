@@ -8,104 +8,144 @@
 //
 
 import UIKit
-import MultipeerConnectivity
+import CoreLocation
 
-class UserListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MPCManagerDelegate {
-    
+class UserListViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+
     // Mark: - Outlets
-    @IBOutlet weak var peersTableView: UITableView!
+    @IBOutlet weak var generateCodeButton: UIButton!
+    @IBOutlet weak var codeLabel: UILabel!
+    @IBOutlet weak var haveACodeButton: UIButton!
+    @IBOutlet weak var pasteCodeTextField: UITextField!
+    @IBOutlet weak var userListTableView: UITableView!
+    @IBOutlet weak var readyToEatButton: UIButton!
     
     // Mark: - Properties
+    static let shared = UserListViewController()
 //    let restaurantService = RestaurantService()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var isAdvertising: Bool!
+//    var isAdvertising: Bool!
+    var locManager = CLLocationManager()
+    var currentLocation: CLLocation?
+    var user: User?
+//    var safeArea: UILayoutGuide {
+//        return self.view.safeAreaLayoutGuide
+//    }
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        peersTableView.delegate = self
-        peersTableView.dataSource = self
-        appDelegate.mpcManager.delegate = self
-        appDelegate.mpcManager.browser.startBrowsingForPeers()
-        appDelegate.mpcManager.advertiser.startAdvertisingPeer()
-        isAdvertising = true
+        codeLabel.isHidden = true
+        pasteCodeTextField.isHidden = true
+        userListTableView.isHidden = true
+        readyToEatButton.isHidden = true
+        generateCodeButton.layer.cornerRadius = 10
+        generateCodeButton.layer.borderWidth = 1
+        generateCodeButton.layer.borderColor = UIColor.white.cgColor
+        codeLabel.layer.cornerRadius = 10
+        pasteCodeTextField.layer.cornerRadius = 10
+        haveACodeButton.layer.cornerRadius = 10
+        haveACodeButton.layer.borderWidth = 1
+        haveACodeButton.layer.borderColor = UIColor.white.cgColor
+//        restaurantService.delegate = self
+//        isAdvertising = true
+        locManager.requestAlwaysAuthorization()
+        pasteCodeTextField.delegate = self
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locManager.delegate = self
+            locManager.desiredAccuracy = kCLLocationAccuracyBest
+            locManager.startUpdatingLocation()
+            currentLocation = locManager.location
+        }
+        
+//        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+//            self.beginButton.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
+//        }, completion: nil)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        pasteCodeTextField.resignFirstResponder()
+        return true
     }
+    
+    func randomAlphaNumericString(length: Int) -> String {
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let allowedCharsCount = UInt32(allowedChars.count)
+        var randomString = "Your invite code is:    "
+
+        for _ in 0..<length {
+            let randomNum = Int(arc4random_uniform(allowedCharsCount))
+            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
+            let newCharacter = allowedChars[randomIndex]
+            randomString += String(newCharacter)
+        }
+
+        return randomString
+    }
+    
+    @IBAction func generateCodeButtonPressed(_ sender: Any) {
+        codeLabel.isHidden = false
+        pasteCodeTextField.isHidden = true
+        codeLabel.text = randomAlphaNumericString(length: 10)
+        userListTableView.isHidden = false
+        readyToEatButton.isHidden = false
+    }
+    
+    @IBAction func haveACodeButtonPressed(_ sender: Any) {
+        pasteCodeTextField.isHidden = false
+        codeLabel.isHidden = true
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if (status == CLAuthorizationStatus.denied) {
+            showLocationDisabledPopup()
+        }
+    }
+    
+    func showLocationDisabledPopup() {
+        let alertController = UIAlertController(title: "Background location access disabled.", message: "In order to pull restaurants in your area, we need your location.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "Open settings", style: .default) { (action) in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alertController.addAction(openAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        super.prepare(for: segue, sender: sender)
+//        if segue.identifier == "toSwipeVC" {
+//            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
+//            destinationVC.location = currentLocation
+//            destinationVC.user = restaurantService.players
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        appDelegate.mpcManager.foundPeers.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "peerCell", for: indexPath)
-        cell.textLabel?.text = appDelegate.mpcManager.foundPeers[indexPath.row].displayName
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        60.0
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedPeer = appDelegate.mpcManager.foundPeers[indexPath.row] as MCPeerID
-        appDelegate.mpcManager.browser.invitePeer(selectedPeer, to: appDelegate.mpcManager.session, withContext: nil, timeout: 20)
-    }
-    
-    func foundPeer() {
-        peersTableView.reloadData()
-    }
-    
-    func lostPeer() {
-        peersTableView.reloadData()
-    }
-    
-    func invitationWasReceived(fromPeer: String) {
-        let alert = UIAlertController(title: "", message: "\(fromPeer) wants to have dinner with you.", preferredStyle: .alert)
-        let acceptAction = UIAlertAction(title: "Accept", style: .default) { (alertAction) in
-            self.appDelegate.mpcManager.invitationHandler(true, self.appDelegate.mpcManager.session)
+            1
         }
-        let declineAction = UIAlertAction(title: "Decline", style: .cancel) { (alertAction) in
-            self.appDelegate.mpcManager.invitationHandler(false, nil)
-        }
-        alert.addAction(acceptAction)
-        alert.addAction(declineAction)
         
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func connectedWithPeer(peerID: MCPeerID) {
-        self.performSegue(withIdentifier: "idSegueSwipe", sender: self)
-    }
-    
-    @IBAction func startStopAdvertising(_ sender: Any) {
-        let actionSheet = UIAlertController(title: "", message: "Change Visibility", preferredStyle: .actionSheet)
-        var actionTitle: String
-        if isAdvertising == true {
-            actionTitle = "Make me invisible to others"
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = userListTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = "Game Leader: \(user?.debugDescription ?? "")"
+            return UITableViewCell()
         }
-        else {
-            actionTitle = "Make me visible to others"
-        }
-        let visibilityAction: UIAlertAction = UIAlertAction(title: actionTitle, style: .default) { (alertAction) in
-            if self.isAdvertising == true {
-                self.appDelegate.mpcManager.advertiser.stopAdvertisingPeer()
-            }
-            else {
-                self.appDelegate.mpcManager.advertiser.startAdvertisingPeer()
-            }
-            self.isAdvertising = !self.isAdvertising
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (alertAction) in
-            
-        }
-        actionSheet.addAction(visibilityAction)
-        actionSheet.addAction(cancelAction)
-        
-        self.present(actionSheet, animated: true, completion: nil)
-    }
-    
-   
 }//End of class
+
+//extension UserListViewController: RestaurantServiceDelegate {
+//    func restaurantPicked(manager: RestaurantService, restaurantString: String) {
+//    }
+//
+//    func connectedDevices(manager: RestaurantService, connectedDevices: [String]) {
+//        OperationQueue.main.addOperation {
+////            self.playerLabel.text = "Players: \(connectedDevices)"
+//        }
+//    }
+//}
+
+

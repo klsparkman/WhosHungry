@@ -7,46 +7,74 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SwipeScreenViewController: UIViewController {
+class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var card: UIView!
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var restaurantImageView: UIImageView!
     @IBOutlet weak var restaurantNameLabel: UILabel!
+    @IBOutlet weak var cuisineLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    
+    static var shared = SwipeScreenViewController()
     
     var divisor: CGFloat!
-    let restaurantService = RestaurantService()
-    var restaurants: [Restaurant] = []
+//    let restaurantService = RestaurantService()
+    var restaurant: Restaurant?
+    var location: CLLocation?
+    var currentCardIndex: Int = 0
+    var user: [Int] = []
+    var liked: [Restaurant] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         divisor = (view.frame.width / 2) / 0.61
-        restaurantService.delegate = self
-//        RestaurantController.shared.fetchRestaurants { (result) in
-//            switch result {
-//            case .success(let restaurant):
-//                self.card = restaurants
-//            case .failure(let error):
-//                print(error, error.localizedDescription)
-//            }
-//        }
+        fetchRestaurants()
+//        matchRestaurants()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(true)
-//        resetCard()
-//    }
+    func fetchRestaurants() {
+        guard let location = location else {return}
+        RestaurantController.shared.fetchRestaurants(location: location) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(_):
+                    // Start showing cards
+                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
+                        else { return }
+                    self.populateCard(with: firstRestaurant)
+                case .failure(let error):
+                    print(error, error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func populateCard(with restaurant: Restaurant) {
+        self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
+        self.restaurantNameLabel.text = restaurant.name
+        self.cuisineLabel.text = restaurant.cuisines
+//        self.ratingLabel.text = restaurant.rating?.rating
+    }
+    
+    private func showNextCard() {
+        guard RestaurantController.shared.restaurants.count > currentCardIndex + 1
+            else { return }
+        resetCard()
+        currentCardIndex += 1
+        let restaurant = RestaurantController.shared.restaurants[currentCardIndex]
+        populateCard(with: restaurant)
+    }
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
         let card = sender.view!
         let point = sender.translation(in: view)
         let xFromCenter = card.center.x - view.center.x
         card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
-        
         let scale = min(100/abs(xFromCenter), 1)
         card.transform = CGAffineTransform(rotationAngle: xFromCenter/divisor).scaledBy(x: scale, y: scale)
-        
         if xFromCenter > 0 {
             thumbImageView.image = #imageLiteral(resourceName: "Untitled")
             thumbImageView.tintColor = .green
@@ -54,24 +82,38 @@ class SwipeScreenViewController: UIViewController {
             thumbImageView.image = #imageLiteral(resourceName: "UntitledXImage")
             thumbImageView.tintColor = .red
         }
-        
         thumbImageView.alpha = abs(xFromCenter) / view.center.x
         
         if sender.state == UIGestureRecognizer.State.ended {
-            
             if card.center.x < 75 {
                 // Move off to the left side of the screen
                 UIView.animate(withDuration: 0.3, animations: {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
-                })
+                }) { (success) in
+                    if success {
+                        self.showNextCard()
+                    }
+                }
                 return
             } else if card.center.x > (view.frame.width - 75) {
                 //Move off to the right side of the screen
                 UIView.animate(withDuration: 0.3, animations:  {
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
-                })
+                }) { (success) in
+                    if success {
+                        self.showNextCard()
+                    }
+                }
+                self.restaurant?.isLiked = true
+//                self.likeList()
+                print("card was liked")
+                guard let restaurant = restaurant else {return}
+                if self.restaurant?.isLiked == true {
+                    liked.append(restaurant)
+                           print("restaurant has been added")
+                       }
                 return
             }
             UIView.animate(withDuration: 0.2) {
@@ -82,25 +124,42 @@ class SwipeScreenViewController: UIViewController {
     }
     
     func resetCard() {
+        self.thumbImageView.alpha = 0
+        self.card.alpha = 0
         UIView.animate(withDuration: 0.2, animations: {
             self.card.center = self.view.center
-            self.thumbImageView.alpha = 0
-            self.card.alpha = 1
             self.card.transform = .identity
-        })
-    }
-}
-
-extension SwipeScreenViewController: RestaurantServiceDelegate {
-    
-    func connectedDevicesChanged(manager: RestaurantService, connectedDevices: [String]) {
-        OperationQueue.main.addOperation {
-//            add label for connected devices?
-//            self.connectionsLabel.text = "Connections: \(connectedDevices)"
+        }) { (success) in
+            UIView.animate(withDuration: 0.5, animations: {
+                self.card.alpha = 1
+                self.thumbImageView.alpha = 0
+            })
         }
-       }
-       
-       func restaurantPicked(manager: RestaurantService, restaurantString: String) {
-           // Add an alert for when everyone swipes right on a restaurant
-       }
+    }
+    
+//    func matchRestaurants() {
+//        for restaurant in liked {
+//            if liked.count == restaurantService.players.count {
+//                restaurantPicked(manager: restaurantService, restaurantString: "\(restaurant)")
+//            }
+//        }
+//    }
+    
+    func restaurantPicked(restaurantString: String) {
+        OperationQueue.main.addOperation {
+            let alertController = UIAlertController(title: "A MATCH HAS BEEN MADE!", message: "Would you like to see where you are eating today?", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Show Me Fool!", style: .default) { (_) in
+                func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+                    if segue.identifier == "mapVC" {
+                        guard let destinationVC = segue.destination as? MapViewController else {return}
+                        destinationVC.winningRestaurant = SwipeScreenViewController.shared.restaurant
+                    }
+                }
+            }
+            let cancelAction = UIAlertAction(title: "Nah, I'm good.", style: .cancel, handler: nil)
+            alertController.addAction(okAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true)
+        }
+    }
 }

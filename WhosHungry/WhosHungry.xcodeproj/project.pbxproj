@@ -3,15 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		3523DE012472F57D0035827D /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE002472F57D0035827D /* RestaurantService.swift */; };
-		3523DE03247342FC0035827D /* SwipeableCardViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */; };
+		3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */; };
+		35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A29247630AA0097299E /* neon_pixel-7.ttf */; };
+		35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A2B24763AE40097299E /* lunasol regular.ttf */; };
+		35847A2E2476E49C0097299E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35847A2D2476E49C0097299E /* MapViewController.swift */; };
 		359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* UserListViewController.swift */; };
 		359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D6244A5181003A20BC /* SwipeScreenViewController.swift */; };
-		359558D9244A5B6B003A20BC /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D8244A5B6B003A20BC /* MPCManager.swift */; };
 		359C401E24476B40007C2AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C401D24476B40007C2AEF /* AppDelegate.swift */; };
 		359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C401F24476B40007C2AEF /* SceneDelegate.swift */; };
 		359C402524476B40007C2AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 359C402324476B40007C2AEF /* Main.storyboard */; };
@@ -21,14 +23,24 @@
 		359C403624477083007C2AEF /* RestaurantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403524477083007C2AEF /* RestaurantController.swift */; };
 		359C403924477130007C2AEF /* RestaurantError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403824477130007C2AEF /* RestaurantError.swift */; };
 		359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403A24477A17007C2AEF /* InitialViewController.swift */; };
+		359E26B324A19F640011358A /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359E26B224A19F640011358A /* StyleGuide.swift */; };
+		359E26BA24A1AEA70011358A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 359E26B824A1ADDA0011358A /* GoogleService-Info.plist */; };
+		35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */; };
+		35DCF24024AE8E1B00BA3783 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF23F24AE8E1B00BA3783 /* User.swift */; };
+		35DCF26424AFE89A00BA3783 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26324AFE89A00BA3783 /* Game.swift */; };
+		35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26524AFE8A900BA3783 /* UserVote.swift */; };
+		35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26724AFE8F300BA3783 /* Firebase.swift */; };
+		EA9AC0DF7585D3C98F944DCA /* Pods_WhosHungry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3523DE002472F57D0035827D /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
-		3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewDataSource.swift; sourceTree = "<group>"; };
+		3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeautySchoolDropout.ttf; sourceTree = "<group>"; };
+		35847A29247630AA0097299E /* neon_pixel-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neon_pixel-7.ttf"; sourceTree = "<group>"; };
+		35847A2B24763AE40097299E /* lunasol regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lunasol regular.ttf"; sourceTree = "<group>"; };
+		35847A2D2476E49C0097299E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		359558D4244A37C1003A20BC /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		359558D6244A5181003A20BC /* SwipeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeScreenViewController.swift; sourceTree = "<group>"; };
-		359558D8244A5B6B003A20BC /* MPCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
 		359C401A24476B40007C2AEF /* WhosHungry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhosHungry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		359C401D24476B40007C2AEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		359C401F24476B40007C2AEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +52,17 @@
 		359C403524477083007C2AEF /* RestaurantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantController.swift; sourceTree = "<group>"; };
 		359C403824477130007C2AEF /* RestaurantError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantError.swift; sourceTree = "<group>"; };
 		359C403A24477A17007C2AEF /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		359E26B224A19F640011358A /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
+		359E26B824A1ADDA0011358A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		35DCF23F24AE8E1B00BA3783 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		35DCF24124AE907F00BA3783 /* WhosHungry.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhosHungry.entitlements; sourceTree = "<group>"; };
+		35DCF26324AFE89A00BA3783 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		35DCF26524AFE8A900BA3783 /* UserVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVote.swift; sourceTree = "<group>"; };
+		35DCF26724AFE8F300BA3783 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
+		3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhosHungry.release.xcconfig"; path = "Target Support Files/Pods-WhosHungry/Pods-WhosHungry.release.xcconfig"; sourceTree = "<group>"; };
+		C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhosHungry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA936E4F06D45FAEC1716BD0 /* Pods-WhosHungry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhosHungry.debug.xcconfig"; path = "Target Support Files/Pods-WhosHungry/Pods-WhosHungry.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,17 +70,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA9AC0DF7585D3C98F944DCA /* Pods_WhosHungry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35847A282476308E0097299E /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				35847A29247630AA0097299E /* neon_pixel-7.ttf */,
+				35847A2B24763AE40097299E /* lunasol regular.ttf */,
+				3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		359C401124476B40007C2AEF = {
 			isa = PBXGroup;
 			children = (
 				359C401C24476B40007C2AEF /* WhosHungry */,
 				359C401B24476B40007C2AEF /* Products */,
+				E817DA392287E118F0BC3DAF /* Pods */,
+				E7F229657F17A751324D82C7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,6 +108,8 @@
 		359C401C24476B40007C2AEF /* WhosHungry */ = {
 			isa = PBXGroup;
 			children = (
+				35DCF24124AE907F00BA3783 /* WhosHungry.entitlements */,
+				35847A282476308E0097299E /* Fonts */,
 				359C40332447703B007C2AEF /* Model */,
 				359C403F2448D867007C2AEF /* Views */,
 				359C403C2448D80C007C2AEF /* Controllers */,
@@ -85,7 +123,9 @@
 			isa = PBXGroup;
 			children = (
 				359C40312447702E007C2AEF /* Restaurant.swift */,
-				359558D8244A5B6B003A20BC /* MPCManager.swift */,
+				35DCF23F24AE8E1B00BA3783 /* User.swift */,
+				35DCF26324AFE89A00BA3783 /* Game.swift */,
+				35DCF26524AFE8A900BA3783 /* UserVote.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -97,6 +137,7 @@
 				359C401F24476B40007C2AEF /* SceneDelegate.swift */,
 				359C402624476B43007C2AEF /* Assets.xcassets */,
 				359C402824476B43007C2AEF /* LaunchScreen.storyboard */,
+				359E26B824A1ADDA0011358A /* GoogleService-Info.plist */,
 				359C402B24476B43007C2AEF /* Info.plist */,
 			);
 			path = Resources;
@@ -107,6 +148,7 @@
 			children = (
 				359C403524477083007C2AEF /* RestaurantController.swift */,
 				3523DE002472F57D0035827D /* RestaurantService.swift */,
+				35DCF26724AFE8F300BA3783 /* Firebase.swift */,
 			);
 			path = ModelController;
 			sourceTree = "<group>";
@@ -126,6 +168,7 @@
 				359C403A24477A17007C2AEF /* InitialViewController.swift */,
 				359558D4244A37C1003A20BC /* UserListViewController.swift */,
 				359558D6244A5181003A20BC /* SwipeScreenViewController.swift */,
+				35847A2D2476E49C0097299E /* MapViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -134,7 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				359C403824477130007C2AEF /* RestaurantError.swift */,
-				3523DE02247342FC0035827D /* SwipeableCardViewDataSource.swift */,
+				35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */,
+				359E26B224A19F640011358A /* StyleGuide.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -147,6 +191,23 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		E7F229657F17A751324D82C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E817DA392287E118F0BC3DAF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EA936E4F06D45FAEC1716BD0 /* Pods-WhosHungry.debug.xcconfig */,
+				3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -154,9 +215,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 359C402E24476B43007C2AEF /* Build configuration list for PBXNativeTarget "WhosHungry" */;
 			buildPhases = (
+				233B78AC83966C413F3B68AE /* [CP] Check Pods Manifest.lock */,
 				359C401624476B40007C2AEF /* Sources */,
 				359C401724476B40007C2AEF /* Frameworks */,
 				359C401824476B40007C2AEF /* Resources */,
+				FDC53596F7A84C4C605971CC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -207,11 +270,57 @@
 			files = (
 				359C402A24476B43007C2AEF /* LaunchScreen.storyboard in Resources */,
 				359C402724476B43007C2AEF /* Assets.xcassets in Resources */,
+				35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */,
 				359C402524476B40007C2AEF /* Main.storyboard in Resources */,
+				3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */,
+				35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */,
+				359E26BA24A1AEA70011358A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		233B78AC83966C413F3B68AE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WhosHungry-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDC53596F7A84C4C605971CC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WhosHungry/Pods-WhosHungry-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WhosHungry/Pods-WhosHungry-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WhosHungry/Pods-WhosHungry-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		359C401624476B40007C2AEF /* Sources */ = {
@@ -220,15 +329,20 @@
 			files = (
 				359C401E24476B40007C2AEF /* AppDelegate.swift in Sources */,
 				359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */,
-				359558D9244A5B6B003A20BC /* MPCManager.swift in Sources */,
 				359C403924477130007C2AEF /* RestaurantError.swift in Sources */,
 				359C403B24477A17007C2AEF /* InitialViewController.swift in Sources */,
 				359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */,
+				35DCF24024AE8E1B00BA3783 /* User.swift in Sources */,
+				35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */,
 				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,
+				35847A2E2476E49C0097299E /* MapViewController.swift in Sources */,
+				35DCF26424AFE89A00BA3783 /* Game.swift in Sources */,
+				35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
-				3523DE03247342FC0035827D /* SwipeableCardViewDataSource.swift in Sources */,
 				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
+				35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */,
 				359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */,
+				359E26B324A19F640011358A /* StyleGuide.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,12 +484,14 @@
 		};
 		359C402F24476B43007C2AEF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA936E4F06D45FAEC1716BD0 /* Pods-WhosHungry.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WhosHungry/WhosHungry.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 97JSCUVT38;
 				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -389,12 +505,14 @@
 		};
 		359C403024476B43007C2AEF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WhosHungry/WhosHungry.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 97JSCUVT38;
 				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
