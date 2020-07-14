@@ -8,9 +8,11 @@
 
 import UIKit
 import Firebase
+import AuthenticationServices
 
 class Firebase {
     
+    static let shared = Firebase()
     let db = Firestore.firestore()
     
     func createGame(game: Game) {
@@ -21,4 +23,12 @@ class Firebase {
         db.collection("gameContainer").document(gameUID).setData(gameDictionary)
     }
     
+    func createUser(user: User) {
+        let userDictionary: [String : Any] = ["id" : user.id,
+                                              "firstName" : user.firstName,
+                                              "lastName" : user.lastName,
+                                              "email" : user.email]
+        
+        db.collection("userContainer").document("user").setData(userDictionary)
+    }
 }//End of Class

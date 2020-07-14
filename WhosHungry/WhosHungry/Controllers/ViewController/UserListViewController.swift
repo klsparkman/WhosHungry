@@ -19,6 +19,7 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     @IBOutlet weak var pasteCodeTextField: UITextField!
     @IBOutlet weak var userListTableView: UITableView!
     @IBOutlet weak var readyToEatButton: UIButton!
+    @IBOutlet weak var copycodeButton: UIButton!
     
     // Mark: - Properties
     static let shared = UserListViewController()
@@ -39,6 +40,7 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         pasteCodeTextField.isHidden = true
         userListTableView.isHidden = true
         readyToEatButton.isHidden = true
+        copycodeButton.isHidden = true
         generateCodeButton.layer.cornerRadius = 10
         generateCodeButton.layer.borderWidth = 1
         generateCodeButton.layer.borderColor = UIColor.white.cgColor
@@ -90,12 +92,19 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         codeLabel.text = randomAlphaNumericString(length: 10)
         userListTableView.isHidden = false
         readyToEatButton.isHidden = false
+        copycodeButton.isHidden = false
     }
     
     @IBAction func haveACodeButtonPressed(_ sender: Any) {
         pasteCodeTextField.isHidden = false
         codeLabel.isHidden = true
+        copycodeButton.isHidden = true
     }
+    
+    @IBAction func copyCodePressed(_ sender: Any) {
+        UIPasteboard.general.string = codeLabel.text
+    }
+    
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if (status == CLAuthorizationStatus.denied) {
