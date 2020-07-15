@@ -15,18 +15,17 @@ class InitialViewController: UIViewController {
     // Mark: - Properties
     private let db = Firestore.firestore()
    
-
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
-//        super.viewDidLoad()
+        super.viewDidLoad()
 //        let defaults = UserDefaults.standard
 //        defaults.
-//        if Auth.auth().currentUser != nil {
-//            self.performSegue(withIdentifier: "", sender: self)
-//        }
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: "segue", sender: nil)
+        }
         self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
             self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)

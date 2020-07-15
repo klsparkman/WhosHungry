@@ -134,38 +134,50 @@
                                     <action selector="copyCodePressed:" destination="zJm-ZB-Ks6" eventType="touchUpInside" id="VJm-XD-3Tv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TKa-2d-zI4">
-                                <rect key="frame" x="20" y="807" width="374" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haz-qN-das">
+                                <rect key="frame" x="250" y="44" width="144" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="9Sy-38-cBE"/>
+                                    <constraint firstAttribute="height" constant="50" id="iLZ-ej-93I"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                <state key="normal" title="We are ready to eat!">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <state key="normal" title="Let's Eat!">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="HEx-x6-OYD" kind="show" id="GgY-CX-Uev"/>
+                                    <segue destination="HEx-x6-OYD" kind="show" id="RIy-aH-q7O"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste Invite Code Here!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sjG-dm-KPM">
-                                <rect key="frame" x="20" y="206" width="374" height="50"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste Invite Code Here!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sjG-dm-KPM">
+                                <rect key="frame" x="20" y="204" width="374" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9ix-Gr-QyU"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aFW-vA-5Nx">
+                                <rect key="frame" x="329" y="832" width="65" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="b8H-jB-ncH"/>
+                                </constraints>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="logoutButtonPressed:" destination="zJm-ZB-Ks6" eventType="touchUpInside" id="59d-8h-D8r"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="OqQ-UF-edd" firstAttribute="top" secondItem="sjG-dm-KPM" secondAttribute="bottom" constant="10" id="2yP-3M-Tyj"/>
-                            <constraint firstItem="TKa-2d-zI4" firstAttribute="top" secondItem="LRm-ue-spB" secondAttribute="bottom" constant="30" id="32H-MX-TW7"/>
-                            <constraint firstItem="0l6-oc-1G1" firstAttribute="bottom" secondItem="TKa-2d-zI4" secondAttribute="bottom" constant="25" id="5qe-xY-b0C"/>
                             <constraint firstItem="OqQ-UF-edd" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="-2" id="6SG-YS-EWU"/>
                             <constraint firstItem="sjG-dm-KPM" firstAttribute="top" secondItem="BaQ-7E-5f6" secondAttribute="bottom" constant="50" id="6ap-fR-djI"/>
                             <constraint firstItem="LRm-ue-spB" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="20" id="Cnz-gv-hMY"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="MMy-AK-FzY" secondAttribute="trailing" id="EUQ-26-oqZ"/>
-                            <constraint firstItem="TKa-2d-zI4" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="20" id="Gsd-Cb-olA"/>
+                            <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="haz-qN-das" secondAttribute="trailing" constant="20" id="IOG-eY-nne"/>
+                            <constraint firstItem="aFW-vA-5Nx" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="329" id="Ive-Ai-i8r"/>
                             <constraint firstItem="MMy-AK-FzY" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" id="Kd1-pV-m55"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="slk-7s-cwE" secondAttribute="trailing" constant="20" id="LTd-H9-1Hu"/>
                             <constraint firstItem="BaQ-7E-5f6" firstAttribute="top" secondItem="0l6-oc-1G1" secondAttribute="top" constant="50" id="Pme-Kj-S63"/>
@@ -173,11 +185,15 @@
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="LRm-ue-spB" secondAttribute="trailing" constant="20" id="RUt-hs-a0Q"/>
                             <constraint firstItem="sjG-dm-KPM" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="20" id="Tgz-YW-i8m"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="OqQ-UF-edd" secondAttribute="trailing" constant="-2" id="aoC-m3-g3U"/>
+                            <constraint firstItem="haz-qN-das" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="250" id="car-8j-AUy"/>
+                            <constraint firstItem="aFW-vA-5Nx" firstAttribute="top" secondItem="LRm-ue-spB" secondAttribute="bottom" constant="55" id="dxN-uH-hbW"/>
                             <constraint firstItem="MMy-AK-FzY" firstAttribute="top" secondItem="5aT-UH-gl9" secondAttribute="top" id="g0O-gY-ADy"/>
-                            <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="TKa-2d-zI4" secondAttribute="trailing" constant="20" id="iOq-0I-W4V"/>
+                            <constraint firstItem="aFW-vA-5Nx" firstAttribute="bottom" secondItem="0l6-oc-1G1" secondAttribute="bottom" id="jQ6-9u-k4e"/>
                             <constraint firstItem="BaQ-7E-5f6" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="20" id="m7H-cU-Gi1"/>
+                            <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="aFW-vA-5Nx" secondAttribute="trailing" constant="20" id="nfZ-yj-rq8"/>
                             <constraint firstAttribute="bottom" secondItem="MMy-AK-FzY" secondAttribute="bottom" id="sRF-S3-H3X"/>
                             <constraint firstItem="slk-7s-cwE" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="269" id="seY-21-uFQ"/>
+                            <constraint firstItem="haz-qN-das" firstAttribute="top" secondItem="0l6-oc-1G1" secondAttribute="top" id="vhM-ga-0oU"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="sjG-dm-KPM" secondAttribute="trailing" constant="20" id="vig-VJ-VVA"/>
                             <constraint firstItem="LRm-ue-spB" firstAttribute="top" secondItem="slk-7s-cwE" secondAttribute="bottom" constant="10" id="wU0-Ox-Te7"/>
                         </constraints>
@@ -196,7 +212,6 @@
                         <outlet property="generateCodeButton" destination="Tdz-DM-7vq" id="BdG-HB-RyP"/>
                         <outlet property="haveACodeButton" destination="3tK-tR-paP" id="QZF-vL-3bA"/>
                         <outlet property="pasteCodeTextField" destination="sjG-dm-KPM" id="HKr-qA-hw5"/>
-                        <outlet property="readyToEatButton" destination="TKa-2d-zI4" id="TRs-Q0-sYh"/>
                         <outlet property="userListTableView" destination="LRm-ue-spB" id="vsz-de-Sfn"/>
                     </connections>
                 </viewController>
