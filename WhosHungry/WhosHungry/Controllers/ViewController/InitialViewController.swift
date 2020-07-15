@@ -15,15 +15,16 @@ class InitialViewController: UIViewController {
     // Mark: - Properties
     private let db = Firestore.firestore()
    
-
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let defaults = UserDefaults.standard
+//        defaults.
         if Auth.auth().currentUser != nil {
-            self.performSegue(withIdentifier: "", sender: self)
+            self.performSegue(withIdentifier: "segue", sender: nil)
         }
         self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
@@ -47,7 +48,7 @@ class InitialViewController: UIViewController {
     @objc func didTapAppleButton() {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
-        request.requestedScopes = [.fullName]
+        request.requestedScopes = [.fullName, .email]
         
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
@@ -77,16 +78,23 @@ extension InitialViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         
         switch authorization.credential {
-        case let credentials as ASAuthorizationAppleIDCredential:
-            let user = User(credentials: credentials)
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            let user = User(credentials: appleIDCredential)
+            Firebase.shared.createUser(user: user)
             performSegue(withIdentifier: "segue", sender: user)
-            
-        default: break
+        default:
+            break
         }
     }
     
+//    private func saveUserInKeychain(_ userIdentifier: String) {
+//        do {
+//            try KeychainItem(service: )
+//        }
+//    }
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("Something bad happened", error)
+            print("Something went wrong", error)
     }
 }
 

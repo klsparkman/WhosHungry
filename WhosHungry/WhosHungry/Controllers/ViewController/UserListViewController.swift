@@ -9,6 +9,7 @@
 
 import UIKit
 import CoreLocation
+import Firebase
 
 class UserListViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 
@@ -18,7 +19,8 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     @IBOutlet weak var haveACodeButton: UIButton!
     @IBOutlet weak var pasteCodeTextField: UITextField!
     @IBOutlet weak var userListTableView: UITableView!
-    @IBOutlet weak var readyToEatButton: UIButton!
+//    @IBOutlet weak var readyToEatButton: UIButton!
+    @IBOutlet weak var copycodeButton: UIButton!
     
     // Mark: - Properties
     static let shared = UserListViewController()
@@ -28,6 +30,7 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     var locManager = CLLocationManager()
     var currentLocation: CLLocation?
     var user: User?
+//    var users: [User]?
 //    var safeArea: UILayoutGuide {
 //        return self.view.safeAreaLayoutGuide
 //    }
@@ -38,7 +41,8 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         codeLabel.isHidden = true
         pasteCodeTextField.isHidden = true
         userListTableView.isHidden = true
-        readyToEatButton.isHidden = true
+//        readyToEatButton.isHidden = true
+        copycodeButton.isHidden = true
         generateCodeButton.layer.cornerRadius = 10
         generateCodeButton.layer.borderWidth = 1
         generateCodeButton.layer.borderColor = UIColor.white.cgColor
@@ -89,12 +93,28 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         pasteCodeTextField.isHidden = true
         codeLabel.text = randomAlphaNumericString(length: 10)
         userListTableView.isHidden = false
-        readyToEatButton.isHidden = false
+//        readyToEatButton.isHidden = false
+        copycodeButton.isHidden = false
     }
     
     @IBAction func haveACodeButtonPressed(_ sender: Any) {
         pasteCodeTextField.isHidden = false
         codeLabel.isHidden = true
+        copycodeButton.isHidden = true
+    }
+    
+    @IBAction func copyCodePressed(_ sender: Any) {
+        UIPasteboard.general.string = codeLabel.text
+    }
+    
+    @IBAction func logoutButtonPressed(_ sender: Any) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            navigationController?.popViewController(animated: true)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -127,7 +147,7 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
 //    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            1
+        1
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
