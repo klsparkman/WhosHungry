@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kyg-g6-ZiL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kyg-g6-ZiL">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Initial View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tuP-S8-NNq">
             <objects>
-                <viewController id="bqO-U0-F3M" customClass="InitialViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bqO-U0-F3M" customClass="LoginViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nXv-Xt-aFw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -294,6 +294,22 @@
                                             <outletCollection property="gestureRecognizers" destination="vCy-eg-QPW" appends="YES" id="oOd-W2-clx"/>
                                         </connections>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4y-et-Sqc">
+                                        <rect key="frame" x="38" y="24" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="bwo-2y-91N"/>
+                                            <constraint firstAttribute="height" constant="30" id="zPH-Ke-iSL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="arrow.left" catalog="system">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="backButton:" destination="HEx-x6-OYD" eventType="touchUpInside" id="7cX-C8-Sxh"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -303,6 +319,8 @@
                                     <constraint firstItem="SdS-s3-ji0" firstAttribute="leading" secondItem="bvu-lH-BQ0" secondAttribute="leading" constant="38" id="O3O-zx-M9W"/>
                                     <constraint firstItem="ug7-pb-8vv" firstAttribute="top" secondItem="bvu-lH-BQ0" secondAttribute="top" id="Tel-aP-O60"/>
                                     <constraint firstAttribute="bottom" secondItem="ug7-pb-8vv" secondAttribute="bottom" id="nC6-FS-8CZ"/>
+                                    <constraint firstItem="Z4y-et-Sqc" firstAttribute="top" secondItem="bvu-lH-BQ0" secondAttribute="top" constant="24" id="pF8-3U-Lex"/>
+                                    <constraint firstItem="Z4y-et-Sqc" firstAttribute="leading" secondItem="bvu-lH-BQ0" secondAttribute="leading" constant="38" id="xW0-OT-bJj"/>
                                     <constraint firstAttribute="trailing" secondItem="ug7-pb-8vv" secondAttribute="trailing" id="ylA-pK-2VD"/>
                                 </constraints>
                             </view>
@@ -379,10 +397,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uyP-br-90C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="325" y="-21"/>
+            <point key="canvasLocation" x="210" y="-21"/>
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.left" catalog="system" width="128" height="98"/>
         <image name="background.5" width="800" height="1200"/>
         <image name="background.6" width="800" height="1067"/>
         <image name="iceCreamNeon" width="800" height="1067"/>
