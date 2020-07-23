@@ -10,28 +10,36 @@ import UIKit
 import Firebase
 import AuthenticationServices
 
-class InitialViewController: UIViewController {
+class LoginViewController: UIViewController {
     
     // Mark: - Properties
     private let db = Firestore.firestore()
-   
+//    let defaults = UserDefaults.standard
+    
+//    struct Keys {
+//        static let loggedIn = "isLoggedIn"
+//        static let name = "userName"
+//        }
+    
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let defaults = UserDefaults.standard
-//        defaults.
-        if Auth.auth().currentUser != nil {
-            self.performSegue(withIdentifier: "segue", sender: nil)
-        }
-        self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
+        titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
             self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
         }, completion: nil)
         setupView()
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(true)
+//        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+//            self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
+//        }, completion: nil)
+//    }
     
     func setupView() {
         let appleButton = ASAuthorizationAppleIDButton()
@@ -49,19 +57,23 @@ class InitialViewController: UIViewController {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
         request.requestedScopes = [.fullName, .email]
-        
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.presentationContextProvider = self
-        
         controller.performRequests()
+        UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+        UserDefaults.standard.synchronize()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let mainVC = segue.destination as? UserListViewController, let user = sender as? User {
-            mainVC.user = user
-        }
-    }
+//    func saveName() {
+//        defaults.set(#selector(didTapAppleButton), forKey: Keys.name)
+//    }
+//    
+//    func checkForName() {
+//        let appleIDCredentials = ASAuthorizationAppleIDCredential.self
+//        let name = defaults.value(forKey: Keys.name) as? String ?? ""
+//        User(credentials: appleIDCredentials)
+//    }
 }
 
 extension UILabel {
@@ -74,9 +86,8 @@ extension UILabel {
     }
 }
 
-extension InitialViewController: ASAuthorizationControllerDelegate {
+extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             let user = User(credentials: appleIDCredential)
@@ -87,18 +98,12 @@ extension InitialViewController: ASAuthorizationControllerDelegate {
         }
     }
     
-//    private func saveUserInKeychain(_ userIdentifier: String) {
-//        do {
-//            try KeychainItem(service: )
-//        }
-//    }
-    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-            print("Something went wrong", error)
+        print("Something went wrong", error)
     }
 }
 
-extension InitialViewController: ASAuthorizationControllerPresentationContextProviding {
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
     }

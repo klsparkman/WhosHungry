@@ -61,7 +61,7 @@ class RestaurantController {
                 for restaurant in restaurants {
                     group.enter()
                     var restaurantCopy = restaurant
-                    print(restaurant.imageEndpoint)
+                    print(restaurant.imageEndpoint!)
                     self.fetchImage(for: restaurant) { result in
                         switch result {
                         case .success(let image):
