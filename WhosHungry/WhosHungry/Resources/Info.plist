@@ -2,16 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>BeautySchoolDropout.ttf</string>
-		<string>neon_pixel-7.ttf</string>
-		<string>lunasol regular.ttf</string>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs your location to find restaurants in your area.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs your location to find restaurants in your area.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -30,6 +20,16 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs your location to find restaurants in your area.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs your location to find restaurants in your area.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BeautySchoolDropout.ttf</string>
+		<string>neon_pixel-7.ttf</string>
+		<string>lunasol regular.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

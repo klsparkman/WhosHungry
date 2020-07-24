@@ -16,11 +16,6 @@ class LoginViewController: UIViewController {
     private let db = Firestore.firestore()
 //    let defaults = UserDefaults.standard
     
-//    struct Keys {
-//        static let loggedIn = "isLoggedIn"
-//        static let name = "userName"
-//        }
-    
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -61,19 +56,9 @@ class LoginViewController: UIViewController {
         controller.delegate = self
         controller.presentationContextProvider = self
         controller.performRequests()
-        UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+        UserDefaults.standard.set(true, forKey: "isLoggedIn")
         UserDefaults.standard.synchronize()
     }
-    
-//    func saveName() {
-//        defaults.set(#selector(didTapAppleButton), forKey: Keys.name)
-//    }
-//    
-//    func checkForName() {
-//        let appleIDCredentials = ASAuthorizationAppleIDCredential.self
-//        let name = defaults.value(forKey: Keys.name) as? String ?? ""
-//        User(credentials: appleIDCredentials)
-//    }
 }
 
 extension UILabel {
