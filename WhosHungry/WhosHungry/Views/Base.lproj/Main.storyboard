@@ -177,6 +177,7 @@
                             <constraint firstItem="LRm-ue-spB" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="20" id="Cnz-gv-hMY"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="MMy-AK-FzY" secondAttribute="trailing" id="EUQ-26-oqZ"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="haz-qN-das" secondAttribute="trailing" constant="20" id="IOG-eY-nne"/>
+                            <constraint firstItem="MMy-AK-FzY" firstAttribute="top" secondItem="5aT-UH-gl9" secondAttribute="top" id="IrE-GH-oYJ"/>
                             <constraint firstItem="aFW-vA-5Nx" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="329" id="Ive-Ai-i8r"/>
                             <constraint firstItem="MMy-AK-FzY" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" id="Kd1-pV-m55"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="slk-7s-cwE" secondAttribute="trailing" constant="20" id="LTd-H9-1Hu"/>
@@ -187,7 +188,6 @@
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="OqQ-UF-edd" secondAttribute="trailing" constant="-2" id="aoC-m3-g3U"/>
                             <constraint firstItem="haz-qN-das" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="250" id="car-8j-AUy"/>
                             <constraint firstItem="aFW-vA-5Nx" firstAttribute="top" secondItem="LRm-ue-spB" secondAttribute="bottom" constant="55" id="dxN-uH-hbW"/>
-                            <constraint firstItem="MMy-AK-FzY" firstAttribute="top" secondItem="5aT-UH-gl9" secondAttribute="top" id="g0O-gY-ADy"/>
                             <constraint firstItem="aFW-vA-5Nx" firstAttribute="bottom" secondItem="0l6-oc-1G1" secondAttribute="bottom" id="jQ6-9u-k4e"/>
                             <constraint firstItem="BaQ-7E-5f6" firstAttribute="leading" secondItem="0l6-oc-1G1" secondAttribute="leading" constant="20" id="m7H-cU-Gi1"/>
                             <constraint firstItem="0l6-oc-1G1" firstAttribute="trailing" secondItem="aFW-vA-5Nx" secondAttribute="trailing" constant="20" id="nfZ-yj-rq8"/>
@@ -199,13 +199,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0l6-oc-1G1"/>
                     </view>
-                    <navigationItem key="navigationItem" id="F5c-B3-Opp">
-                        <barButtonItem key="rightBarButtonItem" title="Find Friends" id="Fn6-v4-784">
-                            <connections>
-                                <action selector="startStopAdvertising:" destination="zJm-ZB-Ks6" id="2s7-VX-bzn"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="codeLabel" destination="OqQ-UF-edd" id="bEs-Uf-cUv"/>
                         <outlet property="copycodeButton" destination="slk-7s-cwE" id="721-yT-jRb"/>
@@ -387,7 +380,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="kyg-g6-ZiL" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9qe-eu-8cz">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="9qe-eu-8cz">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

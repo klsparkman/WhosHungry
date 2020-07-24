@@ -23,7 +23,6 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     
     // Mark: - Properties
     static let shared = UserListViewController()
-    //    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var locManager = CLLocationManager()
     var currentLocation: CLLocation?
     var user: User?
@@ -52,6 +51,11 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
             locManager.startUpdatingLocation()
             currentLocation = locManager.location
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -92,12 +96,12 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
+        navigationController?.popViewController(animated: true)
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
         UserDefaults.standard.synchronize()
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            navigationController?.popViewController(animated: true)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
