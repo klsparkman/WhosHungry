@@ -27,6 +27,8 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var currentCardIndex: Int = 0
     var user: [Int] = []
     var liked: [Restaurant] = []
+    var city: String?
+    var radius: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +38,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchRestaurants() {
-        guard let location = location else {return}
-        RestaurantController.shared.fetchRestaurants(location: location) { (result) in
+//        guard let location = location else {return}
+        guard let city = city else {return}
+        guard let radius = radius else {return}
+
+        RestaurantController.shared.fetchRestaurants(searchTerm: city, radius: radius) { (result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):
@@ -55,7 +60,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func populateCard(with restaurant: Restaurant) {
         self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
         self.restaurantNameLabel.text = restaurant.name
-        self.cuisineLabel.text = restaurant.cuisines
+//        self.cuisineLabel.text = restaurant.cuisines
 //        self.ratingLabel.text = restaurant.rating?.rating
     }
     
