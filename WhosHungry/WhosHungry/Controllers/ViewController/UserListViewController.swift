@@ -70,11 +70,6 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         return true
     }
     
-//    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-//        citySearchBar.resignFirstResponder()
-//        return true
-//    }
-    
     func searchBarShouldReturn(_ searchBar: UISearchBar) -> Bool {
         citySearchBar.resignFirstResponder()
         return true
@@ -154,7 +149,7 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
             if segue.identifier == "toSwipeScreenVC" {
                 guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
                 destinationVC.city = citySearchBar.text
-                destinationVC.radius = Int(radiusSlider.value)
+                destinationVC.radius = Int(radiusSlider.value * 1600)
 //                destinationVC.location = currentLocation
 //                destinationVC.user = restaurantService.players
             }

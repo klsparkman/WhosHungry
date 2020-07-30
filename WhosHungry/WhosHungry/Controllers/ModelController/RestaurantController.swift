@@ -36,18 +36,6 @@ class RestaurantController {
     
     // Mark: - Fetch Request
     func fetchRestaurants(searchTerm: String, radius: Int, completion: @escaping (Result<[Restaurant], RestaurantError>) -> Void) {
-        //        guard let baseURL = baseURL else {return}
-        //        let restaurantURL = baseURL.appendingPathComponent(searchEndpoint)
-        //        var urlComponents = URLComponents(url: restaurantURL, resolvingAgainstBaseURL: true)
-        //        urlComponents?.queryItems = [URLQueryItem(name: searchKey, value: searchTerm), URLQueryItem(name: radiusKey, value: "\(Int(radius))")]
-        //        guard let finalURL = urlComponents?.url else {return completion(.failure(.invalidURL))}
-        //        print("Final URL: \(finalURL)")
-        //
-        //        let request = NSMutableURLRequest(url: finalURL)
-        //        request.addValue(apiKey, forHTTPHeaderField: authType)
-        //        let requestURL = URL(fileURLWithPath: "\(request)")
-        ////        var request = URLRequest(url: finalURL)
-        //        print("RequestURL: \(requestURL)")
         guard let baseURL = baseURL else {return}
         let searchURL = baseURL.appendingPathComponent(searchEndpoint)
         var urlComponents = URLComponents(url: searchURL, resolvingAgainstBaseURL: true)
@@ -64,16 +52,16 @@ class RestaurantController {
             }
             
             guard let data = data else {return completion(.failure(.noData))}
-            
+
             do {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).businesses
                 let restaurants = restaurantContainers.compactMap({$0})
-                //guard let restaurants = restaurants.randomElement() else {return}
+                guard restaurants.randomElement() != nil else {return}
                 self.restaurants = restaurants
                 
                 let group = DispatchGroup()
                 
-                var restaurantsWithImages: [Restaurant] = []
+//                var restaurantsWithImages: [Restaurant] = []
                 
                 for restaurant in restaurants {
                     group.enter()
@@ -86,14 +74,16 @@ class RestaurantController {
                         case .failure(let error):
                             print("Couldn't get image for restaurant \(error)")
                         }
-                        restaurantsWithImages.append(restaurantCopy)
+                        self.restaurants.append(restaurantCopy)
+//                        restaurantsWithImages.append(restaurantCopy)
+//                        self.restaurants.append(contentsOf: restaurantsWithImages)
                         group.leave()
                     }
                 }
-                
                 group.notify(queue: .main) {
-                    //                    self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
-                    completion(.success(restaurantsWithImages))
+                    // self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
+                    completion(.success(self.restaurants))
+//                    completion(.success(restaurantsWithImages))
                 }
             } catch {
                 print(error, error.localizedDescription)
@@ -103,7 +93,6 @@ class RestaurantController {
     }
     
     func fetchImage(for restaurant: Restaurant, completion: @escaping (Result<UIImage, RestaurantError>) -> Void) {
-        
         guard let imageEndpoint = restaurant.imageEndpoint,
             let restaurantImage = URL(string: imageEndpoint)
             else {

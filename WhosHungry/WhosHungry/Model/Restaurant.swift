@@ -8,25 +8,23 @@
 
 import UIKit
 
-
 struct TopLevelObject: Codable {
     let businesses: [Restaurant]
 }
 
-
 struct Restaurant: Codable {
     enum CodingKeys: String, CodingKey {
         case name, location, rating
-        case reviewCount = "review_count"
         case imageEndpoint = "image_url"
+        case reviewCount = "review_count"
     }
     
-    let name: String
+    let name: String?
     let imageEndpoint: String?
-    var image: UIImage?
     let location: ResLocation?
-    let rating: Int?
+    let rating: Double?
     let reviewCount: Int?
+    var image: UIImage?
     var isLiked: Bool?
 }
 
