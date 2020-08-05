@@ -95,6 +95,8 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         codeLabel.text = randomAlphaNumericString(length: 10)
         userListTableView.isHidden = false
         copycodeButton.isHidden = false
+        let game = Game(uid: <#T##String#>, users: <#T##[User]#>, city: <#T##String#>, radius: <#T##Double#>, mealType: <#T##String#>)
+        Firebase.shared.createGame(game: <#T##Game#>)
     }
     
     @IBAction func haveACodeButtonPressed(_ sender: Any) {

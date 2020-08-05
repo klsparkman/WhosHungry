@@ -14,6 +14,8 @@ class RestaurantController {
     // Mark: - Properties
     static let shared = RestaurantController()
     var restaurants: [Restaurant] = []
+    var restaurantsWithImages: [Restaurant] = []
+
     
     private init() {
     }
@@ -61,7 +63,6 @@ class RestaurantController {
                 
                 let group = DispatchGroup()
                 
-//                var restaurantsWithImages: [Restaurant] = []
                 
                 for restaurant in restaurants {
                     group.enter()
@@ -74,16 +75,16 @@ class RestaurantController {
                         case .failure(let error):
                             print("Couldn't get image for restaurant \(error)")
                         }
-                        self.restaurants.append(restaurantCopy)
-//                        restaurantsWithImages.append(restaurantCopy)
+//                        self.restaurants.append(restaurantCopy)
+                        self.restaurantsWithImages.append(restaurantCopy)
 //                        self.restaurants.append(contentsOf: restaurantsWithImages)
                         group.leave()
                     }
                 }
                 group.notify(queue: .main) {
                     // self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
-                    completion(.success(self.restaurants))
-//                    completion(.success(restaurantsWithImages))
+//                    completion(.success(self.restaurants))
+                    completion(.success(self.restaurantsWithImages))
                 }
             } catch {
                 print(error, error.localizedDescription)

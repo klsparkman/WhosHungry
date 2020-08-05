@@ -36,6 +36,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         fetchRestaurants()
 //        matchRestaurants()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        restaurantImageView.layer.cornerRadius = 20
+        restaurantImageView.clipsToBounds = true
+    }
     
     func fetchRestaurants() {
 //        guard let location = location else {return}
@@ -47,8 +52,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 switch result {
                 case .success(_):
                     // Start showing cards
-                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
-                        else { return }
+                    guard let firstRestaurant = RestaurantController.shared.restaurantsWithImages.first
+                        else {return}
+//                   let restaurantWithImages = RestaurantController.shared.restaurantsWithImages
+                    
                     self.populateCard(with: firstRestaurant)
                 case .failure(let error):
                     print(error, error.localizedDescription)
@@ -60,8 +67,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func populateCard(with restaurant: Restaurant) {
         self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
         self.restaurantNameLabel.text = restaurant.name
-//        self.cuisineLabel.text = restaurant.cuisines
-//        self.ratingLabel.text = restaurant.rating?.rating
     }
     
     private func showNextCard() {
