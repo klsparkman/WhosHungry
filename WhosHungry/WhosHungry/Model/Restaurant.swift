@@ -9,41 +9,60 @@
 import UIKit
 
 struct TopLevelObject: Codable {
-    let restaurants: [RestaurantContainer]
-}
-
-struct RestaurantContainer: Codable {
-    let restaurant: Restaurant
+    let businesses: [Restaurant]
 }
 
 struct Restaurant: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, cuisines, location, rating
-        case imageEndpoint = "featured_image"
+        case name, location, rating
+        case imageEndpoint = "image_url"
+        case reviewCount = "review_count"
     }
     
     let name: String?
-    let cuisines: String?
     let imageEndpoint: String?
     let location: ResLocation?
-    let rating: UserRating?
+    let rating: Double?
+    let reviewCount: Int?
     var image: UIImage?
     var isLiked: Bool?
 }
 
 struct ResLocation: Codable {
-    let address: String?
+    let address1: String?
     let city: String?
     let zipcode: String?
 }
 
-struct UserRating: Codable {
-    enum CodingKeys: String, CodingKey {
-        case rating = "aggregate_rating"
-    }
+//struct TopLevelObject: Codable {
+//    let restaurants: [RestaurantContainer]
+//}
 
-    let rating: String?
-}
+//struct RestaurantContainer: Codable {
+//    let restaurant: Restaurant
+//}
+
+//struct Restaurant: Codable {
+//    enum CodingKeys: String, CodingKey {
+//        case name, cuisines, location, rating
+//        case imageEndpoint = "featured_image"
+//    }
+//
+//    let name: String?
+//    let cuisines: String?
+//    let imageEndpoint: String?
+//    let location: ResLocation?
+//    let rating: UserRating?
+//    var image: UIImage?
+//    var isLiked: Bool?
+//}
+//struct UserRating: Codable {
+//    enum CodingKeys: String, CodingKey {
+//        case rating = "aggregate_rating"
+//    }
+//
+//    let rating: String?
+//}
 
 //extension Restaurant: Equatable {
 //    static func == (lhs: Restaurant, rhs: Restaurant) -> Bool {

@@ -20,6 +20,9 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     @IBOutlet weak var pasteCodeTextField: UITextField!
     @IBOutlet weak var userListTableView: UITableView!
     @IBOutlet weak var copycodeButton: UIButton!
+    @IBOutlet weak var citySearchBar: UISearchBar!
+    @IBOutlet weak var radiusLabel: UILabel!
+    @IBOutlet weak var radiusSlider: UISlider!
     
     // Mark: - Properties
     static let shared = UserListViewController()
@@ -44,6 +47,9 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         haveACodeButton.layer.borderColor = UIColor.white.cgColor
         locManager.requestAlwaysAuthorization()
         pasteCodeTextField.delegate = self
+        citySearchBar.delegate = self
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
         
         if CLLocationManager.locationServicesEnabled() {
             locManager.delegate = self
@@ -53,6 +59,7 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         }
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -60,6 +67,11 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         pasteCodeTextField.resignFirstResponder()
+        return true
+    }
+    
+    func searchBarShouldReturn(_ searchBar: UISearchBar) -> Bool {
+        citySearchBar.resignFirstResponder()
         return true
     }
     
@@ -83,6 +95,8 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         codeLabel.text = randomAlphaNumericString(length: 10)
         userListTableView.isHidden = false
         copycodeButton.isHidden = false
+        let game = Game(uid: <#T##String#>, users: <#T##[User]#>, city: <#T##String#>, radius: <#T##Double#>, mealType: <#T##String#>)
+        Firebase.shared.createGame(game: <#T##Game#>)
     }
     
     @IBAction func haveACodeButtonPressed(_ sender: Any) {
@@ -107,6 +121,11 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         }
     }
     
+    @IBAction func radiusSlider(_ sender: Any) {
+        radiusLabel.text = "\(Int(radiusSlider.value))"
+    }
+    
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if (status == CLAuthorizationStatus.denied) {
             showLocationDisabledPopup()
@@ -127,14 +146,16 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         self.present(alertController, animated: true, completion: nil)
     }
     
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        super.prepare(for: segue, sender: sender)
-    //        if segue.identifier == "toSwipeVC" {
-    //            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
-    //            destinationVC.location = currentLocation
-    //            destinationVC.user = restaurantService.players
-    //        }
-    //    }
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            super.prepare(for: segue, sender: sender)
+            if segue.identifier == "toSwipeScreenVC" {
+                guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
+                destinationVC.city = citySearchBar.text
+                destinationVC.radius = Int(radiusSlider.value * 1600)
+//                destinationVC.location = currentLocation
+//                destinationVC.user = restaurantService.players
+            }
+        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
@@ -146,3 +167,23 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         return UITableViewCell()
     }
 }//End of class
+
+extension UserListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchTerm = searchBar.text, !searchTerm.isEmpty else {return}
+//        searchActive = false
+               self.citySearchBar.endEditing(true)
+//        let driveRadius = Int(radiusSlider.value)
+        
+//        RestaurantController.shared.fetchRestaurants(searchTerm: searchTerm, radius: driveRadius) { (result) in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let restaurant):
+//                    print(restaurant)
+//                case .failure(let error):
+//                    print(error, error.localizedDescription)
+//                }
+//            }
+//        }
+    }
+}

@@ -18,7 +18,10 @@ class Firebase {
     func createGame(game: Game) {
         let gameUID = UUID().uuidString
         let gameDictionary: [String : Any] = ["uid" : game.uid,
-                                             "users" : game.users]
+                                             "users" : game.users,
+                                             "city" : game.city,
+                                             "radius" : game.radius,
+                                             "mealType" : game.mealType]
         
         db.collection("gameContainer").document(gameUID).setData(gameDictionary)
     }
