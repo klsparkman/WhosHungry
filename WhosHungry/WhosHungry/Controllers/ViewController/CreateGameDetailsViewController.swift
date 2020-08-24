@@ -11,50 +11,46 @@ import UIKit
 import CoreLocation
 import Firebase
 
-class UserListViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     // Mark: - Outlets
-    @IBOutlet weak var generateCodeButton: UIButton!
     @IBOutlet weak var codeLabel: UILabel!
-    @IBOutlet weak var haveACodeButton: UIButton!
-    @IBOutlet weak var pasteCodeTextField: UITextField!
-    @IBOutlet weak var userListTableView: UITableView!
     @IBOutlet weak var copycodeButton: UIButton!
     @IBOutlet weak var citySearchTextField: UITextField!
     @IBOutlet weak var radiusLabel: UILabel!
     @IBOutlet weak var radiusSlider: UISlider!
     @IBOutlet weak var placesTableView: UITableView!
+    @IBOutlet weak var breakfastButton: UIButton!
+    @IBOutlet weak var lunchButton: UIButton!
+    @IBOutlet weak var dinnerButton: UIButton!
+    @IBOutlet weak var dessertButton: UIButton!
+    @IBOutlet weak var generateCodeButton: UIButton!
     
     // Mark: - Properties
-    static let shared = UserListViewController()
+    static let shared = CreateGameDetailsViewController()
     var locManager = CLLocationManager()
     var currentLocation: CLLocation?
-    var user: User?
+    var users: [User]? = []
+//    var users: User?
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
+    var category: String?
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         codeLabel.isHidden = true
-        pasteCodeTextField.isHidden = true
-        userListTableView.isHidden = true
         copycodeButton.isHidden = true
-//        placesTableView.isHidden = true
+        placesTableView.isHidden = true
         generateCodeButton.layer.cornerRadius = 10
         generateCodeButton.layer.borderWidth = 1
         generateCodeButton.layer.borderColor = UIColor.white.cgColor
         codeLabel.layer.cornerRadius = 10
-        pasteCodeTextField.layer.cornerRadius = 10
-        haveACodeButton.layer.cornerRadius = 10
-        haveACodeButton.layer.borderWidth = 1
-        haveACodeButton.layer.borderColor = UIColor.white.cgColor
         locManager.requestAlwaysAuthorization()
-        pasteCodeTextField.delegate = self
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+//        view.addGestureRecognizer(tap)
         
         if CLLocationManager.locationServicesEnabled() {
             locManager.delegate = self
@@ -69,10 +65,16 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch: UITouch? = touches.first
+        if touch?.view != placesTableView {
+            placesTableView.isHidden = true
+        }
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        pasteCodeTextField.resignFirstResponder()
         searchPlaceFromGoogle(place: citySearchTextField.text!)
-//        placesTableView.isHidden = false
+        citySearchTextField.resignFirstResponder()
         return true
     }
     
@@ -124,45 +126,87 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     }
     
     // Mark: - Actions
-    
     @IBAction func generateCodeButtonPressed(_ sender: Any) {
         codeLabel.isHidden = false
-        pasteCodeTextField.isHidden = true
         codeLabel.text = randomAlphaNumericString(length: 10)
-        userListTableView.isHidden = false
+//        let inviteCode = randomAlphaNumericString(length: 10)
+//        codeLabel.text = inviteCode
         copycodeButton.isHidden = false
-        //        let game = Game(uid: <#T##String#>, users: <#T##[User]#>, city: <#T##String#>, radius: <#T##Double#>, mealType: <#T##String#>)
-        //        Firebase.shared.createGame(game: <#T##Game#>)
-    }
-    
-    @IBAction func haveACodeButtonPressed(_ sender: Any) {
-        pasteCodeTextField.isHidden = false
-        codeLabel.isHidden = true
-        copycodeButton.isHidden = true
     }
     
     @IBAction func copyCodePressed(_ sender: Any) {
         UIPasteboard.general.string = codeLabel.text
     }
     
+    @IBAction func createGameButtonPressed(_ sender: Any) {
+        guard let inviteCode = codeLabel.text,
+        let user = users,
+        let city = citySearchTextField.text,
+        let category = category,
+        let radius = Double("\(radiusLabel.text!)")
+            else {return}
+        let game = Game(uid: inviteCode, users: user, city: city, radius: radius, category: category)
+        Firebase.shared.createGame(game: game)
+    }
+    
+    
+    func backTwo() {
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+    }
+    
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+        backTwo()
+//        navigationController?.navigationController?.popViewController(animated: true)
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
         UserDefaults.standard.synchronize()
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+//            backTwo()
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
-        radiusLabel.text = "\(Int(radiusSlider.value))"
+        radiusLabel.text = "up to \(Int(radiusSlider.value))"
     }
     
     @IBAction func citySearchTextFieldTapped(_ sender: Any) {
         placesTableView.isHidden = false
+    }
+    
+    @IBAction func breakfastButtonTapped(_ sender: Any) {
+        breakfastButton.backgroundColor = .systemPink
+        lunchButton.backgroundColor = .darkGray
+        dinnerButton.backgroundColor = .darkGray
+        dessertButton.backgroundColor = .darkGray
+        category = "breakfast"
+    }
+    
+    @IBAction func lunchButtonTapped(_ sender: Any) {
+        breakfastButton.backgroundColor = .darkGray
+        lunchButton.backgroundColor = .systemPink
+        dinnerButton.backgroundColor = .darkGray
+        dessertButton.backgroundColor = .darkGray
+        category = "lunch"
+    }
+    
+    @IBAction func dinnerButtonTapped(_ sender: Any) {
+        breakfastButton.backgroundColor = .darkGray
+        lunchButton.backgroundColor = .darkGray
+        dinnerButton.backgroundColor = .systemPink
+        dessertButton.backgroundColor = .darkGray
+        category = "dinner"
+    }
+    
+    @IBAction func dessertButtonTapped(_ sender: Any) {
+        breakfastButton.backgroundColor = .darkGray
+        lunchButton.backgroundColor = .darkGray
+        dinnerButton.backgroundColor = .darkGray
+        dessertButton.backgroundColor = .systemPink
+        category = "dessert"
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -187,36 +231,29 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        if segue.identifier == "toSwipeScreenVC" {
+        if segue.identifier == "toUserListTVC" {
             guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
             destinationVC.radius = Int(radiusSlider.value * 1600)
-            //                destinationVC.location = currentLocation
-            //                destinationVC.user = restaurantService.players
+            destinationVC.city = citySearchTextField.text
+            destinationVC.category = category
         }
     }
     
     // Mark: - UITableView DataSource & Delegate
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == placesTableView {
             return resultsArray.count
-        } else if tableView == userListTableView {
-            return 10
         } else {
             return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == userListTableView {
-            let cell = userListTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = "Game Leader: \(user?.debugDescription ?? "")"
-            return cell
-        } else if tableView == placesTableView {
+       if tableView == placesTableView {
             let cell = placesTableView.dequeueReusableCell(withIdentifier: "placesCell")
-            if let lblPlaceName = cell?.contentView.viewWithTag(102) as? UILabel {
+            if let placeName = cell?.contentView.viewWithTag(102) as? UILabel {
                 let place = self.resultsArray[indexPath.row]
-                lblPlaceName.text = "\(place["formatted_address"] as! String)"
+                placeName.text = "\(place["formatted_address"] as! String)"
             }
             return cell!
         } else {
@@ -225,9 +262,7 @@ class UserListViewController: UIViewController, CLLocationManagerDelegate, UITex
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
         let selectedCity = resultsArray[indexPath.row]
-        citySearchTextField.text = "\(selectedCity)"
+        citySearchTextField.text = "\(selectedCity["formatted_address"] as! String)"
     }
-    
 }//End of class

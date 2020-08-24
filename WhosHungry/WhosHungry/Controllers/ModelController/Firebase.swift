@@ -21,7 +21,7 @@ class Firebase {
                                              "users" : game.users,
                                              "city" : game.city,
                                              "radius" : game.radius,
-                                             "mealType" : game.mealType]
+                                             "mealType" : game.category]
         
         db.collection("gameContainer").document(gameUID).setData(gameDictionary)
     }
@@ -34,4 +34,18 @@ class Firebase {
         
         db.collection("userContainer").document("user").setData(userDictionary)
     }
+    
+//    func fetchUser(user: User) {
+//        db.collection("userContainer").getDocuments { (querySnapshot, error) in
+//            if let error = error {
+//                print("Error getting users: \(error)")
+//            } else {
+//                var userArray: [User] = []
+//                for document in querySnapshot!.documents {
+//                    let user = User(credentials: credentials.user)
+//                }
+//            }
+//            
+//        }
+//    }
 }//End of Class

@@ -14,7 +14,6 @@ class LoginViewController: UIViewController {
     
     // Mark: - Properties
     private let db = Firestore.firestore()
-//    let defaults = UserDefaults.standard
     
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
@@ -29,12 +28,13 @@ class LoginViewController: UIViewController {
         setupView()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
 //        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
 //            self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
 //        }, completion: nil)
-//    }
+    }
     
     func setupView() {
         let appleButton = ASAuthorizationAppleIDButton()
@@ -77,7 +77,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             let user = User(credentials: appleIDCredential)
             Firebase.shared.createUser(user: user)
-            performSegue(withIdentifier: "segue", sender: user)
+            performSegue(withIdentifier: "toGameChoiceVC", sender: user)
         default:
             break
         }

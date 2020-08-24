@@ -33,3 +33,14 @@ extension User: CustomDebugStringConvertible {
         """
     }
 }
+
+//extension User {
+//    convenience init?(dictionary: [String : Any]) {
+//        guard let id = dictionary["id"] as? String,
+//        let firstName = dictionary["firstName"] as? String,
+//        let lastName = dictionary["lastName"] as? String
+//            else {return}
+//        let userContainer = dictionary["userContainer"] as? String
+//        self.init(id: id, )
+//    }
+//}
