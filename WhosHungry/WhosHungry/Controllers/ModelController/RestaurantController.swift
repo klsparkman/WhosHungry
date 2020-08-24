@@ -15,18 +15,9 @@ class RestaurantController {
     static let shared = RestaurantController()
     var restaurants: [Restaurant] = []
     var restaurantsWithImages: [Restaurant] = []
-
     
     private init() {
     }
-    
-    // Zomato URL Constants
-    //    let baseURL = URL(string: "https://developers.zomato.com/api/v2.1/")
-    //    let headerKey = "user-key"
-    //    let apiKey = "f9d11770a0a651c546720e10c914e7d6"
-    //    let latKey = "lat"
-    //    let lonKey = "lon"
-    //    let radiusVal = "\(32180)"
     
     // Mark: - Yelp URL Constants
     let baseURL = URL(string: "https://api.yelp.com/v3/businesses")
@@ -35,13 +26,14 @@ class RestaurantController {
     let apiKey = "jTYM5mA1uexjKY9_C4RS6Pi-5s3La7Jbw6zJR7ZNUpOopNDNu_EhsyNEFpP4US1QbfQxAxUypBiSDquMIVp8uNRE9a8WGI2rYWSb3EYzeny0JePaAmglUWqA4s4hX3Yx"
     let searchKey = "location"
     let radiusKey = "radius"
+    let categoryTerm = "term"
     
     // Mark: - Fetch Request
-    func fetchRestaurants(searchTerm: String, radius: Int, completion: @escaping (Result<[Restaurant], RestaurantError>) -> Void) {
-        guard let baseURL = baseURL else {return}
+    func fetchRestaurants(searchTerm: String, radius: Int, category: String, completion: @escaping (Result<Void, RestaurantError>) -> Void) {
+        guard let baseURL = baseURL else {return completion(.failure(.noData))}
         let searchURL = baseURL.appendingPathComponent(searchEndpoint)
         var urlComponents = URLComponents(url: searchURL, resolvingAgainstBaseURL: true)
-        urlComponents?.queryItems = [URLQueryItem(name: searchKey, value: searchTerm), URLQueryItem(name: radiusKey, value: "\(Int(radius))")]
+        urlComponents?.queryItems = [URLQueryItem(name: searchKey, value: searchTerm), URLQueryItem(name: radiusKey, value: "\(Int(radius))"), URLQueryItem(name: categoryTerm, value: category)]
         let finalURL = urlComponents?.url
         var request = URLRequest(url: finalURL!)
         request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
@@ -58,11 +50,10 @@ class RestaurantController {
             do {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).businesses
                 let restaurants = restaurantContainers.compactMap({$0})
-                guard restaurants.randomElement() != nil else {return}
-                self.restaurants = restaurants
+                guard !restaurants.isEmpty else {return completion(.failure(.noData))}
+//                self.restaurants = restaurants
                 
                 let group = DispatchGroup()
-                
                 
                 for restaurant in restaurants {
                     group.enter()
@@ -75,16 +66,16 @@ class RestaurantController {
                         case .failure(let error):
                             print("Couldn't get image for restaurant \(error)")
                         }
-//                        self.restaurants.append(restaurantCopy)
-                        self.restaurantsWithImages.append(restaurantCopy)
-//                        self.restaurants.append(contentsOf: restaurantsWithImages)
+                        self.restaurants.append(restaurantCopy)
+//                        self.restaurantsWithImages.append(restaurantCopy)
+//                        self.restaurants.append(contentsOf: self.restaurantsWithImages)
                         group.leave()
                     }
                 }
                 group.notify(queue: .main) {
                     // self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
-//                    completion(.success(self.restaurants))
-                    completion(.success(self.restaurantsWithImages))
+                    completion(.success(()))
+//                    completion(.success(self.restaurantsWithImages))
                 }
             } catch {
                 print(error, error.localizedDescription)

@@ -14,8 +14,10 @@
 		35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A29247630AA0097299E /* neon_pixel-7.ttf */; };
 		35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A2B24763AE40097299E /* lunasol regular.ttf */; };
 		35847A2E2476E49C0097299E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35847A2D2476E49C0097299E /* MapViewController.swift */; };
-		359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* UserListViewController.swift */; };
+		359558D5244A37C1003A20BC /* CreateGameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */; };
 		359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D6244A5181003A20BC /* SwipeScreenViewController.swift */; };
+		3598876B24F4593800E25EB9 /* GameChoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3598876A24F4593800E25EB9 /* GameChoiceViewController.swift */; };
+		3598876D24F45A2D00E25EB9 /* UserListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3598876C24F45A2D00E25EB9 /* UserListTableViewController.swift */; };
 		359C401E24476B40007C2AEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C401D24476B40007C2AEF /* AppDelegate.swift */; };
 		359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C401F24476B40007C2AEF /* SceneDelegate.swift */; };
 		359C402524476B40007C2AEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 359C402324476B40007C2AEF /* Main.storyboard */; };
@@ -43,8 +45,10 @@
 		35847A29247630AA0097299E /* neon_pixel-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neon_pixel-7.ttf"; sourceTree = "<group>"; };
 		35847A2B24763AE40097299E /* lunasol regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lunasol regular.ttf"; sourceTree = "<group>"; };
 		35847A2D2476E49C0097299E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		359558D4244A37C1003A20BC /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
+		359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameDetailsViewController.swift; sourceTree = "<group>"; };
 		359558D6244A5181003A20BC /* SwipeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeScreenViewController.swift; sourceTree = "<group>"; };
+		3598876A24F4593800E25EB9 /* GameChoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameChoiceViewController.swift; sourceTree = "<group>"; };
+		3598876C24F45A2D00E25EB9 /* UserListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTableViewController.swift; sourceTree = "<group>"; };
 		359C401A24476B40007C2AEF /* WhosHungry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhosHungry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		359C401D24476B40007C2AEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		359C401F24476B40007C2AEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -171,7 +175,9 @@
 			children = (
 				3581E5EE24C3F6E500B76DE6 /* MainNavigationController.swift */,
 				359C403A24477A17007C2AEF /* LoginViewController.swift */,
-				359558D4244A37C1003A20BC /* UserListViewController.swift */,
+				3598876A24F4593800E25EB9 /* GameChoiceViewController.swift */,
+				359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */,
+				3598876C24F45A2D00E25EB9 /* UserListTableViewController.swift */,
 				359558D6244A5181003A20BC /* SwipeScreenViewController.swift */,
 				35847A2D2476E49C0097299E /* MapViewController.swift */,
 			);
@@ -335,9 +341,11 @@
 			files = (
 				359C401E24476B40007C2AEF /* AppDelegate.swift in Sources */,
 				359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */,
+				3598876D24F45A2D00E25EB9 /* UserListTableViewController.swift in Sources */,
 				359C403924477130007C2AEF /* RestaurantError.swift in Sources */,
 				359C403B24477A17007C2AEF /* LoginViewController.swift in Sources */,
-				359558D5244A37C1003A20BC /* UserListViewController.swift in Sources */,
+				359558D5244A37C1003A20BC /* CreateGameDetailsViewController.swift in Sources */,
+				3598876B24F4593800E25EB9 /* GameChoiceViewController.swift in Sources */,
 				35DCF24024AE8E1B00BA3783 /* User.swift in Sources */,
 				35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */,
 				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,

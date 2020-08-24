@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //self.window =  UIWindow(frame: UIScreen.main.bounds)
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let rootVC = storyboard.instantiateViewController(identifier: "userListVC") as? UIViewController else {
+        guard let rootVC = storyboard.instantiateViewController(identifier: "gameDetailVC") as? UIViewController else {
             print("ViewController not found")
             return
         }
