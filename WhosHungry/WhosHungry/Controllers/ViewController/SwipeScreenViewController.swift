@@ -28,7 +28,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var user: [Int] = []
     var liked: [Restaurant] = []
     var city: String?
-    var radius: Int?
+    var radius: Double?
     var category: String?
     
     override func viewDidLoad() {
@@ -41,6 +41,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         super.viewWillAppear(animated)
         restaurantImageView.layer.cornerRadius = 20
         restaurantImageView.clipsToBounds = true
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     func fetchRestaurants() {
@@ -49,7 +50,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         guard let radius = radius else {return}
         guard let category = category else {return}
 
-        RestaurantController.shared.fetchRestaurants(searchTerm: city, radius: radius, category: category) { (result) in
+        RestaurantController.shared.fetchRestaurants(searchTerm: city, radius: Int(radius), category: category) { (result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):

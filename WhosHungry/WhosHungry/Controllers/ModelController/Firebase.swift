@@ -27,13 +27,19 @@ class Firebase {
     }
     
     func createUser(user: User) {
+//        database.child(user).setValue
         let userDictionary: [String : Any] = ["id" : user.id,
                                               "firstName" : user.firstName,
                                               "lastName" : user.lastName,
                                               "email" : user.email]
         
         db.collection("userContainer").document("user").setData(userDictionary)
+        RestaurantController.shared.users.append(user)
     }
+    
+//    func fetchUsers(completion: @escaping (Result<[User], UserError>) -> Void) {
+//
+//      }
     
 //    func fetchUser(user: User) {
 //        db.collection("userContainer").getDocuments { (querySnapshot, error) in
@@ -42,10 +48,27 @@ class Firebase {
 //            } else {
 //                var userArray: [User] = []
 //                for document in querySnapshot!.documents {
-//                    let user = User(credentials: credentials.user)
+//                    let user =
 //                }
 //            }
-//            
+//
+//        }
+//    }
+    
+//    func getUserCollection() {
+//        RestaurantController.shared.users = []
+//        let gameID = CreateGameDetailsViewController.shared.gameInviteCode
+//        db.collection("userContainer").getDocuments { (querySnapshot, error) in
+//            if let error = error {
+//                print("Error getting documents: \(error)")
+//            } else {
+//                for document in querySnapshot!.documents {
+//                    let user = User(gameID: gameID!)
+//                    
+//                    RestaurantController.shared.users.append(user)
+//                    print("\(document.documentID) => \(document.data())")
+//                }
+//            }
 //        }
 //    }
 }//End of Class

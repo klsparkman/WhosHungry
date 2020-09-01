@@ -13,12 +13,17 @@ class GameChoiceViewController: UIViewController {
     // Mark: - Outlets
     @IBOutlet weak var pasteCodeTextField: UITextField!
     @IBOutlet weak var joinThePartyButton: UIButton!
+    @IBOutlet weak var createGameButton: UIButton!
+    @IBOutlet weak var joinGameButton: UIButton!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         pasteCodeTextField.isHidden = true
         joinThePartyButton.isHidden = true
+        createGameButton.layer.cornerRadius = 30
+        joinGameButton.layer.cornerRadius = 30
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +35,7 @@ class GameChoiceViewController: UIViewController {
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
+        pasteCodeTextField.resignFirstResponder()
         pasteCodeTextField.isHidden = false
         if pasteCodeTextField != nil {
             joinThePartyButton.isHidden = false

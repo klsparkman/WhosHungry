@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3523DE012472F57D0035827D /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE002472F57D0035827D /* RestaurantService.swift */; };
 		3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */; };
-		3581E5ED24C3EC8600B76DE6 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3581E5EC24C3EC8600B76DE6 /* UserDefaults.swift */; };
+		3581E5ED24C3EC8600B76DE6 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3581E5EC24C3EC8600B76DE6 /* UserError.swift */; };
 		3581E5EF24C3F6E500B76DE6 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3581E5EE24C3F6E500B76DE6 /* MainNavigationController.swift */; };
 		35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A29247630AA0097299E /* neon_pixel-7.ttf */; };
 		35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A2B24763AE40097299E /* lunasol regular.ttf */; };
@@ -40,7 +40,7 @@
 /* Begin PBXFileReference section */
 		3523DE002472F57D0035827D /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeautySchoolDropout.ttf; sourceTree = "<group>"; };
-		3581E5EC24C3EC8600B76DE6 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		3581E5EC24C3EC8600B76DE6 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		3581E5EE24C3F6E500B76DE6 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		35847A29247630AA0097299E /* neon_pixel-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neon_pixel-7.ttf"; sourceTree = "<group>"; };
 		35847A2B24763AE40097299E /* lunasol regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lunasol regular.ttf"; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 				359C403824477130007C2AEF /* RestaurantError.swift */,
 				35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */,
 				359E26B224A19F640011358A /* StyleGuide.swift */,
-				3581E5EC24C3EC8600B76DE6 /* UserDefaults.swift */,
+				3581E5EC24C3EC8600B76DE6 /* UserError.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -355,7 +355,7 @@
 				35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
 				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
-				3581E5ED24C3EC8600B76DE6 /* UserDefaults.swift in Sources */,
+				3581E5ED24C3EC8600B76DE6 /* UserError.swift in Sources */,
 				35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */,
 				359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */,
 				359E26B324A19F640011358A /* StyleGuide.swift in Sources */,

@@ -25,39 +25,105 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     @IBOutlet weak var dinnerButton: UIButton!
     @IBOutlet weak var dessertButton: UIButton!
     @IBOutlet weak var generateCodeButton: UIButton!
+    @IBOutlet weak var createGameButton: UIButton!
+    @IBOutlet weak var yourInviteCodeIsLabel: UILabel!
+    @IBOutlet weak var whatCityLabel: UILabel!
+    @IBOutlet weak var typeOfFoodLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
     
     // Mark: - Properties
     static let shared = CreateGameDetailsViewController()
     var locManager = CLLocationManager()
     var currentLocation: CLLocation?
     var users: [User]? = []
-//    var users: User?
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
     var category: String?
+    var gameInviteCode: String?
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        citySearchTextField.layer.cornerRadius = 10
+        citySearchTextField.layer.borderColor = UIColor.black.cgColor
+        citySearchTextField.layer.borderWidth = 1
+        citySearchTextField.layer.masksToBounds = true
+        
+        whatCityLabel.layer.cornerRadius = 10
+        whatCityLabel.layer.borderColor = UIColor.white.cgColor
+        whatCityLabel.layer.borderWidth = 1
+        whatCityLabel.layer.masksToBounds = true
+        
+        radiusLabel.layer.cornerRadius = 10
+        radiusLabel.layer.borderColor = UIColor.white.cgColor
+        radiusLabel.layer.borderWidth = 1
+        radiusLabel.layer.masksToBounds = true
+        
+        typeOfFoodLabel.layer.cornerRadius = 10
+        typeOfFoodLabel.layer.borderColor = UIColor.white.cgColor
+        typeOfFoodLabel.layer.borderWidth = 1
+        typeOfFoodLabel.layer.masksToBounds = true
+        
+        distanceLabel.layer.cornerRadius = 10
+        distanceLabel.layer.borderColor = UIColor.white.cgColor
+        distanceLabel.layer.borderWidth = 1
+        distanceLabel.layer.masksToBounds = true
+        
+        radiusSlider.layer.cornerRadius = 10
+        radiusSlider.layer.borderColor = UIColor.white.cgColor
+        radiusSlider.layer.borderWidth = 1
+        radiusSlider.layer.masksToBounds = true
+        
         codeLabel.isHidden = true
+        codeLabel.layer.cornerRadius = 10
+        codeLabel.layer.borderColor = UIColor.black.cgColor
+        codeLabel.layer.borderWidth = 1
+        codeLabel.layer.masksToBounds = true
+        
+        yourInviteCodeIsLabel.isHidden = true
+        yourInviteCodeIsLabel.layer.cornerRadius = 10
+        yourInviteCodeIsLabel.layer.borderColor = UIColor.black.cgColor
+        yourInviteCodeIsLabel.layer.borderWidth = 1
+        yourInviteCodeIsLabel.layer.masksToBounds = true
+        
         copycodeButton.isHidden = true
         placesTableView.isHidden = true
+        createGameButton.isHidden = true
+        radiusLabel.isHidden = true
+        
         generateCodeButton.layer.cornerRadius = 10
         generateCodeButton.layer.borderWidth = 1
         generateCodeButton.layer.borderColor = UIColor.white.cgColor
-        codeLabel.layer.cornerRadius = 10
+        
+        breakfastButton.layer.cornerRadius = 10
+        breakfastButton.layer.borderColor = UIColor.black.cgColor
+        breakfastButton.layer.borderWidth = 1
+        
+        lunchButton.layer.cornerRadius = 10
+        lunchButton.layer.borderColor = UIColor.black.cgColor
+        lunchButton.layer.borderWidth = 1
+        
+        dinnerButton.layer.cornerRadius = 10
+        dinnerButton.layer.borderColor = UIColor.black.cgColor
+        dinnerButton.layer.borderWidth = 1
+        
+        dessertButton.layer.cornerRadius = 10
+        dessertButton.layer.borderColor = UIColor.black.cgColor
+        dessertButton.layer.borderWidth = 1
+        
         locManager.requestAlwaysAuthorization()
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self
-//        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-//        view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
         
-        if CLLocationManager.locationServicesEnabled() {
-            locManager.delegate = self
-            locManager.desiredAccuracy = kCLLocationAccuracyBest
-            locManager.startUpdatingLocation()
-            currentLocation = locManager.location
-        }
+        //        if CLLocationManager.locationServicesEnabled() {
+        //            locManager.delegate = self
+        //            locManager.desiredAccuracy = kCLLocationAccuracyBest
+        //            locManager.startUpdatingLocation()
+        //            currentLocation = locManager.location
+        //        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +143,10 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         citySearchTextField.resignFirstResponder()
         return true
     }
+    
+    //    func textFieldDidBeginEditing(_ textField: UITextField) {
+    //        citySearchTextField.becomeFirstResponder()
+    //    }
     
     func searchPlaceFromGoogle(place: String) {
         var strGoogleApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(place)&key=AIzaSyCX7hPyTPm3vokTYYzuDumnEVCtwC_lvXE"
@@ -114,7 +184,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     func randomAlphaNumericString(length: Int) -> String {
         let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let allowedCharsCount = UInt32(allowedChars.count)
-        var randomString = "Your invite code is:    "
+        var randomString = ""
         
         for _ in 0..<length {
             let randomNum = Int(arc4random_uniform(allowedCharsCount))
@@ -128,83 +198,88 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     // Mark: - Actions
     @IBAction func generateCodeButtonPressed(_ sender: Any) {
         codeLabel.isHidden = false
+        yourInviteCodeIsLabel.isHidden = false
         codeLabel.text = randomAlphaNumericString(length: 10)
-//        let inviteCode = randomAlphaNumericString(length: 10)
-//        codeLabel.text = inviteCode
+        //        let inviteCode = randomAlphaNumericString(length: 10)
+        //        codeLabel.text = inviteCode
         copycodeButton.isHidden = false
     }
     
     @IBAction func copyCodePressed(_ sender: Any) {
-        UIPasteboard.general.string = codeLabel.text
+        UIPasteboard.general.string = "Your Who's Hungry invite code is: \(codeLabel.text!)"
+        createGameButton.isHidden = false
     }
     
     @IBAction func createGameButtonPressed(_ sender: Any) {
         guard let inviteCode = codeLabel.text,
-        let user = users,
-        let city = citySearchTextField.text,
-        let category = category,
-        let radius = Double("\(radiusLabel.text!)")
+            let user = users,
+            let city = citySearchTextField.text,
+            let category = category,
+            let radius = Double("\(radiusLabel.text!)")
             else {return}
+        gameInviteCode!.append(inviteCode)
         let game = Game(uid: inviteCode, users: user, city: city, radius: radius, category: category)
         Firebase.shared.createGame(game: game)
     }
     
-    
-    func backTwo() {
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
-    }
+        func backTwo() {
+            
+            let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+            self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+        }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        backTwo()
-//        navigationController?.navigationController?.popViewController(animated: true)
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        UserDefaults.standard.synchronize()
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-//            backTwo()
+            backTwo()
+//            navigationController?.navigationController?.popViewController(animated: true)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+        UserDefaults.standard.synchronize()
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
-        radiusLabel.text = "up to \(Int(radiusSlider.value))"
+        radiusLabel.isHidden = false
+        radiusLabel.text = "\(Int(radiusSlider.value))"
     }
     
     @IBAction func citySearchTextFieldTapped(_ sender: Any) {
+        //        citySearchTextField.becomeFirstResponder()
         placesTableView.isHidden = false
     }
     
     @IBAction func breakfastButtonTapped(_ sender: Any) {
         breakfastButton.backgroundColor = .systemPink
-        lunchButton.backgroundColor = .darkGray
-        dinnerButton.backgroundColor = .darkGray
-        dessertButton.backgroundColor = .darkGray
+        //        breakfastButton.setTitleColor(.white, for: .normal)
+        lunchButton.backgroundColor = .white
+        dinnerButton.backgroundColor = .white
+        dessertButton.backgroundColor = .white
         category = "breakfast"
     }
     
     @IBAction func lunchButtonTapped(_ sender: Any) {
-        breakfastButton.backgroundColor = .darkGray
+        breakfastButton.backgroundColor = .white
         lunchButton.backgroundColor = .systemPink
-        dinnerButton.backgroundColor = .darkGray
-        dessertButton.backgroundColor = .darkGray
+        dinnerButton.backgroundColor = .white
+        dessertButton.backgroundColor = .white
         category = "lunch"
     }
     
     @IBAction func dinnerButtonTapped(_ sender: Any) {
-        breakfastButton.backgroundColor = .darkGray
-        lunchButton.backgroundColor = .darkGray
+        breakfastButton.backgroundColor = .white
+        lunchButton.backgroundColor = .white
         dinnerButton.backgroundColor = .systemPink
-        dessertButton.backgroundColor = .darkGray
+        dessertButton.backgroundColor = .white
         category = "dinner"
     }
     
     @IBAction func dessertButtonTapped(_ sender: Any) {
-        breakfastButton.backgroundColor = .darkGray
-        lunchButton.backgroundColor = .darkGray
-        dinnerButton.backgroundColor = .darkGray
+        breakfastButton.backgroundColor = .white
+        lunchButton.backgroundColor = .white
+        dinnerButton.backgroundColor = .white
         dessertButton.backgroundColor = .systemPink
         category = "dessert"
     }
@@ -232,8 +307,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "toUserListTVC" {
-            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
-            destinationVC.radius = Int(radiusSlider.value * 1600)
+            guard let destinationVC = segue.destination as? UserListTableViewController else {return}
+            destinationVC.radius = Double(radiusSlider.value * 1600)
             destinationVC.city = citySearchTextField.text
             destinationVC.category = category
         }
@@ -249,16 +324,12 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       if tableView == placesTableView {
-            let cell = placesTableView.dequeueReusableCell(withIdentifier: "placesCell")
-            if let placeName = cell?.contentView.viewWithTag(102) as? UILabel {
-                let place = self.resultsArray[indexPath.row]
-                placeName.text = "\(place["formatted_address"] as! String)"
-            }
-            return cell!
-        } else {
-            return UITableViewCell()
+        guard let cell = placesTableView.dequeueReusableCell(withIdentifier: "placesCell") else {return UITableViewCell()}
+        if let placeName = cell.contentView.viewWithTag(102) as? UILabel {
+            let place = self.resultsArray[indexPath.row]
+            placeName.text = "\(place["formatted_address"] as! String)"
         }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
