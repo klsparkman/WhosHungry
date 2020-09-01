@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import AuthenticationServices
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -21,6 +22,11 @@ class LoginViewController: UIViewController {
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: "toGameChoiceVC", sender: nil)
+        }
+        
         titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
             self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
@@ -77,22 +83,17 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             let user = User(credentials: appleIDCredential)
             Firebase.shared.createUser(user: user)
+            CreateGameDetailsViewController.shared.users?.append(user)
             
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
                 if let navigator = navigationController {
                     navigator.pushViewController(viewController, animated: true)
                 }
             }
-//            performSegue(withIdentifier: "toGameChoiceVC", sender: user)
-            CreateGameDetailsViewController.shared.users?.append(user)
         default:
             break
         }
     }
-    
-//    func pushViewController(_ viewController: UIViewController, animated: Bool) {
-//        let viewController = GameChoiceViewController()
-//    }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("Right here.... Something went wrong", error)

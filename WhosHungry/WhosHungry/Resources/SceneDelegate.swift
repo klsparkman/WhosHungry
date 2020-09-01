@@ -14,8 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        let userLoginStatus = UserDefaults.standard.bool(forKey: "isLoggedIn")
-        if userLoginStatus == true {
+//        let userLoginStatus = UserDefaults.standard.bool(forKey: "isLoggedIn")
+//        if userLoginStatus == true {
             
 //            guard let windowScene = (scene as? UIWindowScene) else { return }
             let windowScene = UIWindowScene(session: session, connectionOptions: connectionOptions)
@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let rootNC = UINavigationController(rootViewController: rootVC)
             window?.rootViewController = rootNC
             window?.makeKeyAndVisible()
-        }
+//        }
         
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.

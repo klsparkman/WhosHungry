@@ -89,7 +89,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         copycodeButton.isHidden = true
         placesTableView.isHidden = true
         createGameButton.isHidden = true
-        radiusLabel.isHidden = true
+//        radiusLabel.isHidden = true
         
         generateCodeButton.layer.cornerRadius = 10
         generateCodeButton.layer.borderWidth = 1
@@ -144,10 +144,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         return true
     }
     
-    //    func textFieldDidBeginEditing(_ textField: UITextField) {
-    //        citySearchTextField.becomeFirstResponder()
-    //    }
-    
     func searchPlaceFromGoogle(place: String) {
         var strGoogleApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(place)&key=AIzaSyCX7hPyTPm3vokTYYzuDumnEVCtwC_lvXE"
         strGoogleApi = strGoogleApi.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -200,8 +196,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         codeLabel.isHidden = false
         yourInviteCodeIsLabel.isHidden = false
         codeLabel.text = randomAlphaNumericString(length: 10)
-        //        let inviteCode = randomAlphaNumericString(length: 10)
-        //        codeLabel.text = inviteCode
         copycodeButton.isHidden = false
     }
     
@@ -217,32 +211,35 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             let category = category,
             let radius = Double("\(radiusLabel.text!)")
             else {return}
-        gameInviteCode!.append(inviteCode)
+        gameInviteCode?.append(inviteCode) ?? nil
         let game = Game(uid: inviteCode, users: user, city: city, radius: radius, category: category)
         Firebase.shared.createGame(game: game)
     }
     
-        func backTwo() {
-            
-            let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
-            self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
-        }
+    @IBAction func backButtonPressed(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func backTwo() {
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+    }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
+//        backTwo()
+        _ = self.navigationController?.navigationController?.popViewController(animated: true)
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            backTwo()
-//            navigationController?.navigationController?.popViewController(animated: true)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        UserDefaults.standard.synchronize()
+//        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+//        UserDefaults.standard.synchronize()
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
-        radiusLabel.isHidden = false
+//        radiusLabel.isHidden = false
         radiusLabel.text = "\(Int(radiusSlider.value))"
     }
     

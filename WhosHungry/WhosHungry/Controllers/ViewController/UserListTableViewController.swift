@@ -14,6 +14,7 @@ class UserListTableViewController: UITableViewController {
     var city: String?
     var radius: Double?
     var category: String?
+    var inviteCode: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
