@@ -26,7 +26,6 @@
 		359C40322447702E007C2AEF /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C40312447702E007C2AEF /* Restaurant.swift */; };
 		359C403624477083007C2AEF /* RestaurantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403524477083007C2AEF /* RestaurantController.swift */; };
 		359C403924477130007C2AEF /* RestaurantError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403824477130007C2AEF /* RestaurantError.swift */; };
-		359C403B24477A17007C2AEF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C403A24477A17007C2AEF /* LoginViewController.swift */; };
 		359E26B324A19F640011358A /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359E26B224A19F640011358A /* StyleGuide.swift */; };
 		359E26BA24A1AEA70011358A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 359E26B824A1ADDA0011358A /* GoogleService-Info.plist */; };
 		35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */; };
@@ -34,6 +33,7 @@
 		35DCF26424AFE89A00BA3783 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26324AFE89A00BA3783 /* Game.swift */; };
 		35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26524AFE8A900BA3783 /* UserVote.swift */; };
 		35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26724AFE8F300BA3783 /* Firebase.swift */; };
+		35FD875624FECF78004FEA32 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FD875524FECF78004FEA32 /* SignInViewController.swift */; };
 		EA9AC0DF7585D3C98F944DCA /* Pods_WhosHungry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,7 +59,6 @@
 		359C40312447702E007C2AEF /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		359C403524477083007C2AEF /* RestaurantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantController.swift; sourceTree = "<group>"; };
 		359C403824477130007C2AEF /* RestaurantError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantError.swift; sourceTree = "<group>"; };
-		359C403A24477A17007C2AEF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		359E26B224A19F640011358A /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		359E26B824A1ADDA0011358A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -68,6 +67,7 @@
 		35DCF26324AFE89A00BA3783 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		35DCF26524AFE8A900BA3783 /* UserVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVote.swift; sourceTree = "<group>"; };
 		35DCF26724AFE8F300BA3783 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
+		35FD875524FECF78004FEA32 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhosHungry.release.xcconfig"; path = "Target Support Files/Pods-WhosHungry/Pods-WhosHungry.release.xcconfig"; sourceTree = "<group>"; };
 		C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhosHungry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA936E4F06D45FAEC1716BD0 /* Pods-WhosHungry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhosHungry.debug.xcconfig"; path = "Target Support Files/Pods-WhosHungry/Pods-WhosHungry.debug.xcconfig"; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				3581E5EE24C3F6E500B76DE6 /* MainNavigationController.swift */,
-				359C403A24477A17007C2AEF /* LoginViewController.swift */,
+				35FD875524FECF78004FEA32 /* SignInViewController.swift */,
 				3598876A24F4593800E25EB9 /* GameChoiceViewController.swift */,
 				359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */,
 				3598876C24F45A2D00E25EB9 /* UserListTableViewController.swift */,
@@ -343,7 +343,6 @@
 				359C402024476B40007C2AEF /* SceneDelegate.swift in Sources */,
 				3598876D24F45A2D00E25EB9 /* UserListTableViewController.swift in Sources */,
 				359C403924477130007C2AEF /* RestaurantError.swift in Sources */,
-				359C403B24477A17007C2AEF /* LoginViewController.swift in Sources */,
 				359558D5244A37C1003A20BC /* CreateGameDetailsViewController.swift in Sources */,
 				3598876B24F4593800E25EB9 /* GameChoiceViewController.swift in Sources */,
 				35DCF24024AE8E1B00BA3783 /* User.swift in Sources */,
@@ -353,6 +352,7 @@
 				35847A2E2476E49C0097299E /* MapViewController.swift in Sources */,
 				35DCF26424AFE89A00BA3783 /* Game.swift in Sources */,
 				35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */,
+				35FD875624FECF78004FEA32 /* SignInViewController.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
 				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
 				3581E5ED24C3EC8600B76DE6 /* UserError.swift in Sources */,

@@ -62,11 +62,12 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
-        _ = self.navigationController?.popViewController(animated: true)
+//        navigationController?.popToViewController(SignInViewController(), animated: true)
+//        self.navigationController?.popToViewController(SignInViewController())
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            
+            _ = self.navigationController?.popViewController(animated: true)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }

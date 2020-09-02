@@ -226,11 +226,13 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
+        
+//        navigationController?.popToViewController(SignInViewController(), animated: true)
 //        backTwo()
-        _ = self.navigationController?.navigationController?.popViewController(animated: true)
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+            _ = self.navigationController?.popToRootViewController(animated: true)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
