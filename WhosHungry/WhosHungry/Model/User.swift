@@ -40,3 +40,9 @@ extension User {
         self.init(gameID: gameID)
     }
 }
+
+//extension User {
+//    init(firstName: String, lastName: String, ) {
+//        
+//    }
+//}

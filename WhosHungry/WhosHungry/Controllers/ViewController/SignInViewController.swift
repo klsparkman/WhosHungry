@@ -25,17 +25,11 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         
         if Auth.auth().currentUser != nil {
-            //            self.performSegue(withIdentifier: "toGameChoiceVC", sender: nil)
-            //            let viewController = GameChoiceViewController()
-            //            if let navigator = navigationController {
-            //                navigator.pushViewController(viewController, animated: true)
-            //            }
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
                 if let navigator = navigationController {
                     navigator.pushViewController(viewController, animated: true)
                 }
             }
-            
         }
         titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
@@ -85,7 +79,6 @@ class SignInViewController: UIViewController {
         let hashString = hashedData.compactMap {
             return String(format: "%02x", $0)
         }.joined()
-        
         return hashString
     }
     
@@ -105,30 +98,17 @@ class SignInViewController: UIViewController {
                 }
                 return random
             }
-            
             randoms.forEach { random in
                 if remainingLength == 0 {
                     return
                 }
-                
                 if random < charset.count {
                     result.append(charset[Int(random)])
                     remainingLength -= 1
                 }
             }
         }
-        
         return result
-    }
-}
-
-extension UILabel {
-    func UILabelTextShadow(color: UIColor) {
-        self.textColor = .cyan
-        self.layer.masksToBounds = false
-        self.layer.shadowOffset = CGSize(width: 2, height: 2)
-        self.layer.shadowRadius = 8.0
-        self.layer.shadowOpacity = 1.0
     }
 }
 
@@ -153,15 +133,53 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                     print(error!.localizedDescription)
                     return
                 }
-                let user = User(credentials: appleIDCredential)
-                Firebase.shared.createUser(user: user)
-                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
-                    if let navigator = self.navigationController {
-                        navigator.pushViewController(viewController, animated: true)
+                
+                switch authorization.credential {
+                case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                    let user = User(credentials: appleIDCredential)
+                    Firebase.shared.createUser(user: user)
+                    if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
+                        if let navigator = self.navigationController {
+                            navigator.pushViewController(viewController, animated: true)
+                        }
                     }
+                default:
+                    break
                 }
+                
+                
+                //                let user = User(credentials: appleIDCredential)
+                //                Firebase.shared.createUser(user: user)
+                //                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
+                //                    if let navigator = self.navigationController {
+                //                        navigator.pushViewController(viewController, animated: true)
+                //                    }
+                //                }
+                
+                
+                
             }
         }
+    }
+}
+
+func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    print("Right here.... Something went wrong", error)
+}
+
+extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
+extension UILabel {
+    func UILabelTextShadow(color: UIColor) {
+        self.textColor = .cyan
+        self.layer.masksToBounds = false
+        self.layer.shadowOffset = CGSize(width: 2, height: 2)
+        self.layer.shadowRadius = 8.0
+        self.layer.shadowOpacity = 1.0
     }
 }
 
@@ -177,14 +195,3 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
 //        default:
 //            break
 //        }
-
-
-func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-    print("Right here.... Something went wrong", error)
-}
-
-extension SignInViewController: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
-    }
-}
