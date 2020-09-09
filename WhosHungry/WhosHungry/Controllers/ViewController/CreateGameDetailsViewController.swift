@@ -115,8 +115,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+//        view.addGestureRecognizer(tap)
         
         //        if CLLocationManager.locationServicesEnabled() {
         //            locManager.delegate = self
@@ -131,12 +131,12 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch: UITouch? = touches.first
-        if touch?.view != placesTableView {
-            placesTableView.isHidden = true
-        }
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        let touch: UITouch? = touches.first
+//        if touch?.view != placesTableView {
+//            placesTableView.isHidden = true
+//        }
+//    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchPlaceFromGoogle(place: citySearchTextField.text!)
@@ -220,15 +220,12 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         navigationController?.popViewController(animated: true)
     }
     
-    func backTwo() {
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
-    }
+//    func backTwo() {
+//        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+//        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+//    }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        
-//        navigationController?.popToViewController(SignInViewController(), animated: true)
-//        backTwo()
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
@@ -334,5 +331,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = resultsArray[indexPath.row]
         citySearchTextField.text = "\(selectedCity["formatted_address"] as! String)"
+        placesTableView.isHidden = true
     }
 }//End of class

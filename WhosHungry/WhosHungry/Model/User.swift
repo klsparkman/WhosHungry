@@ -14,6 +14,7 @@ struct User {
     let firstName: String
     let lastName: String
     let email: String
+    let inviteCode: String = ""
 //    let gameID: String
     
     init(credentials: ASAuthorizationAppleIDCredential) {
@@ -35,11 +36,11 @@ extension User: CustomDebugStringConvertible {
     }
 }
 
-extension User {
-    init(gameID: String) {
-        self.init(gameID: gameID)
-    }
-}
+//extension User {
+//    init(inviteCode: String) {
+//        self.init(inviteCode: inviteCode)
+//    }
+//}
 
 //extension User {
 //    init(firstName: String, lastName: String, ) {

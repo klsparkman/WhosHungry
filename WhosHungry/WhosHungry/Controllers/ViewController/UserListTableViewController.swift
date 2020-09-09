@@ -24,7 +24,8 @@ class UserListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-//        Firebase.shared.getUserCollection()
+//        if inviteCode == 
+        Firebase.shared.getUserCollection()
     }
 
     // MARK: - Table view data source

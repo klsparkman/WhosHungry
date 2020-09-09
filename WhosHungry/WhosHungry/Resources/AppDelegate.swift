@@ -20,9 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        if let user = Auth.auth().currentUser {
-            print("You're signed in as \(user.displayName), email: \(user.email)")
-        }
+//        if let user = Auth.auth().currentUser {
+//            print("You're signed in as \(user.displayName), email: \(user.email)")
+//        }
 
         return true
     }

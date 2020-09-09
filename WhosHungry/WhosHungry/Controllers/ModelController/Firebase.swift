@@ -27,33 +27,36 @@ class Firebase {
     }
     
     func createUser(user: User) {
-//        database.child(user).setValue
         let userDictionary: [String : Any] = ["id" : user.id,
                                               "firstName" : user.firstName,
                                               "lastName" : user.lastName,
-                                              "email" : user.email]
+                                              "email" : user.email,
+                                              "inviteCode" : user.inviteCode]
         
         db.collection("userContainer").document("user").setData(userDictionary)
-        RestaurantController.shared.users.append(user)
+//        RestaurantController.shared.users.append(user)
     }
     
 //    func fetchUsers(completion: @escaping (Result<[User], UserError>) -> Void) {
 //
 //      }
     
-//    func fetchUser(user: User) {
-//        db.collection("userContainer").getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                print("Error getting users: \(error)")
-//            } else {
+    func getUserCollection() {
+        db.collection("userContainer").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting users: \(error)")
+            } else {
 //                var userArray: [User] = []
-//                for document in querySnapshot!.documents {
-//                    let user =
-//                }
-//            }
-//
-//        }
-//    }
+                for document in querySnapshot!.documents {
+//                    let user = User(inviteCode: (document.data()["inviteCode"] as? String ?? ""))
+                    
+//                    RestaurantController.shared.users.append(user)
+                    print("\(document)")
+                }
+            }
+
+        }
+    }
     
 //    func getUserCollection() {
 //        RestaurantController.shared.users = []
