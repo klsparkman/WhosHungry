@@ -25,6 +25,16 @@ struct User {
     }
 }
 
+class UserInfo {
+    let firstName: String
+    let lastName: String
+    
+    init(firstName: String, lastName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+}
+
 extension User: CustomDebugStringConvertible {
     var debugDescription: String {
         return """

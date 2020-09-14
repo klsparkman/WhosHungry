@@ -39,8 +39,8 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     // Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
         
-        guard let user = currentUser else {return}
-        RestaurantController.shared.users.append(user)
+//        guard let user = currentUser else {return}
+//        RestaurantController.shared.users.append(user)
 //        CreateGameDetailsViewController.shared.users!.append(user)
     }
     

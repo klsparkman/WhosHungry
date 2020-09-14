@@ -18,35 +18,39 @@ class Firebase {
     
     func createGame(game: Game) {
         let gameUID = UUID().uuidString
-        let gameDictionary: [String : Any] = ["inviteCode" : game.inviteCode,
-                                              "users" : game.users,
-                                              "city" : game.city,
-                                              "radius" : game.radius,
-                                              "mealType" : game.category]
+        let gameDictionary: [String : Any] = [Constants.inviteCode : game.inviteCode,
+                                              Constants.users : game.users,
+                                              Constants.city : game.city,
+                                              Constants.radius : game.radius,
+                                              Constants.mealType : game.category]
         
-        db.collection("gameContainer").document(gameUID).setData(gameDictionary)
+        db.collection(Constants.gameContainer).document(gameUID).setData(gameDictionary)
     }
     
     func createUser(user: User) {
-        let userDictionary: [String : Any] = ["id" : user.id,
-                                              "firstName" : user.firstName,
-                                              "lastName" : user.lastName,
-                                              "email" : user.email,
-                                              "inviteCode" : user.inviteCode]
+        let userDictionary: [String : Any] = [Constants.id : user.id,
+                                              Constants.firstName : user.firstName,
+                                              Constants.lastName : user.lastName,
+                                              Constants.email : user.email,
+                                              Constants.inviteCode : user.inviteCode]
         
-        db.collection("userContainer").document("user").setData(userDictionary)
+        db.collection(Constants.userContainer).document(Constants.user).setData(userDictionary)
     }
     
     func getUserCollection() {
         getInviteCodeDocument()
-        db.collection("gameContainer").whereField("inviteCode", isEqualTo: userInviteCode)
+        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: userInviteCode)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     print("Error getting documents: \(error)")
                 } else {
-                    for users in querySnapshot!.documents {
-                        let user = User(inviteCode: users.data())
-                        print("\(users.documentID) => \(users.data())")
+                    guard let snapshot = querySnapshot else {return}
+                    for document in snapshot.documents {
+                        let data = document.data()
+                        let firstName = data[Constants.firstName] as? String ?? "Who dis?"
+                        let lastName = data[Constants.lastName] as? String ?? ""
+
+                        let user = UserInfo(firstName: firstName, lastName: lastName)
                         RestaurantController.shared.users.append(user)
                     }
                 }
@@ -54,9 +58,9 @@ class Firebase {
     }
     
     private func getInviteCodeDocument() {
-        db.collection("userContainer").document("user").getDocument { (document, error) in
+        db.collection(Constants.userContainer).document(Constants.user).getDocument { (document, error) in
             if let document = document, document.exists {
-                guard let code = document.get("inviteCode") else {return}
+                guard let code = document.get(Constants.inviteCode) else {return}
                 self.userInviteCode.append(code)
             } else {
                 print("Document doesn not exist")
