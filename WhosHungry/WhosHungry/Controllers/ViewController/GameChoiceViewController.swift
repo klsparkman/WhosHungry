@@ -7,18 +7,28 @@
 //
 
 import UIKit
+import Firebase
 
-class GameChoiceViewController: UIViewController {
+class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     // Mark: - Outlets
     @IBOutlet weak var pasteCodeTextField: UITextField!
     @IBOutlet weak var joinThePartyButton: UIButton!
+    @IBOutlet weak var createGameButton: UIButton!
+    @IBOutlet weak var joinGameButton: UIButton!
     
-
+    // Mark: - Properties
+    static let shared = GameChoiceViewController()
+    var currentUser: User?
+    
+    // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         pasteCodeTextField.isHidden = true
         joinThePartyButton.isHidden = true
+        createGameButton.layer.cornerRadius = 30
+        joinGameButton.layer.cornerRadius = 30
+        pasteCodeTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,7 +36,12 @@ class GameChoiceViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    // Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
+        
+        guard let user = currentUser else {return}
+        RestaurantController.shared.users.append(user)
+//        CreateGameDetailsViewController.shared.users!.append(user)
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
@@ -36,4 +51,31 @@ class GameChoiceViewController: UIViewController {
         }
     }
     
+    @IBAction func joinThePartyButtonTapped(_ sender: Any) {
+        
+    }
+    
+    @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
+        pasteCodeTextField.becomeFirstResponder()
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "toUserListVC" {
+            guard let destinationVC = segue.destination as? UserListTableViewController else {return}
+            destinationVC.inviteCode = pasteCodeTextField.text
+        }
+    }
+    
+    
+    @IBAction func logoutButtonTapped(_ sender: Any) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            _ = self.navigationController?.popViewController(animated: true)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
 }

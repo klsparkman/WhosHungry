@@ -6,37 +6,22 @@
 //  Copyright © 2020 Kelsey Sparkman. All rights reserved.
 //
 
-//import UIKit
-//import Firebase
-//
-//class MainNavigationController: UINavigationController {
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        if Auth.auth().currentUser != nil {
-//            self.performSegue(withIdentifier: "segue", sender: nil)
-//        }
-//    
-//            view.backgroundColor = .cyan
-//    
-//            if isLoggedIn() {
-//                let userController = UserListViewController()
-//                viewControllers = [userController]
-//            } else {
-//                perform(#selector(showLoginController), with: nil, afterDelay: 0.01)
-//            }
-//        }
-//
-//    
-//    func showLoginController() {
-//            let loginController = LoginViewController()
-//            present(loginController, animated: true, completion: {
-//            })
-//        }
-//    
-//        fileprivate func isLoggedIn() -> Bool {
-//            return UserDefaults.standard.bool(forKey: Keys.loggedIn)
-//        }
-//}// End of Class
+import UIKit
+
+
+class MainNavigationController: UINavigationController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let viewController: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "signInVC") as UIViewController
+        self.present(viewController, animated: true, completion: nil)
+        
+//        let viewController = SignInViewController()
+//        self.navigationController?.pushViewController(SignInViewController(), animated: true)
+        }
+    
+       
+}// End of Class
 
 

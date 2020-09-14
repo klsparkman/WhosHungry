@@ -15,6 +15,7 @@ class RestaurantController {
     static let shared = RestaurantController()
     var restaurants: [Restaurant] = []
     var restaurantsWithImages: [Restaurant] = []
+    var users: [User] = []
     
     private init() {
     }
@@ -103,6 +104,9 @@ class RestaurantController {
             completion(.success(image))
         }.resume()
     }
+    
+  
+    
 }
 
 

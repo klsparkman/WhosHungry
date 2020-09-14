@@ -14,6 +14,8 @@ struct User {
     let firstName: String
     let lastName: String
     let email: String
+    let inviteCode: String = ""
+//    let gameID: String
     
     init(credentials: ASAuthorizationAppleIDCredential) {
         self.id = credentials.user
@@ -34,13 +36,23 @@ extension User: CustomDebugStringConvertible {
     }
 }
 
+extension User {
+    init(inviteCode: [String : Any]) {
+        self.init(inviteCode: inviteCode)
+    }
+}
+
 //extension User {
-//    convenience init?(dictionary: [String : Any]) {
-//        guard let id = dictionary["id"] as? String,
-//        let firstName = dictionary["firstName"] as? String,
-//        let lastName = dictionary["lastName"] as? String
-//            else {return}
-//        let userContainer = dictionary["userContainer"] as? String
-//        self.init(id: id, )
+//    init(dictionary: [String : Any]) {
+////        guard (dictionary["inviteCode"] as? String) != nil else {return}
+//        let inviteCode = dictionary["inviteCode"] as? String
+//        self.init(inviteCode: inviteCode)
+//
+//    }
+//}
+
+//extension User {
+//    init(firstName: String, lastName: String, ) {
+//        
 //    }
 //}
