@@ -36,9 +36,18 @@ extension User: CustomDebugStringConvertible {
     }
 }
 
+extension User {
+    init(inviteCode: [String : Any]) {
+        self.init(inviteCode: inviteCode)
+    }
+}
+
 //extension User {
-//    init(inviteCode: String) {
+//    init(dictionary: [String : Any]) {
+////        guard (dictionary["inviteCode"] as? String) != nil else {return}
+//        let inviteCode = dictionary["inviteCode"] as? String
 //        self.init(inviteCode: inviteCode)
+//
 //    }
 //}
 

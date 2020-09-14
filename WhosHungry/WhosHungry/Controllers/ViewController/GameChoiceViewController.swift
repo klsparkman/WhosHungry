@@ -17,7 +17,11 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var createGameButton: UIButton!
     @IBOutlet weak var joinGameButton: UIButton!
     
+    // Mark: - Properties
+    static let shared = GameChoiceViewController()
+    var currentUser: User?
     
+    // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         pasteCodeTextField.isHidden = true
@@ -32,11 +36,15 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    // Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
+        
+        guard let user = currentUser else {return}
+        RestaurantController.shared.users.append(user)
+//        CreateGameDetailsViewController.shared.users!.append(user)
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
-//        pasteCodeTextField.resignFirstResponder()
         pasteCodeTextField.isHidden = false
         if pasteCodeTextField != nil {
             joinThePartyButton.isHidden = false
@@ -62,8 +70,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
-//        navigationController?.popToViewController(SignInViewController(), animated: true)
-//        self.navigationController?.popToViewController(SignInViewController())
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
@@ -71,7 +77,5 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
-//        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-//        UserDefaults.standard.synchronize()
     }
 }

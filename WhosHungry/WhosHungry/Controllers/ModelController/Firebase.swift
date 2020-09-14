@@ -14,14 +14,15 @@ class Firebase {
     
     static let shared = Firebase()
     let db = Firestore.firestore()
+    var userInviteCode: [Any] = []
     
     func createGame(game: Game) {
         let gameUID = UUID().uuidString
-        let gameDictionary: [String : Any] = ["uid" : game.uid,
-                                             "users" : game.users,
-                                             "city" : game.city,
-                                             "radius" : game.radius,
-                                             "mealType" : game.category]
+        let gameDictionary: [String : Any] = ["inviteCode" : game.inviteCode,
+                                              "users" : game.users,
+                                              "city" : game.city,
+                                              "radius" : game.radius,
+                                              "mealType" : game.category]
         
         db.collection("gameContainer").document(gameUID).setData(gameDictionary)
     }
@@ -34,44 +35,32 @@ class Firebase {
                                               "inviteCode" : user.inviteCode]
         
         db.collection("userContainer").document("user").setData(userDictionary)
-//        RestaurantController.shared.users.append(user)
     }
     
-//    func fetchUsers(completion: @escaping (Result<[User], UserError>) -> Void) {
-//
-//      }
-    
     func getUserCollection() {
-        db.collection("userContainer").getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error getting users: \(error)")
-            } else {
-//                var userArray: [User] = []
-                for document in querySnapshot!.documents {
-//                    let user = User(inviteCode: (document.data()["inviteCode"] as? String ?? ""))
-                    
-//                    RestaurantController.shared.users.append(user)
-                    print("\(document)")
+        getInviteCodeDocument()
+        db.collection("gameContainer").whereField("inviteCode", isEqualTo: userInviteCode)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    for users in querySnapshot!.documents {
+                        let user = User(inviteCode: users.data())
+                        print("\(users.documentID) => \(users.data())")
+                        RestaurantController.shared.users.append(user)
+                    }
                 }
-            }
-
         }
     }
     
-//    func getUserCollection() {
-//        RestaurantController.shared.users = []
-//        let gameID = CreateGameDetailsViewController.shared.gameInviteCode
-//        db.collection("userContainer").getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                print("Error getting documents: \(error)")
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    let user = User(gameID: gameID!)
-//                    
-//                    RestaurantController.shared.users.append(user)
-//                    print("\(document.documentID) => \(document.data())")
-//                }
-//            }
-//        }
-//    }
+    private func getInviteCodeDocument() {
+        db.collection("userContainer").document("user").getDocument { (document, error) in
+            if let document = document, document.exists {
+                guard let code = document.get("inviteCode") else {return}
+                self.userInviteCode.append(code)
+            } else {
+                print("Document doesn not exist")
+            }
+        }
+    }
 }//End of Class

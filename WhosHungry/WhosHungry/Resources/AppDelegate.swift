@@ -19,10 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         FirebaseApp.configure()
-        
-//        if let user = Auth.auth().currentUser {
-//            print("You're signed in as \(user.displayName), email: \(user.email)")
-//        }
 
         return true
     }

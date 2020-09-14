@@ -39,6 +39,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
     var category: String?
     var gameInviteCode: String?
+    let db = Firestore.firestore()
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -212,18 +213,15 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             let radius = Double("\(radiusLabel.text!)")
             else {return}
         gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(uid: inviteCode, users: user, city: city, radius: radius, category: category)
+        let game = Game(inviteCode: inviteCode, users: user, city: city, radius: radius, category: category)
         Firebase.shared.createGame(game: game)
+
+        db.collection("userContainer").document("user").setData(["inviteCode" : inviteCode], merge: true)
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
-//    func backTwo() {
-//        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
-//        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
-//    }
     
     @IBAction func logoutButtonPressed(_ sender: Any) {
         let firebaseAuth = Auth.auth()
@@ -233,23 +231,18 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
-//        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-//        UserDefaults.standard.synchronize()
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
-//        radiusLabel.isHidden = false
         radiusLabel.text = "\(Int(radiusSlider.value))"
     }
     
     @IBAction func citySearchTextFieldTapped(_ sender: Any) {
-        //        citySearchTextField.becomeFirstResponder()
         placesTableView.isHidden = false
     }
     
     @IBAction func breakfastButtonTapped(_ sender: Any) {
         breakfastButton.backgroundColor = .systemPink
-        //        breakfastButton.setTitleColor(.white, for: .normal)
         lunchButton.backgroundColor = .white
         dinnerButton.backgroundColor = .white
         dessertButton.backgroundColor = .white

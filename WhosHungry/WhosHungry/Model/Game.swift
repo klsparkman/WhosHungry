@@ -9,14 +9,14 @@
 import Foundation
 
 struct Game {
-    let uid: String
+    let inviteCode: String
     let users: [User]
     let city: String
     let radius: Double
     let category: String
     
-    init(uid: String, users: [User], city: String, radius: Double, category: String) {
-        self.uid = uid
+    init(inviteCode: String, users: [User], city: String, radius: Double, category: String) {
+        self.inviteCode = inviteCode
         self.users = users
         self.city = city
         self.radius = radius

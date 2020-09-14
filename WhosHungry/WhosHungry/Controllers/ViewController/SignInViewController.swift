@@ -69,8 +69,6 @@ class SignInViewController: UIViewController {
         controller.delegate = self
         controller.presentationContextProvider = self
         controller.performRequests()
-        //        UserDefaults.standard.set(true, forKey: "isLoggedIn")
-        //        UserDefaults.standard.synchronize()
     }
     
     private func sha256(_ input: String) -> String {
@@ -138,6 +136,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                 case let appleIDCredential as ASAuthorizationAppleIDCredential:
                     let user = User(credentials: appleIDCredential)
                     Firebase.shared.createUser(user: user)
+                    GameChoiceViewController.shared.currentUser = user
                     if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
                         if let navigator = self.navigationController {
                             navigator.pushViewController(viewController, animated: true)
@@ -146,18 +145,6 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                 default:
                     break
                 }
-                
-                
-                //                let user = User(credentials: appleIDCredential)
-                //                Firebase.shared.createUser(user: user)
-                //                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
-                //                    if let navigator = self.navigationController {
-                //                        navigator.pushViewController(viewController, animated: true)
-                //                    }
-                //                }
-                
-                
-                
             }
         }
     }
@@ -182,16 +169,3 @@ extension UILabel {
         self.layer.shadowOpacity = 1.0
     }
 }
-
-//        switch authorization.credential {
-//        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-//            let user = User(credentials: appleIDCredential)
-//            Firebase.shared.createUser(user: user)
-//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
-//                if let navigator = navigationController {
-//                    navigator.pushViewController(viewController, animated: true)
-//                }
-//            }
-//        default:
-//            break
-//        }
