@@ -20,6 +20,7 @@ struct Constants {
     static let city = "city"
     static let radius = "radius"
     static let mealType = "mealType"
-    static let id = "id"
+    static let uid = "uid"
     static let email = "email"
+    static let creatorID = "creatorID"
 }

@@ -211,9 +211,10 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             let city = citySearchTextField.text,
             let category = category,
             let radius = Double("\(radiusLabel.text!)")
+//            let creatorID
             else {return}
         gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, category: category)
+        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, category: category, creatorID: "FIX ME")
         Firebase.shared.createGame(game: game)
 
         db.collection(Constants.userContainer).document(Constants.user).setData([Constants.inviteCode : inviteCode], merge: true)
