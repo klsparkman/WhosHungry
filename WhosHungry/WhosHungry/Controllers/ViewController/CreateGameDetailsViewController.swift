@@ -40,6 +40,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var category: String?
     var gameInviteCode: String?
     let db = Firestore.firestore()
+    var currentUser = UserController.shared.currentUser
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -207,17 +208,25 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     
     @IBAction func createGameButtonPressed(_ sender: Any) {
         guard let inviteCode = codeLabel.text,
-            let users = users,
-            let city = citySearchTextField.text,
-            let category = category,
-            let radius = Double("\(radiusLabel.text!)")
-//            let creatorID
-            else {return}
+              let users = users,
+              let city = citySearchTextField.text,
+              let category = category,
+              let radius = Double("\(radiusLabel.text!)"),
+              let creatorID = currentUser?.uid
+        else {return}
         gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, category: category, creatorID: "FIX ME")
-        Firebase.shared.createGame(game: game)
-
-        db.collection(Constants.userContainer).document(Constants.user).setData([Constants.inviteCode : inviteCode], merge: true)
+        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, category: category, creatorID: creatorID)
+        Firebase.shared.createGame(game: game) { (result) in
+            // MORE TO DO HERE!!!
+            switch result {
+            case .success(let game):
+                print("Game saved successfully: \(game)")
+            case .failure(let error):
+                print("Error saving game: \(error)")
+            }
+        }
+        
+        //        db.collection(Constants.userContainer).document(Constants.user).setData([Constants.inviteCode : inviteCode], merge: true)
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {

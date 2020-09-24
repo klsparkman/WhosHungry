@@ -9,28 +9,24 @@
 import Foundation
 import AuthenticationServices
 
-struct User {
-    let uid: String
+struct User: Decodable {
     let firstName: String
     let lastName: String
     let email: String
-    let inviteCode: String = ""
+    let uid: String
+    
+    init(firstName: String, lastName: String, email: String, uid: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        self.uid = uid
+    }
     
     init(credentials: ASAuthorizationAppleIDCredential) {
         self.uid = credentials.user
         self.firstName = credentials.fullName?.givenName ?? ""
         self.lastName = credentials.fullName?.familyName ?? ""
         self.email = credentials.email ?? ""
-    }
-}
-
-class UserInfo {
-    let firstName: String
-    let lastName: String
-    
-    init(firstName: String, lastName: String) {
-        self.firstName = firstName
-        self.lastName = lastName
     }
 }
 
@@ -46,22 +42,12 @@ extension User: CustomDebugStringConvertible {
 }
 
 extension User {
-    init(inviteCode: [String : Any]) {
-        self.init(inviteCode: inviteCode)
+    init?(dictionary: [String : Any]) {
+        guard let firstName = dictionary[Constants.firstName] as? String,
+        let lastName = dictionary[Constants.lastName] as? String,
+        let email = dictionary[Constants.email] as? String,
+        let uid = dictionary[Constants.uid] as? String
+        else {return nil}
+        self.init(firstName: firstName, lastName: lastName, email: email, uid: uid)
     }
 }
-
-//extension User {
-//    init(dictionary: [String : Any]) {
-////        guard (dictionary["inviteCode"] as? String) != nil else {return}
-//        let inviteCode = dictionary["inviteCode"] as? String
-//        self.init(inviteCode: inviteCode)
-//
-//    }
-//}
-
-//extension User {
-//    init(firstName: String, lastName: String, ) {
-//        
-//    }
-//}

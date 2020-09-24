@@ -19,7 +19,7 @@ class UserController: NSObject {
     fileprivate var currentNonce: String?
     fileprivate var presentationVC: UIViewController?
     let db = Firestore.firestore()
-    var userUID: String?
+//    var userUID: String?
     var navigationController: UINavigationController?
     
     private override init() {
@@ -80,23 +80,10 @@ class UserController: NSObject {
     
     func transitionToGameChoice() {
         if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
-            if let navigator = self.navigationController {
+            if let navigator = navigationController {
                 navigator.pushViewController(viewController, animated: true)
             }
         }
-    }
-    
-    func checkIfUserExists() -> Bool {
-        guard let userUID = userUID else {return false}
-        db.collection(Constants.userContainer).whereField(Constants.uid, isEqualTo: userUID).getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error getting documents: \(error)")
-            } else {
-                self.transitionToGameChoice()
-            }
-        }
-        print("This user exists: \(userUID)")
-        return true
     }
 }
 
@@ -115,30 +102,60 @@ extension UserController: ASAuthorizationControllerDelegate {
                 return
             }
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            Auth.auth().signIn(with: credential) { (authDataResult, error) in
-                if let user = authDataResult?.user {
-                    print("Nice! You're now signed in as \(user.uid)")
-                    self.userUID = user.uid
-                }
-                
-                switch authorization.credential {
-                case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                    let user = User(credentials: appleIDCredential)
-                    //Check to see if user exists in Firestore
-                    if self.checkIfUserExists() == false {
-                        //If not, createUser
-                        self.db.collection(Constants.userContainer).addDocument(data: [Constants.uid : self.userUID!,
-                                                                                       Constants.firstName : user.firstName,
-                                                                                       Constants.lastName : user.lastName,
-                                                                                       Constants.email : user.email])
-                        self.transitionToGameChoice()
+            
+                Auth.auth().signIn(with: credential) { (authDataResult, error) in
+                    //handle error
+                    if let authUser = authDataResult?.user {
+                        print(authUser.uid)
+                        // Fetch a user in Firebase using the authenticated uid
+                        Firebase.shared.fetchUser(withID: authUser.uid) { (result) in
+                            
+                            switch result {
+                            //First success is there was already a user in Firebase, and we are adding to currentUser
+                            case .success(let user):
+                                if let user = user {
+                                    self.currentUser = user
+                                    self.transitionToGameChoice()
+                                    print("We found a user in Firebase")
+                                } else {
+                                    //If there wasn't, create a new user in Firestore
+                                    guard let user = user else {return}
+                                    Firebase.shared.createUser(with: user) { (result) in
+                                        switch result {
+                                        //We successfully created a user in Firebase
+                                        case .success(let user):
+                                            if let user = user {
+                                                self.currentUser = user
+                                                self.transitionToGameChoice()
+                                            } else {
+                                                print("Need to do something else here!!!")
+                                            }
+                                            //We did not successfully create a user
+                                            //Need to give another option to the user to sign in?
+                                        case .failure(let error):
+                                            print("Error creating user: \(error)")
+                                            SignInViewController.shared.loginFailureAlert()
+                                        }
+                                    }
+                                }
+                            case .failure(let error):
+                                print("Error fetching user \(error)")
+                            }
+                        }
                     }
-                    //Still set currentUser
-                    self.currentUser = user
-                    
-                default:
-                    break
                 }
+            self.transitionToGameChoice()
+            
+            switch authorization.credential {
+            case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                let user = User(credentials: appleIDCredential)
+                  
+                //Still set currentUser
+                self.currentUser = user
+                self.transitionToGameChoice()
+                
+            default:
+                break
             }
         }
     }
@@ -165,11 +182,8 @@ func authorizationController(controller: ASAuthorizationController, didCompleteW
     print("Right here.... Something went wrong", error)
 }
 
-
 extension UserController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         presentationVC!.view.window!
     }
 }
-
-

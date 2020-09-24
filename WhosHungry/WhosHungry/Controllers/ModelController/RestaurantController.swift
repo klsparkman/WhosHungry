@@ -15,7 +15,7 @@ class RestaurantController {
     static let shared = RestaurantController()
     var restaurants: [Restaurant] = []
     var restaurantsWithImages: [Restaurant] = []
-    var users: [UserInfo] = []
+    var users: [User] = []
     
     private init() {
     }

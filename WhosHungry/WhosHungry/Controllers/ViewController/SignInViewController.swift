@@ -16,10 +16,12 @@ class SignInViewController: UIViewController {
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     
+    // Mark: - Properties
+    static var shared = SignInViewController()
+    
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if Auth.auth().currentUser != nil {
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
                 if let navigator = navigationController {
@@ -56,6 +58,16 @@ class SignInViewController: UIViewController {
     
     @objc func didTapAppleButton() {
         UserController.shared.didTapAppleButton(in: self)
+    }
+    
+    func loginFailureAlert() {
+        let alert = UIAlertController(title: "Error", message: "Please try signing in again", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Ok", style: .default) { (_) in
+            let viewController = SignInViewController()
+            self.present(viewController, animated: true, completion: nil)
+        }
+        alert.addAction(okButton)
+        self.present(alert, animated: true)
     }
 }
 
