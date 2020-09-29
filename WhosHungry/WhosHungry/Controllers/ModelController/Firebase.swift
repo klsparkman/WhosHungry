@@ -39,33 +39,32 @@ class Firebase {
         }
     }
     
-    func createUser(with user: User, completion: @escaping (Result<User?, Error>) -> Void) {
-        let userDictionary: [String : Any] = [Constants.firstName : user.firstName,
-                                              Constants.lastName : user.lastName,
-                                              Constants.email : user.email,
-                                              Constants.uid : user.uid]
+    func createUser(with name: String, email: String, uid: String, completion: @escaping (Result<User?, UserError>) -> Void) {
+        let userDictionary: [String : Any] = [Constants.firstName : name,
+                                              Constants.email : email,
+                                              Constants.uid : uid]
 
         db.collection(Constants.userContainer).addDocument(data: userDictionary) { (error) in
             if let error = error {
                 print("There was an error creating a user: \(error)")
-                return
+                completion(.failure(.firebaseError(error)))
             } else {
                 print("Successfully created a user!")
+//                completion(.success(user))
             }
         }
     }
     
-    func fetchUser(withID id: String, completion: @escaping (Result<User?, Error>) -> Void) {
+    func fetchUser(withID id: String, completion: @escaping (Result<User?, FirebaseError>) -> Void) {
         db.collection(Constants.userContainer).whereField(Constants.uid, isEqualTo: id).getDocuments { (querySnapshot, error) in
             if let error = error {
-                completion(.failure(error))
                 print("Error getting documents: \(error)")
+                completion(.failure(.fbError(error)))
             } else if let firstDocument = querySnapshot?.documents.first {
                 let user = User(dictionary: firstDocument.data())
                 completion(.success(user))
             } else {
-                let user = User(dictionary: <#T##[String : Any]#>)
-                completion(.success(user))
+                completion(.success(nil))
             }
         }
     }

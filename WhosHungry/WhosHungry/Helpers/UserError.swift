@@ -9,13 +9,18 @@
 import Foundation
 
 enum UserError: LocalizedError {
+    
     case noData
+    case firebaseError(Error)
     
     var errorDescription: String? {
         switch self {
         case .noData:
             return "Server responded with no data."
+        case .firebaseError(let error):
+            return ("Firebase returned with an error: \(error)")
         }
     }
-    
 }
+
+

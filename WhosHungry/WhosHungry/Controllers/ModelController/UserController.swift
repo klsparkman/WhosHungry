@@ -19,8 +19,9 @@ class UserController: NSObject {
     fileprivate var currentNonce: String?
     fileprivate var presentationVC: UIViewController?
     let db = Firestore.firestore()
-//    var userUID: String?
+    //    var userUID: String?
     var navigationController: UINavigationController?
+//    fileprivate var user: User?
     
     private override init() {
         super.init()
@@ -32,7 +33,7 @@ class UserController: NSObject {
         currentNonce = nonce
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
-        request.requestedScopes = [.fullName, .email]
+        request.requestedScopes = [.fullName]
         request.nonce = sha256(nonce)
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
@@ -103,83 +104,85 @@ extension UserController: ASAuthorizationControllerDelegate {
             }
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-                Auth.auth().signIn(with: credential) { (authDataResult, error) in
-                    //handle error
-                    if let authUser = authDataResult?.user {
-                        print(authUser.uid)
-                        // Fetch a user in Firebase using the authenticated uid
-                        Firebase.shared.fetchUser(withID: authUser.uid) { (result) in
-                            
-                            switch result {
-                            //First success is there was already a user in Firebase, and we are adding to currentUser
-                            case .success(let user):
-                                if let user = user {
-                                    self.currentUser = user
-                                    self.transitionToGameChoice()
-                                    print("We found a user in Firebase")
-                                } else {
-                                    //If there wasn't, create a new user in Firestore
-                                    guard let user = user else {return}
-                                    Firebase.shared.createUser(with: user) { (result) in
-                                        switch result {
-                                        //We successfully created a user in Firebase
-                                        case .success(let user):
-                                            if let user = user {
-                                                self.currentUser = user
-                                                self.transitionToGameChoice()
-                                            } else {
-                                                print("Need to do something else here!!!")
-                                            }
-                                            //We did not successfully create a user
-                                            //Need to give another option to the user to sign in?
-                                        case .failure(let error):
-                                            print("Error creating user: \(error)")
-                                            SignInViewController.shared.loginFailureAlert()
+            Auth.auth().signIn(with: credential) { (authDataResult, error) in
+                //handle error
+                if let error = error {
+                    print("Error signing in: \(error)")
+                }
+                if let authUser = authDataResult?.user {
+                    print(authUser.uid)
+                    print(authUser.displayName) 
+                    // Fetch a user in Firebase using the authenticated uid
+                    Firebase.shared.fetchUser(withID: authUser.uid) { (result) in
+                        
+                        switch result {
+                        //First success is there was already a user in Firebase, and we are adding to currentUser
+                        case .success(let user):
+                            if let user = user {
+                                self.currentUser = user
+                                self.transitionToGameChoice()
+                                print("We found a user in Firebase")
+                            } else {
+                                //If there wasn't, create a new user in Firestore
+                                guard let name = authUser.displayName,
+                                      let email = authUser.email else {return}
+                                let uid = authUser.uid
+                                Firebase.shared.createUser(with: name, email: email, uid: uid) { (result) in
+                                    switch result {
+                                    //We successfully created a user in Firebase
+                                    case .success(let user):
+                                        if let user = user {
+                                            self.currentUser = user
+                                            self.transitionToGameChoice()
+                                        } else {
+                                            print("Need to do something else here!!!")
                                         }
+                                    //We did not successfully create a user
+                                    //Need to give another option to the user to sign in?
+                                    case .failure(let error):
+                                        print("Error creating user: \(error)")
+                                        SignInViewController.shared.loginFailureAlert()
                                     }
                                 }
-                            case .failure(let error):
-                                print("Error fetching user \(error)")
+                                //                                }
                             }
+                        case .failure(let error):
+                            print("Error doing stuff: \(error)")
+                            
                         }
                     }
                 }
-            self.transitionToGameChoice()
-            
-            switch authorization.credential {
-            case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                let user = User(credentials: appleIDCredential)
-                  
-                //Still set currentUser
-                self.currentUser = user
                 self.transitionToGameChoice()
                 
-            default:
-                break
+                switch authorization.credential {
+                case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                    let user = User(credentials: appleIDCredential)
+                    
+                    //Still set currentUser
+                    self.currentUser = user
+                    
+                default:
+                    break
+                }
             }
         }
     }
-}
-
-func signIn(providerID: String, idTokenString: String, nonce: String, completion: @escaping (Result<AuthDataResult, UserError>) -> Void) {
     
-    let credential = OAuthProvider.credential(withProviderID: providerID, idToken: idTokenString, rawNonce: nonce)
-    Auth.auth().signIn(with: credential) { (authDataResult, error) in
-        if let error = error {
-            print(error.localizedDescription)
-            completion(.failure(.noData))
-            return
-        }
-        guard let authDataResult = authDataResult else {
-            completion(.failure(.noData))
-            return
-        }
-        completion(.success(authDataResult))
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Right here.... Something went wrong", error)
     }
-}
-
-func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-    print("Right here.... Something went wrong", error)
+    
+    func performExistingAccountSetupFlows() {
+        // Prepare requests for both Apple ID and password providers.
+        let requests = [ASAuthorizationAppleIDProvider().createRequest()]
+        
+        // Create an authorization controller with the given requests.
+        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+    
 }
 
 extension UserController: ASAuthorizationControllerPresentationContextProviding {

@@ -22,12 +22,15 @@ class SignInViewController: UIViewController {
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Auth.auth().currentUser != nil {
+        if let currentUser = Auth.auth().currentUser {
+            
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
                 if let navigator = navigationController {
                     navigator.pushViewController(viewController, animated: true)
                 }
             }
+        } else {
+            UserController.shared.performExistingAccountSetupFlows()
         }
         titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
