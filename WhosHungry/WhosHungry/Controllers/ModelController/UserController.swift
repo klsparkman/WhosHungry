@@ -19,9 +19,8 @@ class UserController: NSObject {
     fileprivate var currentNonce: String?
     fileprivate var presentationVC: UIViewController?
     let db = Firestore.firestore()
-    //    var userUID: String?
     var navigationController: UINavigationController?
-//    fileprivate var user: User?
+    let defaults = UserDefaults.standard
     
     private override init() {
         super.init()
@@ -33,7 +32,7 @@ class UserController: NSObject {
         currentNonce = nonce
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
-        request.requestedScopes = [.fullName]
+        request.requestedScopes = [.fullName, .email]
         request.nonce = sha256(nonce)
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
@@ -90,6 +89,7 @@ class UserController: NSObject {
 
 extension UserController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
@@ -102,8 +102,13 @@ extension UserController: ASAuthorizationControllerDelegate {
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce, accessToken: nil)
             
+            defaults.setValue(appleIDCredential.fullName?.givenName, forKey: "firstName")
+            defaults.setValue(appleIDCredential.fullName?.familyName, forKey: "lastName")
+            defaults.setValue(appleIDCredential.email, forKey: "email")
+            defaults.synchronize()
+
             Auth.auth().signIn(with: credential) { (authDataResult, error) in
                 //handle error
                 if let error = error {
@@ -111,10 +116,9 @@ extension UserController: ASAuthorizationControllerDelegate {
                 }
                 if let authUser = authDataResult?.user {
                     print(authUser.uid)
-                    print(authUser.displayName) 
                     // Fetch a user in Firebase using the authenticated uid
                     Firebase.shared.fetchUser(withID: authUser.uid) { (result) in
-                        
+
                         switch result {
                         //First success is there was already a user in Firebase, and we are adding to currentUser
                         case .success(let user):
@@ -124,10 +128,11 @@ extension UserController: ASAuthorizationControllerDelegate {
                                 print("We found a user in Firebase")
                             } else {
                                 //If there wasn't, create a new user in Firestore
-                                guard let name = authUser.displayName,
-                                      let email = authUser.email else {return}
+                                guard let firstName = self.defaults.string(forKey: "firstName"),
+                                      let lastName = self.defaults.string(forKey: "lastName"),
+                                      let email = self.defaults.string(forKey: "email") else {return}
                                 let uid = authUser.uid
-                                Firebase.shared.createUser(with: name, email: email, uid: uid) { (result) in
+                                Firebase.shared.createUser(with: firstName, lastName: lastName, email: email, uid: uid) { (result) in
                                     switch result {
                                     //We successfully created a user in Firebase
                                     case .success(let user):
@@ -144,23 +149,22 @@ extension UserController: ASAuthorizationControllerDelegate {
                                         SignInViewController.shared.loginFailureAlert()
                                     }
                                 }
-                                //                                }
                             }
                         case .failure(let error):
                             print("Error doing stuff: \(error)")
-                            
+
                         }
                     }
                 }
                 self.transitionToGameChoice()
-                
+
                 switch authorization.credential {
                 case let appleIDCredential as ASAuthorizationAppleIDCredential:
                     let user = User(credentials: appleIDCredential)
-                    
+
                     //Still set currentUser
                     self.currentUser = user
-                    
+
                 default:
                     break
                 }
@@ -172,17 +176,16 @@ extension UserController: ASAuthorizationControllerDelegate {
         print("Right here.... Something went wrong", error)
     }
     
-    func performExistingAccountSetupFlows() {
-        // Prepare requests for both Apple ID and password providers.
-        let requests = [ASAuthorizationAppleIDProvider().createRequest()]
-        
-        // Create an authorization controller with the given requests.
-        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
-    }
-    
+//    func performExistingAccountSetupFlows() {
+//        // Prepare requests for both Apple ID and password providers.
+//        let requests = [ASAuthorizationAppleIDProvider().createRequest()]
+//        
+//        // Create an authorization controller with the given requests.
+//        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
+//        authorizationController.delegate = self
+//        authorizationController.presentationContextProvider = self
+//        authorizationController.performRequests()
+//    }
 }
 
 extension UserController: ASAuthorizationControllerPresentationContextProviding {

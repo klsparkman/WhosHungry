@@ -31,16 +31,17 @@ class Firebase {
         db.collection(Constants.gameContainer).document(gameUID).setData(gameDictionary) { (error) in
             if let error = error {
                 print("There was an error creating a game: \(error)")
-                return
+                completion(.failure(error))
             } else {
                 print("Successfully created a game!")
-                //Segue to UserListTableViewController
+                completion(.success(game))
             }
         }
     }
     
-    func createUser(with name: String, email: String, uid: String, completion: @escaping (Result<User?, UserError>) -> Void) {
-        let userDictionary: [String : Any] = [Constants.firstName : name,
+    func createUser(with firstName: String, lastName: String, email: String, uid: String, completion: @escaping (Result<User?, UserError>) -> Void) {
+        let userDictionary: [String : Any] = [Constants.firstName : firstName,
+                                              Constants.lastName : lastName,
                                               Constants.email : email,
                                               Constants.uid : uid]
 
@@ -49,8 +50,8 @@ class Firebase {
                 print("There was an error creating a user: \(error)")
                 completion(.failure(.firebaseError(error)))
             } else {
-                print("Successfully created a user!")
-//                completion(.success(user))
+                let user = User(dictionary: userDictionary)
+                completion(.success(user))
             }
         }
     }

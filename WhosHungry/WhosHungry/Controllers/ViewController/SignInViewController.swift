@@ -29,9 +29,10 @@ class SignInViewController: UIViewController {
                     navigator.pushViewController(viewController, animated: true)
                 }
             }
-        } else {
-            UserController.shared.performExistingAccountSetupFlows()
         }
+//        else {
+//            UserController.shared.performExistingAccountSetupFlows()
+//        }
         titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
             self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
