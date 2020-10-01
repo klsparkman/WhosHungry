@@ -40,6 +40,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var category: String?
     var gameInviteCode: String?
     let db = Firestore.firestore()
+    var currentUser = UserController.shared.currentUser
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -207,16 +208,25 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     
     @IBAction func createGameButtonPressed(_ sender: Any) {
         guard let inviteCode = codeLabel.text,
-            let user = users,
-            let city = citySearchTextField.text,
-            let category = category,
-            let radius = Double("\(radiusLabel.text!)")
-            else {return}
+              let users = users,
+              let city = citySearchTextField.text,
+              let category = category,
+              let radius = Double("\(radiusLabel.text!)"),
+              let creatorID = currentUser?.uid
+        else {return}
         gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(inviteCode: inviteCode, users: user, city: city, radius: radius, category: category)
-        Firebase.shared.createGame(game: game)
-
-        db.collection("userContainer").document("user").setData(["inviteCode" : inviteCode], merge: true)
+        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, category: category, creatorID: creatorID)
+        Firebase.shared.createGame(game: game) { (result) in
+            // MORE TO DO HERE!!!
+            switch result {
+            case .success(let game):
+                print("Game saved successfully: \(game)")
+            case .failure(let error):
+                print("Error saving game: \(error)")
+            }
+        }
+        
+        //        db.collection(Constants.userContainer).document(Constants.user).setData([Constants.inviteCode : inviteCode], merge: true)
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
@@ -316,14 +326,14 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         guard let cell = placesTableView.dequeueReusableCell(withIdentifier: "placesCell") else {return UITableViewCell()}
         if let placeName = cell.contentView.viewWithTag(102) as? UILabel {
             let place = self.resultsArray[indexPath.row]
-            placeName.text = "\(place["formatted_address"] as! String)"
+            placeName.text = "\(place[Constants.address] as! String)"
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = resultsArray[indexPath.row]
-        citySearchTextField.text = "\(selectedCity["formatted_address"] as! String)"
+        citySearchTextField.text = "\(selectedCity[Constants.address] as! String)"
         placesTableView.isHidden = true
     }
 }//End of class

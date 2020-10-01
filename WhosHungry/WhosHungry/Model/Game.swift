@@ -14,12 +14,14 @@ struct Game {
     let city: String
     let radius: Double
     let category: String
+    let creatorID: String
     
-    init(inviteCode: String, users: [User], city: String, radius: Double, category: String) {
+    init(inviteCode: String, users: [User], city: String, radius: Double, category: String, creatorID: String) {
         self.inviteCode = inviteCode
         self.users = users
         self.city = city
         self.radius = radius
         self.category = category
+        self.creatorID = creatorID
     }
 }
