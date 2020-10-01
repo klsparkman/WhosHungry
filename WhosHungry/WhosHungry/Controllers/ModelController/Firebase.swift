@@ -70,6 +70,10 @@ class Firebase {
         }
     }
     
+    func fetchGame(with inviteCode: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
+        
+    }
+    
 //    func getUserCollection() {
 //        getInviteCodeDocument()
 //        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: userInviteCode)

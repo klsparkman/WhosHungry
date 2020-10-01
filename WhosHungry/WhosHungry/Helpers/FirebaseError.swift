@@ -23,9 +23,3 @@ enum FirebaseError: LocalizedError {
         }
     }
 }
-
-//extension FirebaseError: Equatable {
-//    static func == (lhs: FirebaseError, rhs: FirebaseError) -> Bool {
-//        return lhs.errorDescription == rhs.errorDescription
-//    }
-//}
