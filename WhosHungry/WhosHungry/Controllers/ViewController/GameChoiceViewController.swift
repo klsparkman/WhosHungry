@@ -38,10 +38,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     // Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
-        
-//        guard let user = currentUser else {return}
-//        RestaurantController.shared.users.append(user)
-//        CreateGameDetailsViewController.shared.users!.append(user)
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
@@ -52,7 +48,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
-        
+        GameController.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {

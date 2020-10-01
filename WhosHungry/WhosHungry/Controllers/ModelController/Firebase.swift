@@ -25,7 +25,7 @@ class Firebase {
                                               Constants.users : game.users,
                                               Constants.city : game.city,
                                               Constants.radius : game.radius,
-                                              Constants.mealType : game.category,
+                                              Constants.mealType : game.mealType,
                                               Constants.creatorID : game.creatorID]
         
         db.collection(Constants.gameContainer).document(gameUID).setData(gameDictionary) { (error) in
@@ -70,8 +70,16 @@ class Firebase {
         }
     }
     
-    func fetchGame(with inviteCode: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
-        
+    func fetchGame(withinviteCode inviteCode: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
+        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion(.failure(.firebaseError(error)))
+            } else {
+//                guard let game = Game(inviteCode: inviteCode) else {return}
+                completion(.success(nil))
+            }
+        }
     }
     
 //    func getUserCollection() {

@@ -13,15 +13,28 @@ struct Game {
     let users: [User]
     let city: String
     let radius: Double
-    let category: String
+    let mealType: String
     let creatorID: String
     
-    init(inviteCode: String, users: [User], city: String, radius: Double, category: String, creatorID: String) {
+    init(inviteCode: String, users: [User], city: String, radius: Double, mealType: String, creatorID: String) {
         self.inviteCode = inviteCode
         self.users = users
         self.city = city
         self.radius = radius
-        self.category = category
+        self.mealType = mealType
         self.creatorID = creatorID
     }
+}
+
+extension Game {
+    init?(inviteCode: String) {
+        let inviteCode = inviteCode
+        self.init(inviteCode: inviteCode)
+    }
+    
+//    init?(dictionary: [String : Any]) {
+//        guard let inviteCode = dictionary[Constants.inviteCode] as? String
+//        else {return}
+//        self.init(dictionary: inviteCode)
+//    }
 }
