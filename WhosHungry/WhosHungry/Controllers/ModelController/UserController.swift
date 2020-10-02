@@ -11,6 +11,10 @@ import CryptoKit
 import AuthenticationServices
 import Firebase
 
+protocol UserControllerDelegate: class {
+    func userLoggedIn(_ sender: Bool)
+}
+
 class UserController: NSObject {
     
     // Mark: - Properties
@@ -21,6 +25,7 @@ class UserController: NSObject {
     let db = Firestore.firestore()
     var navigationController: UINavigationController?
     let defaults = UserDefaults.standard
+    weak var delegate: UserControllerDelegate?
     
     private override init() {
         super.init()
@@ -77,14 +82,6 @@ class UserController: NSObject {
         }
         return result
     }
-    
-    func transitionToGameChoice() {
-        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
-            if let navigator = navigationController {
-                navigator.pushViewController(viewController, animated: true)
-            }
-        }
-    }
 }
 
 extension UserController: ASAuthorizationControllerDelegate {
@@ -124,7 +121,7 @@ extension UserController: ASAuthorizationControllerDelegate {
                         case .success(let user):
                             if let user = user {
                                 self.currentUser = user
-                                self.transitionToGameChoice()
+                                self.delegate?.userLoggedIn(true)
                                 print("We found a user in Firebase")
                             } else {
                                 //If there wasn't, create a new user in Firestore
@@ -138,7 +135,7 @@ extension UserController: ASAuthorizationControllerDelegate {
                                     case .success(let user):
                                         if let user = user {
                                             self.currentUser = user
-                                            self.transitionToGameChoice()
+                                            self.delegate?.userLoggedIn(true)
                                         } else {
                                             print("Need to do something else here!!!")
                                         }
@@ -156,7 +153,6 @@ extension UserController: ASAuthorizationControllerDelegate {
                         }
                     }
                 }
-                self.transitionToGameChoice()
 
                 switch authorization.credential {
                 case let appleIDCredential as ASAuthorizationAppleIDCredential:

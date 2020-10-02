@@ -12,7 +12,7 @@ import AuthenticationServices
 import FirebaseAuth
 
 class SignInViewController: UIViewController {
-    
+
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -22,8 +22,8 @@ class SignInViewController: UIViewController {
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserController.shared.delegate = self
         if let currentUser = Auth.auth().currentUser {
-            
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
                 if let navigator = navigationController {
                     navigator.pushViewController(viewController, animated: true)
@@ -73,7 +73,7 @@ class SignInViewController: UIViewController {
         alert.addAction(okButton)
         self.present(alert, animated: true)
     }
-}
+}//End of class
 
 extension UILabel {
     func UILabelTextShadow(color: UIColor) {
@@ -82,5 +82,17 @@ extension UILabel {
         self.layer.shadowOffset = CGSize(width: 2, height: 2)
         self.layer.shadowRadius = 8.0
         self.layer.shadowOpacity = 1.0
+    }
+}//End of extension
+
+extension SignInViewController: UserControllerDelegate {
+    func userLoggedIn(_ sender: Bool) {
+        if sender == true {
+            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
+                if let navigator = navigationController {
+                    navigator.pushViewController(viewController, animated: true)
+                }
+            }
+        }
     }
 }
