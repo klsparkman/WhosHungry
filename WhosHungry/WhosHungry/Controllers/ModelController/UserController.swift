@@ -122,6 +122,7 @@ extension UserController: ASAuthorizationControllerDelegate {
                             if let user = user {
                                 self.currentUser = user
                                 self.delegate?.userLoggedIn(true)
+                                RestaurantController.shared.users.append(user)
                                 print("We found a user in Firebase")
                             } else {
                                 //If there wasn't, create a new user in Firestore

@@ -19,7 +19,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     // Mark: - Properties
     static let shared = GameChoiceViewController()
-    var currentUser: User?
+    var currentUser = UserController.shared.currentUser
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -45,10 +45,13 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         if pasteCodeTextField != nil {
             joinThePartyButton.isHidden = false
         }
+        
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
         GameController.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
+//        let user = User(firstName: <#T##String#>, lastName: <#T##String#>, email: <#T##String#>, uid: <#T##String#>)
+//        RestaurantController.shared.users.append(user)
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {

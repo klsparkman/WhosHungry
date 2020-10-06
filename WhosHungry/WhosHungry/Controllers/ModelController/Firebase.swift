@@ -62,7 +62,7 @@ class Firebase {
                 print("Error getting documents: \(error)")
                 completion(.failure(.fbError(error)))
             } else if let firstDocument = querySnapshot?.documents.first {
-                let user = User(dictionary: firstDocument.data())
+                guard let user = User(dictionary: firstDocument.data()) else {return}
                 completion(.success(user))
             } else {
                 completion(.success(nil))
@@ -82,25 +82,22 @@ class Firebase {
         }
     }
     
-//    func getUserCollection() {
-//        getInviteCodeDocument()
-//        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: userInviteCode)
-//            .getDocuments { (querySnapshot, error) in
-//                if let error = error {
-//                    print("Error getting documents: \(error)")
-//                } else {
-//                    guard let snapshot = querySnapshot else {return}
-//                    for document in snapshot.documents {
-//                        let data = document.data()
-//                        let firstName = data[Constants.firstName] as? String ?? "Who dis?"
-//                        let lastName = data[Constants.lastName] as? String ?? ""
-//
-//                        let user = UserInfo(firstName: firstName, lastName: lastName)
-//                        RestaurantController.shared.users.append(user)
-//                    }
-//                }
-//        }
-//    }
+    func getUserCollection() {
+        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: userInviteCode)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    guard let snapshot = querySnapshot else {return}
+                    for document in snapshot.documents {
+                        let data = document.data()
+                        let firstName = data[Constants.firstName] as? String ?? "Who dis?"
+                        let lastName = data[Constants.lastName] as? String ?? ""
+
+                    }
+                }
+        }
+    }
     
 //    private func getInviteCodeDocument() {
 //        db.collection(Constants.userContainer).document(Constants.user).getDocument { (document, error) in
