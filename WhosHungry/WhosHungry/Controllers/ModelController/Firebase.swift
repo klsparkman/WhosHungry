@@ -18,6 +18,7 @@ class Firebase {
     let db = Firestore.firestore()
     var userInviteCode: [Any] = []
     var navigationController: UINavigationController?
+    var users: [User] = []
     
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
         let gameUID = UUID().uuidString
@@ -25,8 +26,8 @@ class Firebase {
                                               Constants.users : game.users,
                                               Constants.city : game.city,
                                               Constants.radius : game.radius,
-                                              Constants.mealType : game.mealType,
-                                              Constants.creatorID : game.creatorID]
+                                              Constants.mealType : game.mealType]
+//                                              Constants.creatorID : game.creatorID
         
         db.collection(Constants.gameContainer).document(gameUID).setData(gameDictionary) { (error) in
             if let error = error {
@@ -83,17 +84,19 @@ class Firebase {
     }
     
     func getUserCollection() {
-        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: userInviteCode)
+        db.collection(Constants.gameContainer).whereField(Constants.users, isEqualTo: true)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     print("Error getting documents: \(error)")
                 } else {
                     guard let snapshot = querySnapshot else {return}
                     for document in snapshot.documents {
-                        let data = document.data()
-                        let firstName = data[Constants.firstName] as? String ?? "Who dis?"
-                        let lastName = data[Constants.lastName] as? String ?? ""
+                        let user = User(firstName: (document.data()[Constants.firstName] as? String ?? ""),
+                                        lastName: (document.data()[Constants.lastName] as? String ?? ""),
+                                        email: (document.data()[Constants.email] as? String ?? ""),
+                                        uid: (document.data()[Constants.uid] as? String ?? ""))
 
+                        RestaurantController.shared.users.append(user)
                     }
                 }
         }

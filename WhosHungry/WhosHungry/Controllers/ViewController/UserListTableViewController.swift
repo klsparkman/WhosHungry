@@ -18,6 +18,7 @@ class UserListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Firebase.shared.getUserCollection()
     }
     
     override func viewWillAppear(_ animated: Bool) {

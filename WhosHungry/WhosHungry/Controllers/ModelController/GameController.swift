@@ -15,7 +15,7 @@ class GameController: NSObject {
     static var shared = GameController()
     var currentGame: Game?
     let db = Firestore.firestore()
- 
+    
     private override init() {
         super.init()
     }
@@ -29,8 +29,12 @@ class GameController: NSObject {
                 print("There was an error fetching the game in Firestore: \(error)")
             //If there is a game that matches, add the user to the [User] in the game
             case .success(_):
-                guard let currentUser = UserController.shared.currentUser?.firstName else {return}
-                self.db.collection(Constants.gameContainer).document(Constants.users).updateData([Constants.users : currentUser])
+                print("We found a game that matches that invite code")
+                guard let currentUser = UserController.shared.currentUser else {return}
+//                let userRef = self.db.collection(Constants.gameContainer).document()
+                let userRef = self.db.collection(Constants.gameContainer).document(Constants.users)
+                userRef.updateData([Constants.users : FieldValue.arrayUnion([currentUser.firstName])
+                ])
             }
         }
     }

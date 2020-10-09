@@ -20,6 +20,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     // Mark: - Properties
     static let shared = GameChoiceViewController()
     var currentUser = UserController.shared.currentUser
+    let db = Firestore.firestore()
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -36,7 +37,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    // Mark: - Actions
+//     Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
     }
     
@@ -50,8 +51,9 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
         GameController.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
-//        let user = User(firstName: <#T##String#>, lastName: <#T##String#>, email: <#T##String#>, uid: <#T##String#>)
-//        RestaurantController.shared.users.append(user)
+        //        let user = User(firstName: <#T##String#>, lastName: <#T##String#>, email: <#T##String#>, uid: <#T##String#>)
+        //        RestaurantController.shared.users.append(user)
+        
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {

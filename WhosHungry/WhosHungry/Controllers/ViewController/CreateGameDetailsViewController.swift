@@ -211,21 +211,20 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let users = users,
               let city = citySearchTextField.text,
               let mealType = mealType,
-              let radius = Double("\(radiusLabel.text!)"),
-              let creatorID = currentUser?.uid
+              let radius = Double("\(radiusLabel.text!)")
+//              let creatorID = currentUser?.uid
         else {return}
-        gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType, creatorID: creatorID)
+//        gameInviteCode?.append(inviteCode) ?? nil
+        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType)
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
-            case .success(let game):
-                print("Game saved successfully: \(game)")
+            case .success(_):
+                GameController.shared.addUserToGame(inviteCode: inviteCode)
             case .failure(let error):
-                print("Error saving game: \(error)")
+                print("Error saving game: \(error.localizedDescription)")
             }
         }
-        
         //        db.collection(Constants.userContainer).document(Constants.user).setData([Constants.inviteCode : inviteCode], merge: true)
     }
     

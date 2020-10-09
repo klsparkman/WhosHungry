@@ -24,15 +24,16 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         UserController.shared.delegate = self
         if let currentUser = Auth.auth().currentUser {
-            let uid = currentUser.uid
-            Firebase.shared.fetchUser(withID: uid) { (result) in
-                switch result {
-                case .success(let user):
-                    RestaurantController.shared.users.append(user!)
-                case .failure(let error):
-                    print("Error fetching user in automatic signIn: \(error.localizedDescription)")
-                }
-            }
+//            let uid = currentUser.uid
+//            Firebase.shared.fetchUser(withID: uid) { (result) in
+//                switch result {
+//                case .success(let user):
+//                    GameController.shared.addUserToGame(inviteCode: <#T##String#>)
+//                    RestaurantController.shared.users.append(user!)
+//                case .failure(let error):
+//                    print("Error fetching user in automatic signIn: \(error.localizedDescription)")
+//                }
+//            }
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
                 if let navigator = navigationController {
                     navigator.pushViewController(viewController, animated: true)
