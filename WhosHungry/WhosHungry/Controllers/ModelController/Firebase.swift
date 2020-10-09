@@ -19,6 +19,7 @@ class Firebase {
     var userInviteCode: [Any] = []
     var navigationController: UINavigationController?
     var users: [User] = []
+    var gameUID: String?
     
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
         let gameUID = UUID().uuidString
@@ -35,7 +36,34 @@ class Firebase {
                 completion(.failure(error))
             } else {
                 print("Successfully created a game!")
+                self.gameUID = gameUID
                 completion(.success(game))
+            }
+        }
+    }
+    
+//    func getGameUID() {
+//        self.db.collection(Constants.gameContainer).getDocuments { (querySnapshot, error) in
+//            if let error = error {
+//                print("There was an error getting the gameUID: \(error.localizedDescription)")
+//            } else {
+//                for document in querySnapshot!.documents {
+//                    print(document.documentID)
+//                }
+//            }
+//        }
+//    }
+    
+    func getGameUID(inviteCode: String, completion: @escaping (Result<String, GameError>) -> Void) {
+        self.db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("There was an error getting the gameUID: \(error.localizedDescription)")
+                completion(.failure(.firebaseError(error)))
+            } else {
+                for document in querySnapshot!.documents {
+                    let gameUID = document.documentID
+                    completion(.success(gameUID))
+                }
             }
         }
     }
@@ -77,7 +105,6 @@ class Firebase {
                 print("Error getting documents: \(error)")
                 completion(.failure(.firebaseError(error)))
             } else {
-//                guard let game = Game(inviteCode: inviteCode) else {return}
                 completion(.success(nil))
             }
         }
