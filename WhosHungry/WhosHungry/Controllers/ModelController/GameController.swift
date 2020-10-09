@@ -13,9 +13,7 @@ class GameController: NSObject {
     
     // Mark: - Properties
     static var shared = GameController()
-    var currentGame: Game?
     let db = Firestore.firestore()
-    var gameUID: String?
     
     private override init() {
         super.init()
@@ -31,10 +29,13 @@ class GameController: NSObject {
             //If there is a game that matches, add the user to the [User] in the game
             case .success(_):
                 print("We found a game that matches that invite code")
+                //Get the documentID that matches the game with the given inviteCode
                 Firebase.shared.getGameUID(inviteCode: inviteCode) { (result) in
                     switch result {
+                    //There was an error getting the documentID
                     case .failure(let error):
                         print("Error: \(error)")
+                    //Successfully grabbed the documentID, add to the users field within the given document
                     case .success(let gameUID):
                         print(gameUID)
                         guard let currentUser = UserController.shared.currentUser else {return}
