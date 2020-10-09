@@ -19,7 +19,8 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     // Mark: - Properties
     static let shared = GameChoiceViewController()
-    var currentUser: User?
+    var currentUser = UserController.shared.currentUser
+    let db = Firestore.firestore()
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -28,7 +29,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         joinThePartyButton.isHidden = true
         createGameButton.layer.cornerRadius = 30
         joinGameButton.layer.cornerRadius = 30
-        pasteCodeTextField.delegate = self
+        self.pasteCodeTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,12 +37,8 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    // Mark: - Actions
+//     Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
-        
-//        guard let user = currentUser else {return}
-//        RestaurantController.shared.users.append(user)
-//        CreateGameDetailsViewController.shared.users!.append(user)
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
@@ -49,16 +46,24 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         if pasteCodeTextField != nil {
             joinThePartyButton.isHidden = false
         }
+        
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
+        GameController.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
+        //        let user = User(firstName: <#T##String#>, lastName: <#T##String#>, email: <#T##String#>, uid: <#T##String#>)
+        //        RestaurantController.shared.users.append(user)
         
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
-        pasteCodeTextField.becomeFirstResponder()
+//        pasteCodeTextField.becomeFirstResponder()
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)

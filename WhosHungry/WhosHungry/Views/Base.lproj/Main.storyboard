@@ -93,7 +93,8 @@
                                 </constraints>
                             </stackView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste Invite Code Here!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sjG-dm-KPM">
-                                <rect key="frame" x="23.333333333333343" y="460" width="328.33333333333326" height="50"/>
+                                <rect key="frame" x="23.333333333333343" y="450" width="328.33333333333326" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9ix-Gr-QyU"/>
                                 </constraints>
@@ -104,7 +105,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtX-8v-a71">
-                                <rect key="frame" x="0.0" y="520" width="351.66666666666669" height="33"/>
+                                <rect key="frame" x="0.0" y="510" width="351.66666666666669" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                 <state key="normal" title="Let's join the party">
@@ -135,7 +136,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wtv-r9-1xy" firstAttribute="trailing" secondItem="jKe-wI-2Ig" secondAttribute="trailing" id="4Hn-u1-jaz"/>
-                            <constraint firstItem="sjG-dm-KPM" firstAttribute="top" secondItem="BaQ-7E-5f6" secondAttribute="bottom" constant="80" id="B7r-uL-PnY"/>
+                            <constraint firstItem="sjG-dm-KPM" firstAttribute="top" secondItem="BaQ-7E-5f6" secondAttribute="bottom" constant="70" id="B7r-uL-PnY"/>
                             <constraint firstItem="BaQ-7E-5f6" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="trailing" multiplier="70/370" id="BQz-fT-M0c"/>
                             <constraint firstItem="jKe-wI-2Ig" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="leading" id="CNe-XK-QDQ"/>
                             <constraint firstItem="rtX-8v-a71" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="leading" multiplier="186/320" id="Fca-sh-Yaa"/>
@@ -366,6 +367,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type city here..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1en-vl-Mei">
                                 <rect key="frame" x="5" y="95" width="365" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="BDO-OU-1oO"/>
                                 </constraints>
@@ -543,7 +545,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bvu-lH-BQ0">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="ug7-pb-8vv">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.1" translatesAutoresizingMaskIntoConstraints="NO" id="ug7-pb-8vv">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SdS-s3-ji0">
@@ -557,26 +559,27 @@
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ready? Let's begin!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duq-os-idV">
                                                 <rect key="frame" x="8" y="8" width="283" height="60"/>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="Ftr-7k-J2c"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="28"/>
-                                                <color key="textColor" systemColor="systemTealColor"/>
+                                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="30"/>
+                                                <color key="textColor" systemColor="systemPinkColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I am pulling restaurants..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0oE-0O-5ab">
                                                 <rect key="frame" x="8" y="106" width="283" height="35"/>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="T5e-jz-LLw"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="20"/>
+                                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5bm-y1-mUV">
                                                 <rect key="frame" x="8" y="76" width="283" height="91"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -725,7 +728,7 @@
         <image name="arrow.left" catalog="system" width="128" height="98"/>
         <image name="background.5" width="800" height="1200"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
-        <image name="gradient" width="800" height="600"/>
+        <image name="gradient.1" width="800" height="1067"/>
         <image name="iceCreamNeon" width="800" height="1067"/>
         <image name="lessthan" catalog="system" width="128" height="111"/>
         <systemColor name="labelColor">

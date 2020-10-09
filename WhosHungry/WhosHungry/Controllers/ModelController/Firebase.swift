@@ -18,6 +18,8 @@ class Firebase {
     let db = Firestore.firestore()
     var userInviteCode: [Any] = []
     var navigationController: UINavigationController?
+    var users: [User] = []
+    var gameUID: String?
     
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
         let gameUID = UUID().uuidString
@@ -25,8 +27,8 @@ class Firebase {
                                               Constants.users : game.users,
                                               Constants.city : game.city,
                                               Constants.radius : game.radius,
-                                              Constants.mealType : game.category,
-                                              Constants.creatorID : game.creatorID]
+                                              Constants.mealType : game.mealType]
+//                                              Constants.creatorID : game.creatorID
         
         db.collection(Constants.gameContainer).document(gameUID).setData(gameDictionary) { (error) in
             if let error = error {
@@ -34,7 +36,34 @@ class Firebase {
                 completion(.failure(error))
             } else {
                 print("Successfully created a game!")
+                self.gameUID = gameUID
                 completion(.success(game))
+            }
+        }
+    }
+    
+//    func getGameUID() {
+//        self.db.collection(Constants.gameContainer).getDocuments { (querySnapshot, error) in
+//            if let error = error {
+//                print("There was an error getting the gameUID: \(error.localizedDescription)")
+//            } else {
+//                for document in querySnapshot!.documents {
+//                    print(document.documentID)
+//                }
+//            }
+//        }
+//    }
+    
+    func getGameUID(inviteCode: String, completion: @escaping (Result<String, GameError>) -> Void) {
+        self.db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("There was an error getting the gameUID: \(error.localizedDescription)")
+                completion(.failure(.firebaseError(error)))
+            } else {
+                for document in querySnapshot!.documents {
+                    let gameUID = document.documentID
+                    completion(.success(gameUID))
+                }
             }
         }
     }
@@ -62,7 +91,7 @@ class Firebase {
                 print("Error getting documents: \(error)")
                 completion(.failure(.fbError(error)))
             } else if let firstDocument = querySnapshot?.documents.first {
-                let user = User(dictionary: firstDocument.data())
+                guard let user = User(dictionary: firstDocument.data()) else {return}
                 completion(.success(user))
             } else {
                 completion(.success(nil))
@@ -70,25 +99,35 @@ class Firebase {
         }
     }
     
-//    func getUserCollection() {
-//        getInviteCodeDocument()
-//        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: userInviteCode)
-//            .getDocuments { (querySnapshot, error) in
-//                if let error = error {
-//                    print("Error getting documents: \(error)")
-//                } else {
-//                    guard let snapshot = querySnapshot else {return}
-//                    for document in snapshot.documents {
-//                        let data = document.data()
-//                        let firstName = data[Constants.firstName] as? String ?? "Who dis?"
-//                        let lastName = data[Constants.lastName] as? String ?? ""
-//
-//                        let user = UserInfo(firstName: firstName, lastName: lastName)
-//                        RestaurantController.shared.users.append(user)
-//                    }
-//                }
-//        }
-//    }
+    func fetchGame(withinviteCode inviteCode: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
+        db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion(.failure(.firebaseError(error)))
+            } else {
+                completion(.success(nil))
+            }
+        }
+    }
+    
+    func getUserCollection() {
+        db.collection(Constants.gameContainer).whereField(Constants.users, isEqualTo: true)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    guard let snapshot = querySnapshot else {return}
+                    for document in snapshot.documents {
+                        let user = User(firstName: (document.data()[Constants.firstName] as? String ?? ""),
+                                        lastName: (document.data()[Constants.lastName] as? String ?? ""),
+                                        email: (document.data()[Constants.email] as? String ?? ""),
+                                        uid: (document.data()[Constants.uid] as? String ?? ""))
+
+                        RestaurantController.shared.users.append(user)
+                    }
+                }
+        }
+    }
     
 //    private func getInviteCodeDocument() {
 //        db.collection(Constants.userContainer).document(Constants.user).getDocument { (document, error) in

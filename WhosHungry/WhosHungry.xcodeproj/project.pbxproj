@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		3523DE012472F57D0035827D /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE002472F57D0035827D /* RestaurantService.swift */; };
 		3527D962252261AC005026A2 /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3527D961252261AC005026A2 /* FirebaseError.swift */; };
-		3549B5572524F3FF00CA4DFF /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549B5562524F3FF00CA4DFF /* KeychainItem.swift */; };
+		3549B59E252646E900CA4DFF /* GameError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549B59D252646E900CA4DFF /* GameError.swift */; };
+		3549B5A325264B8C00CA4DFF /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549B5A225264B8C00CA4DFF /* GameController.swift */; };
 		3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */; };
 		3581E5ED24C3EC8600B76DE6 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3581E5EC24C3EC8600B76DE6 /* UserError.swift */; };
 		35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A29247630AA0097299E /* neon_pixel-7.ttf */; };
@@ -43,7 +44,8 @@
 /* Begin PBXFileReference section */
 		3523DE002472F57D0035827D /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		3527D961252261AC005026A2 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
-		3549B5562524F3FF00CA4DFF /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
+		3549B59D252646E900CA4DFF /* GameError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameError.swift; sourceTree = "<group>"; };
+		3549B5A225264B8C00CA4DFF /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeautySchoolDropout.ttf; sourceTree = "<group>"; };
 		3581E5EC24C3EC8600B76DE6 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		35847A29247630AA0097299E /* neon_pixel-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neon_pixel-7.ttf"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				3523DE002472F57D0035827D /* RestaurantService.swift */,
 				35DCF26724AFE8F300BA3783 /* Firebase.swift */,
 				358CBD1A2510073600B340DF /* UserController.swift */,
+				3549B5A225264B8C00CA4DFF /* GameController.swift */,
 			);
 			path = ModelController;
 			sourceTree = "<group>";
@@ -194,12 +197,12 @@
 			isa = PBXGroup;
 			children = (
 				359C403824477130007C2AEF /* RestaurantError.swift */,
+				3549B59D252646E900CA4DFF /* GameError.swift */,
+				3527D961252261AC005026A2 /* FirebaseError.swift */,
+				3581E5EC24C3EC8600B76DE6 /* UserError.swift */,
 				35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */,
 				359E26B224A19F640011358A /* StyleGuide.swift */,
-				3581E5EC24C3EC8600B76DE6 /* UserError.swift */,
 				358CBD18250FF89F00B340DF /* Constants.swift */,
-				3527D961252261AC005026A2 /* FirebaseError.swift */,
-				3549B5562524F3FF00CA4DFF /* KeychainItem.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -354,13 +357,14 @@
 				359C403924477130007C2AEF /* RestaurantError.swift in Sources */,
 				359558D5244A37C1003A20BC /* CreateGameDetailsViewController.swift in Sources */,
 				3527D962252261AC005026A2 /* FirebaseError.swift in Sources */,
+				3549B59E252646E900CA4DFF /* GameError.swift in Sources */,
 				3598876B24F4593800E25EB9 /* GameChoiceViewController.swift in Sources */,
-				3549B5572524F3FF00CA4DFF /* KeychainItem.swift in Sources */,
 				35DCF24024AE8E1B00BA3783 /* User.swift in Sources */,
 				35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */,
 				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,
 				35847A2E2476E49C0097299E /* MapViewController.swift in Sources */,
 				35DCF26424AFE89A00BA3783 /* Game.swift in Sources */,
+				3549B5A325264B8C00CA4DFF /* GameController.swift in Sources */,
 				35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */,
 				35FD875624FECF78004FEA32 /* SignInViewController.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,

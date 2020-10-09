@@ -10,4 +10,6 @@ import Foundation
 
 struct UserVote {
     
+    let like: Bool = true
+    let dislike: Bool = false
 }

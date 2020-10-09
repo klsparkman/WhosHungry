@@ -37,7 +37,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var currentLocation: CLLocation?
     var users: [User]? = []
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
-    var category: String?
+    var mealType: String?
     var gameInviteCode: String?
     let db = Firestore.firestore()
     var currentUser = UserController.shared.currentUser
@@ -210,22 +210,21 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         guard let inviteCode = codeLabel.text,
               let users = users,
               let city = citySearchTextField.text,
-              let category = category,
-              let radius = Double("\(radiusLabel.text!)"),
-              let creatorID = currentUser?.uid
+              let mealType = mealType,
+              let radius = Double("\(radiusLabel.text!)")
+//              let creatorID = currentUser?.uid
         else {return}
-        gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, category: category, creatorID: creatorID)
+//        gameInviteCode?.append(inviteCode) ?? nil
+        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType)
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
-            case .success(let game):
-                print("Game saved successfully: \(game)")
+            case .success(_):
+                GameController.shared.addUserToGame(inviteCode: inviteCode)
             case .failure(let error):
-                print("Error saving game: \(error)")
+                print("Error saving game: \(error.localizedDescription)")
             }
         }
-        
         //        db.collection(Constants.userContainer).document(Constants.user).setData([Constants.inviteCode : inviteCode], merge: true)
     }
     
@@ -256,7 +255,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         lunchButton.backgroundColor = .white
         dinnerButton.backgroundColor = .white
         dessertButton.backgroundColor = .white
-        category = "breakfast"
+        mealType = "breakfast"
     }
     
     @IBAction func lunchButtonTapped(_ sender: Any) {
@@ -264,7 +263,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         lunchButton.backgroundColor = .systemPink
         dinnerButton.backgroundColor = .white
         dessertButton.backgroundColor = .white
-        category = "lunch"
+        mealType = "lunch"
     }
     
     @IBAction func dinnerButtonTapped(_ sender: Any) {
@@ -272,7 +271,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         lunchButton.backgroundColor = .white
         dinnerButton.backgroundColor = .systemPink
         dessertButton.backgroundColor = .white
-        category = "dinner"
+        mealType = "dinner"
     }
     
     @IBAction func dessertButtonTapped(_ sender: Any) {
@@ -280,7 +279,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         lunchButton.backgroundColor = .white
         dinnerButton.backgroundColor = .white
         dessertButton.backgroundColor = .systemPink
-        category = "dessert"
+        mealType = "dessert"
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -309,7 +308,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             guard let destinationVC = segue.destination as? UserListTableViewController else {return}
             destinationVC.radius = Double(radiusSlider.value * 1600)
             destinationVC.city = citySearchTextField.text
-            destinationVC.category = category
+            destinationVC.category = mealType
         }
     }
     
