@@ -26,6 +26,7 @@ struct Restaurant: Codable {
     let reviewCount: Int?
     var image: UIImage?
     var isLiked: Bool?
+//    let category: Category?
 }
 
 struct ResLocation: Codable {
@@ -33,3 +34,7 @@ struct ResLocation: Codable {
     let city: String?
     let zipcode: String?
 }
+
+//struct Category: Codable {
+//    let title: String?
+//}

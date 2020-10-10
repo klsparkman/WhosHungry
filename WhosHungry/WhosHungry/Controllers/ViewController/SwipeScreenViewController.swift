@@ -15,8 +15,9 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var restaurantImageView: UIImageView!
     @IBOutlet weak var restaurantNameLabel: UILabel!
-    @IBOutlet weak var cuisineLabel: UILabel!
-    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var ratingImageView: UIImageView!
+    
+
     
     static var shared = SwipeScreenViewController()
     
@@ -70,7 +71,28 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func populateCard(with restaurant: Restaurant) {
         self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
         self.restaurantNameLabel.text = restaurant.name
-        self.cuisineLabel.text = "Rating: \(restaurant.rating!)/5"
+        
+        if restaurant.rating == 5 {
+            ratingImageView.image = UIImage(named: "regular_5")
+        } else if restaurant.rating == 4.5 {
+            ratingImageView.image = UIImage(named: "regular_4_half")
+        } else if restaurant.rating == 4 {
+            ratingImageView.image = UIImage(named: "regular_4")
+        } else if restaurant.rating == 3.5 {
+            ratingImageView.image = UIImage(named: "regular_3_half")
+        } else if restaurant.rating == 3 {
+            ratingImageView.image = UIImage(named: "regular_3")
+        } else if restaurant.rating == 2.5 {
+            ratingImageView.image = UIImage(named: "regular_2_half")
+        } else if restaurant.rating == 2 {
+            ratingImageView.image = UIImage(named: "regular_2")
+        } else if restaurant.rating == 1.5 {
+            ratingImageView.image = UIImage(named: "regular_1_half")
+        } else if restaurant.rating == 1 {
+            ratingImageView.image = UIImage(named: "regular_1")
+        } else if restaurant.rating == 0 {
+            ratingImageView.image = UIImage(named: "regular_0")
+        }
     }
     
     private func showNextCard() {
