@@ -11,16 +11,17 @@ import CoreLocation
 
 class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
+    // Mark: - Outlets
     @IBOutlet weak var card: UIView!
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var restaurantImageView: UIImageView!
     @IBOutlet weak var restaurantNameLabel: UILabel!
     @IBOutlet weak var ratingImageView: UIImageView!
+    @IBOutlet weak var reviewCountLabel: UILabel!
     
-
-    
+    @IBOutlet weak var cuisineLabel: UILabel!
+    // Mark: - Properties
     static var shared = SwipeScreenViewController()
-    
     var divisor: CGFloat!
 //    let restaurantService = RestaurantService()
     var restaurant: Restaurant?
@@ -32,10 +33,13 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var radius: Double?
     var category: String?
     
+    // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         divisor = (view.frame.width / 2) / 0.61
         fetchRestaurants()
+        card.layer.borderWidth = 1
+        card.layer.borderColor = UIColor.white.cgColor
 //        matchRestaurants()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -69,8 +73,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func populateCard(with restaurant: Restaurant) {
-        self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
         self.restaurantNameLabel.text = restaurant.name
+        self.cuisineLabel.text = restaurant.cuisineList
+        self.reviewCountLabel.text = "\(restaurant.reviewCount ?? 0) Reviews"
+        self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
         
         if restaurant.rating == 5 {
             ratingImageView.image = UIImage(named: "regular_5")
@@ -123,6 +129,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         if sender.state == UIGestureRecognizer.State.ended {
             if card.center.x < 75 {
                 // Move off to the left side of the screen
+            
                 UIView.animate(withDuration: 0.3, animations: {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
@@ -173,14 +180,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-//    func matchRestaurants() {
-//        for restaurant in liked {
-//            if liked.count == restaurantService.players.count {
-//                restaurantPicked(manager: restaurantService, restaurantString: "\(restaurant)")
-//            }
-//        }
-//    }
-    
     func restaurantPicked(restaurantString: String) {
         OperationQueue.main.addOperation {
             let alertController = UIAlertController(title: "A MATCH HAS BEEN MADE!", message: "Would you like to see where you are eating today?", preferredStyle: .alert)
@@ -202,5 +201,4 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
 }

@@ -21,7 +21,32 @@ enum Rating: String {
     case one = "1.0"
     case zero = "0.0"
     
-    func getImageName() -> String {
+//    func getImageName() -> String {
+//        switch self {
+//        case .five:
+//            return "regular_5"
+//        case .fourAndAAhalf:
+//            return "regular_4_half"
+//        case .four:
+//            return "regular_4"
+//        case .threeAndAHalf:
+//            return "regular_3_half"
+//        case .three:
+//            return "regular_3"
+//        case .twoAndAHalf:
+//            return "regular_2_half"
+//        case .two:
+//            return "regular_2"
+//        case .oneAndAHalf:
+//            return "regular_1_half"
+//        case .one:
+//            return "regular_1"
+//        case .zero:
+//            return "regular_0"
+//        }
+//    }
+    
+    func getImage(rating: Double) -> String {
         switch self {
         case .five:
             return "regular_5"
@@ -45,4 +70,5 @@ enum Rating: String {
             return "regular_0"
         }
     }
+    
 }

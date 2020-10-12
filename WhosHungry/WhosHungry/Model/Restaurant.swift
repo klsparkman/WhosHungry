@@ -15,6 +15,7 @@ struct TopLevelObject: Codable {
 struct Restaurant: Codable {
     enum CodingKeys: String, CodingKey {
         case name, location, rating
+        case cuisines = "categories"
         case imageEndpoint = "image_url"
         case reviewCount = "review_count"
     }
@@ -26,7 +27,11 @@ struct Restaurant: Codable {
     let reviewCount: Int?
     var image: UIImage?
     var isLiked: Bool?
-//    let category: Category?
+    let cuisines: [Category]
+    
+    var cuisineList: String {
+        cuisines.compactMap { $0.title }.joined(separator: ", ")
+    }
 }
 
 struct ResLocation: Codable {
@@ -35,6 +40,6 @@ struct ResLocation: Codable {
     let zipcode: String?
 }
 
-//struct Category: Codable {
-//    let title: String?
-//}
+struct Category: Codable {
+    let title: String?
+}
