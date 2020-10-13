@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import SafariServices
 
 class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -18,8 +19,9 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var restaurantNameLabel: UILabel!
     @IBOutlet weak var ratingImageView: UIImageView!
     @IBOutlet weak var reviewCountLabel: UILabel!
-    
     @IBOutlet weak var cuisineLabel: UILabel!
+ 
+    
     // Mark: - Properties
     static var shared = SwipeScreenViewController()
     var divisor: CGFloat!
@@ -32,6 +34,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var city: String?
     var radius: Double?
     var category: String?
+    var yelpURL: String?
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -50,7 +53,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchRestaurants() {
-//        guard let location = location else {return}
         guard let city = city else {return}
         guard let radius = radius else {return}
         guard let category = category else {return}
@@ -62,8 +64,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                     // Start showing cards
                     guard let firstRestaurant = RestaurantController.shared.restaurants.first
                         else {return}
-//                   let restaurantWithImages = RestaurantController.shared.restaurantsWithImages
-                    
                     self.populateCard(with: firstRestaurant)
                 case .failure(let error):
                     print(error, error.localizedDescription)
@@ -77,6 +77,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         self.cuisineLabel.text = restaurant.cuisineList
         self.reviewCountLabel.text = "\(restaurant.reviewCount ?? 0) Reviews"
         self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
+        self.yelpURL = restaurant.restaurantYelpLink
         
         if restaurant.rating == 5 {
             ratingImageView.image = UIImage(named: "regular_5")
@@ -98,6 +99,14 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             ratingImageView.image = UIImage(named: "regular_1")
         } else if restaurant.rating == 0 {
             ratingImageView.image = UIImage(named: "regular_0")
+        }
+    }
+    
+    @IBAction func yelpButtonTapped(_ sender: Any) {
+        guard let yelpURL = yelpURL else {return}
+        if let url = URL(string: yelpURL) {
+            UIApplication.shared.canOpenURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
