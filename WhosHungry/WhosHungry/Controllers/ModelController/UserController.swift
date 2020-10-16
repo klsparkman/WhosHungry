@@ -113,6 +113,7 @@ extension UserController: ASAuthorizationControllerDelegate {
                 }
                 if let authUser = authDataResult?.user {
                     print(authUser.uid)
+                    self.defaults.setValue(authUser.uid, forKey: "uid")
                     // Fetch a user in Firebase using the authenticated uid
                     Firebase.shared.fetchUser(withID: authUser.uid) { (result) in
 
@@ -128,8 +129,8 @@ extension UserController: ASAuthorizationControllerDelegate {
                                 //If there wasn't, create a new user in Firestore
                                 guard let firstName = self.defaults.string(forKey: "firstName"),
                                       let lastName = self.defaults.string(forKey: "lastName"),
-                                      let email = self.defaults.string(forKey: "email") else {return}
-                                let uid = authUser.uid
+                                      let email = self.defaults.string(forKey: "email"),
+                                      let uid = self.defaults.string(forKey: "uid")  else {return}
                                 Firebase.shared.createUser(with: firstName, lastName: lastName, email: email, uid: uid) { (result) in
                                     switch result {
                                     //We successfully created a user in Firebase

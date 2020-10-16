@@ -50,9 +50,9 @@ class RestaurantController {
 
             do {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).businesses
+
                 let restaurants = restaurantContainers.compactMap({$0})
                 guard !restaurants.isEmpty else {return completion(.failure(.noData))}
-//                self.restaurants = restaurants
                 
                 let group = DispatchGroup()
                 
@@ -74,9 +74,7 @@ class RestaurantController {
                     }
                 }
                 group.notify(queue: .main) {
-                    // self.restaurants = restaurantsWithImages.sorted(by: <#T##(Restaurant, Restaurant) throws -> Bool#>)
                     completion(.success(()))
-//                    completion(.success(self.restaurantsWithImages))
                 }
             } catch {
                 print(error, error.localizedDescription)

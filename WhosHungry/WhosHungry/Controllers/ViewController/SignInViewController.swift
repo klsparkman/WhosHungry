@@ -18,28 +18,25 @@ class SignInViewController: UIViewController {
     
     // Mark: - Properties
     static var shared = SignInViewController()
+    var loggedInCurrentUser: User?
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
-        if let currentUser = Auth.auth().currentUser {
-//            let uid = currentUser.uid
-//            Firebase.shared.fetchUser(withID: uid) { (result) in
-//                switch result {
-//                case .success(let user):
-//                    GameController.shared.addUserToGame(inviteCode: <#T##String#>)
-//                    RestaurantController.shared.users.append(user!)
-//                case .failure(let error):
-//                    print("Error fetching user in automatic signIn: \(error.localizedDescription)")
+//        if let currentUser = Auth.auth().currentUser {
+//            let firstName = UserController.shared.defaults.data(forKey: "firstName")
+//            let lastName = UserController.shared.defaults.data(forKey: "lastName")
+//            let email = UserController.shared.defaults.data(forKey: "email")
+//            let uid = UserController.shared.defaults.data(forKey: "uid")
+//            let user = User(firstName: firstName, lastName: lastName, email: email, uid: uid)
+//            self.loggedInCurrentUser = user
+//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
+//                if let navigator = navigationController {
+//                    navigator.pushViewController(viewController, animated: true)
 //                }
 //            }
-            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
-                if let navigator = navigationController {
-                    navigator.pushViewController(viewController, animated: true)
-                }
-            }
-        }
+//        }
 //        else {
 //            UserController.shared.performExistingAccountSetupFlows()
 //        }
