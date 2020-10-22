@@ -10,7 +10,7 @@ import Foundation
 
 struct UserVote {
     
-    let like: Bool
-    let dislike: Bool
+    var likedRestaurants: [Restaurant]
+    var like: Bool
     
 }
