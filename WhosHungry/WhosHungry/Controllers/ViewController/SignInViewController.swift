@@ -19,14 +19,13 @@ class SignInViewController: UIViewController {
     // Mark: - Properties
     static var shared = SignInViewController()
     var loggedInCurrentUser: User?
+   
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
-        
-       
-        
+    
 //        if Auth.auth().currentUser != nil {
 //            guard let firstName = loggedInCurrentUser,
 //            let lastName = loggedInCurrentUser?.lastName,
@@ -58,6 +57,7 @@ class SignInViewController: UIViewController {
         }, completion: nil)
         setupView()
     }// End of ViewDidLoad
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

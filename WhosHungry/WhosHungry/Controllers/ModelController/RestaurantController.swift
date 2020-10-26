@@ -17,6 +17,7 @@ class RestaurantController {
     var restaurants: [Restaurant] = []
     var restaurantsWithImages: [Restaurant] = []
     var users: [User] = []
+    var yelpAPIKey: String?
     
     private init() {
     }
@@ -26,7 +27,6 @@ class RestaurantController {
     let searchEndpoint = "search"
     let authType = "Bearer Token"
     
-    let apiKey = Constants.apiKey
     let searchKey = "location"
     let radiusKey = "radius"
     let categoryTerm = "term"
@@ -39,7 +39,7 @@ class RestaurantController {
         urlComponents?.queryItems = [URLQueryItem(name: searchKey, value: searchTerm), URLQueryItem(name: radiusKey, value: "\(Int(radius))"), URLQueryItem(name: categoryTerm, value: category)]
         let finalURL = urlComponents?.url
         var request = URLRequest(url: finalURL!)
-        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(yelpAPIKey!)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
