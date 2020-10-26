@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import Foundation
 
 class RestaurantController {
     
@@ -24,7 +25,8 @@ class RestaurantController {
     let baseURL = URL(string: "https://api.yelp.com/v3/businesses")
     let searchEndpoint = "search"
     let authType = "Bearer Token"
-    let apiKey = "jTYM5mA1uexjKY9_C4RS6Pi-5s3La7Jbw6zJR7ZNUpOopNDNu_EhsyNEFpP4US1QbfQxAxUypBiSDquMIVp8uNRE9a8WGI2rYWSb3EYzeny0JePaAmglUWqA4s4hX3Yx"
+    
+    let apiKey = Constants.apiKey
     let searchKey = "location"
     let radiusKey = "radius"
     let categoryTerm = "term"

@@ -24,13 +24,25 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
-//        if let currentUser = Auth.auth().currentUser {
-//            let firstName = UserController.shared.defaults.data(forKey: "firstName")
-//            let lastName = UserController.shared.defaults.data(forKey: "lastName")
-//            let email = UserController.shared.defaults.data(forKey: "email")
-//            let uid = UserController.shared.defaults.data(forKey: "uid")
+        
+       
+        
+//        if Auth.auth().currentUser != nil {
+//            guard let firstName = loggedInCurrentUser,
+//            let lastName = loggedInCurrentUser?.lastName,
+//            let email = loggedInCurrentUser?.email,
+//            let uid = loggedInCurrentUser?.uid else {return}
 //            let user = User(firstName: firstName, lastName: lastName, email: email, uid: uid)
-//            self.loggedInCurrentUser = user
+//            RestaurantController.shared.users.append(user)
+//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
+//                if let navigator = navigationController {
+//                    navigator.pushViewController(viewController, animated: true)
+//                }
+//            }
+//        }
+//        if Auth.auth().currentUser != nil {
+//            guard let user = loggedInCurrentUser else {return}
+//            RestaurantController.shared.users.append(user)
 //            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
 //                if let navigator = navigationController {
 //                    navigator.pushViewController(viewController, animated: true)
@@ -45,7 +57,7 @@ class SignInViewController: UIViewController {
             self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
         }, completion: nil)
         setupView()
-    }
+    }// End of ViewDidLoad
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

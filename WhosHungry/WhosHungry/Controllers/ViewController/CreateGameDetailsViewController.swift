@@ -147,7 +147,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     func searchPlaceFromGoogle(place: String) {
-        var strGoogleApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(place)&key=AIzaSyCX7hPyTPm3vokTYYzuDumnEVCtwC_lvXE"
+        var strGoogleApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(place)&key=\(Constants.googleAPIKey)"
         strGoogleApi = strGoogleApi.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         var urlRequest = URLRequest(url: URL(string: strGoogleApi)!)
