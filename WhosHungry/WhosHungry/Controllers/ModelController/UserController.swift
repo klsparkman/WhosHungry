@@ -122,6 +122,7 @@ extension UserController: ASAuthorizationControllerDelegate {
                         case .success(let user):
                             if let user = user {
                                 self.currentUser = user
+//                                SignInViewController.shared.loggedInCurrentUser = user
                                 self.delegate?.userLoggedIn(true)
                                 RestaurantController.shared.users.append(user)
                                 print("We found a user in Firebase")
@@ -174,16 +175,16 @@ extension UserController: ASAuthorizationControllerDelegate {
         print("Right here.... Something went wrong", error)
     }
     
-//    func performExistingAccountSetupFlows() {
-//        // Prepare requests for both Apple ID and password providers.
-//        let requests = [ASAuthorizationAppleIDProvider().createRequest()]
-//        
-//        // Create an authorization controller with the given requests.
-//        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
-//        authorizationController.delegate = self
-//        authorizationController.presentationContextProvider = self
-//        authorizationController.performRequests()
-//    }
+    func performExistingAccountSetupFlows() {
+        // Prepare requests for both Apple ID and password providers.
+        let requests = [ASAuthorizationAppleIDProvider().createRequest()]
+        
+        // Create an authorization controller with the given requests.
+        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
 }
 
 extension UserController: ASAuthorizationControllerPresentationContextProviding {

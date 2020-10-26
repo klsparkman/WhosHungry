@@ -20,21 +20,23 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var ratingImageView: UIImageView!
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var cuisineLabel: UILabel!
- 
     
     // Mark: - Properties
     static var shared = SwipeScreenViewController()
     var divisor: CGFloat!
 //    let restaurantService = RestaurantService()
     var restaurant: Restaurant?
-    var location: CLLocation?
+//    var location: CLLocation?
     var currentCardIndex: Int = 0
-    var user: [Int] = []
-    var liked: [Restaurant] = []
+//    var user: [Int] = []
+//    var liked: [Restaurant] = []
     var city: String?
     var radius: Double?
     var category: String?
     var yelpURL: String?
+    var displayedRestaurants: [String] = []
+    var restaurantVotes: [Bool] = []
+    var voteDictionary: [String : Int] = [:]
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -50,6 +52,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         restaurantImageView.layer.cornerRadius = 20
         restaurantImageView.clipsToBounds = true
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
     }
     
     func fetchRestaurants() {
@@ -73,33 +76,15 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func populateCard(with restaurant: Restaurant) {
-        self.restaurantNameLabel.text = restaurant.name
-        self.cuisineLabel.text = restaurant.cuisineList
-        self.reviewCountLabel.text = "\(restaurant.reviewCount ?? 0) Reviews"
-        self.restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
-        self.yelpURL = restaurant.restaurantYelpLink
-        
-        if restaurant.rating == 5 {
-            ratingImageView.image = UIImage(named: "regular_5")
-        } else if restaurant.rating == 4.5 {
-            ratingImageView.image = UIImage(named: "regular_4_half")
-        } else if restaurant.rating == 4 {
-            ratingImageView.image = UIImage(named: "regular_4")
-        } else if restaurant.rating == 3.5 {
-            ratingImageView.image = UIImage(named: "regular_3_half")
-        } else if restaurant.rating == 3 {
-            ratingImageView.image = UIImage(named: "regular_3")
-        } else if restaurant.rating == 2.5 {
-            ratingImageView.image = UIImage(named: "regular_2_half")
-        } else if restaurant.rating == 2 {
-            ratingImageView.image = UIImage(named: "regular_2")
-        } else if restaurant.rating == 1.5 {
-            ratingImageView.image = UIImage(named: "regular_1_half")
-        } else if restaurant.rating == 1 {
-            ratingImageView.image = UIImage(named: "regular_1")
-        } else if restaurant.rating == 0 {
-            ratingImageView.image = UIImage(named: "regular_0")
-        }
+        guard let restaurantArray = restaurant.name else {return}
+        displayedRestaurants.append(restaurantArray)
+        restaurantNameLabel.text = restaurant.name
+        cuisineLabel.text = restaurant.cuisineList
+        reviewCountLabel.text = "\(restaurant.reviewCount ?? 0) Reviews"
+        restaurantImageView.image = restaurant.image ?? UIImage(named: "unavailable")
+        yelpURL = restaurant.restaurantYelpLink
+        let ratingString = RestaurantController.shared.setStarRating(rating: restaurant.rating ?? 0)
+        ratingImageView.image = UIImage(named: ratingString)
     }
     
     @IBAction func yelpButtonTapped(_ sender: Any) {
@@ -136,9 +121,9 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         thumbImageView.alpha = abs(xFromCenter) / view.center.x
         
         if sender.state == UIGestureRecognizer.State.ended {
-            if card.center.x < 75 {
+            if card.center.x < (view.frame.width - 75) {
                 // Move off to the left side of the screen
-            
+                restaurantVotes.append(false)
                 UIView.animate(withDuration: 0.3, animations: {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
@@ -150,6 +135,9 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 return
             } else if card.center.x > (view.frame.width - 75) {
                 //Move off to the right side of the screen
+                restaurantVotes.append(true)
+                print("Displayed Restaurant Array: \(displayedRestaurants)")
+                print("Liked Restaurants Array: \(restaurantVotes)")
                 UIView.animate(withDuration: 0.3, animations:  {
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
@@ -158,14 +146,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                         self.showNextCard()
                     }
                 }
-                self.restaurant?.isLiked = true
-//                self.likeList()
-                print("card was liked")
-                guard let restaurant = restaurant else {return}
-                if self.restaurant?.isLiked == true {
-                    liked.append(restaurant)
-                           print("restaurant has been added")
-                       }
                 return
             }
             UIView.animate(withDuration: 0.2) {
@@ -189,23 +169,38 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func restaurantPicked(restaurantString: String) {
-        OperationQueue.main.addOperation {
-            let alertController = UIAlertController(title: "A MATCH HAS BEEN MADE!", message: "Would you like to see where you are eating today?", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Show Me Fool!", style: .default) { (_) in
-                func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-                    if segue.identifier == "mapVC" {
-                        guard let destinationVC = segue.destination as? MapViewController else {return}
-                        destinationVC.winningRestaurant = SwipeScreenViewController.shared.restaurant
-                    }
+    private func compareArray(restaurant: String, vote: Bool) {
+        for i in 0 ..< displayedRestaurants.count {
+            if restaurantVotes[i] == true {
+                let name = displayedRestaurants[i]
+                if let _ = voteDictionary[name] {
+                    // case 1: the key already exists
+                    voteDictionary[name]! += 1
+                } else {
+                    // case 2: we're adding a key for the first time
+                    voteDictionary[name] = 1
                 }
             }
-            let cancelAction = UIAlertAction(title: "Nah, I'm good.", style: .cancel, handler: nil)
-            alertController.addAction(okAction)
-            alertController.addAction(cancelAction)
-            self.present(alertController, animated: true)
         }
     }
+    
+//    func restaurantPicked(restaurantString: String) {
+//        OperationQueue.main.addOperation {
+//            let alertController = UIAlertController(title: "A MATCH HAS BEEN MADE!", message: "Would you like to see where you are eating today?", preferredStyle: .alert)
+//            let okAction = UIAlertAction(title: "Show Me Fool!", style: .default) { (_) in
+//                func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//                    if segue.identifier == "mapVC" {
+//                        guard let destinationVC = segue.destination as? MapViewController else {return}
+//                        destinationVC.winningRestaurant = SwipeScreenViewController.shared.restaurant
+//                    }
+//                }
+//            }
+//            let cancelAction = UIAlertAction(title: "Nah, I'm good.", style: .cancel, handler: nil)
+//            alertController.addAction(okAction)
+//            alertController.addAction(cancelAction)
+//            self.present(alertController, animated: true)
+//        }
+//    }
     
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)
