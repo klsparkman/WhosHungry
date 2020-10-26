@@ -28,7 +28,7 @@ class Firebase {
                                               Constants.city : game.city,
                                               Constants.radius : game.radius,
                                               Constants.mealType : game.mealType]
-//                                              Constants.creatorID : game.creatorID
+        //                                              Constants.creatorID : game.creatorID
         
         db.collection(Constants.gameContainer).document(gameUID).setData(gameDictionary) { (error) in
             if let error = error {
@@ -42,17 +42,17 @@ class Firebase {
         }
     }
     
-//    func getGameUID() {
-//        self.db.collection(Constants.gameContainer).getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                print("There was an error getting the gameUID: \(error.localizedDescription)")
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    print(document.documentID)
-//                }
-//            }
-//        }
-//    }
+    //    func getGameUID() {
+    //        self.db.collection(Constants.gameContainer).getDocuments { (querySnapshot, error) in
+    //            if let error = error {
+    //                print("There was an error getting the gameUID: \(error.localizedDescription)")
+    //            } else {
+    //                for document in querySnapshot!.documents {
+    //                    print(document.documentID)
+    //                }
+    //            }
+    //        }
+    //    }
     
     func getGameUID(inviteCode: String, completion: @escaping (Result<String, GameError>) -> Void) {
         self.db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
@@ -73,7 +73,7 @@ class Firebase {
                                               Constants.lastName : lastName,
                                               Constants.email : email,
                                               Constants.uid : uid]
-
+        
         db.collection(Constants.userContainer).addDocument(data: userDictionary) { (error) in
             if let error = error {
                 print("There was an error creating a user: \(error)")
@@ -110,33 +110,48 @@ class Firebase {
         }
     }
     
+    //    func getUserCollection() {
+    //        db.collection(Constants.gameContainer).whereField(Constants.users, isEqualTo: true)
+    //            .getDocuments { (querySnapshot, error) in
+    //                if let error = error {
+    //                    print("Error getting documents: \(error)")
+    //                } else {
+    //                    guard let snapshot = querySnapshot else {return}
+    //                    for document in snapshot.documents {
+    //                        let user = User(firstName: (document.data()[Constants.firstName] as? String ?? ""),
+    //                                        lastName: (document.data()[Constants.lastName] as? String ?? ""),
+    //                                        email: (document.data()[Constants.email] as? String ?? ""),
+    //                                        uid: (document.data()[Constants.uid] as? String ?? ""))
+    //
+    //                        RestaurantController.shared.users.append(user)
+    //                    }
+    //                }
+    //        }
+    //    }
+    
     func getUserCollection() {
-        db.collection(Constants.gameContainer).whereField(Constants.users, isEqualTo: true)
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    guard let snapshot = querySnapshot else {return}
-                    for document in snapshot.documents {
-                        let user = User(firstName: (document.data()[Constants.firstName] as? String ?? ""),
-                                        lastName: (document.data()[Constants.lastName] as? String ?? ""),
-                                        email: (document.data()[Constants.email] as? String ?? ""),
-                                        uid: (document.data()[Constants.uid] as? String ?? ""))
-
-                        RestaurantController.shared.users.append(user)
-                    }
-                }
+        let docRef = db.collection(Constants.gameContainer).document("76D04883-709C-4E67-BB1A-E37CB652A899")
+        
+        docRef.getDocument(source: .cache) { (document, error) in
+            if let document = document, document.exists {
+                let property = document.get(Constants.users)
+                print("Document data: \(property)")
+            } else {
+                print("Document does not exist in cache")
+            }
         }
     }
     
-//    private func getInviteCodeDocument() {
-//        db.collection(Constants.userContainer).document(Constants.user).getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                guard let code = document.get(Constants.inviteCode) else {return}
-//                self.userInviteCode.append(code)
-//            } else {
-//                print("Document doesn not exist")
-//            }
-//        }
-//    }
+    //    func getUsersField() {
+    //        db.collection(Constants.gameContainer).document(Constants.users).getDocument { (querySnapshot, error) in
+    //            if let error = error {
+    //                print("There was an error getting the users list: \(error)")
+    //            } else {
+    //                for document in querySnapshot! {
+    //
+    //                }
+    //            }
+    //        }
+    //    }
+    
 }//End of Class

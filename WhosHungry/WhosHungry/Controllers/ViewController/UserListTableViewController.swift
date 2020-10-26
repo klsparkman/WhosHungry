@@ -18,13 +18,13 @@ class UserListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Firebase.shared.getUserCollection()
+//        Firebase.shared.getUserCollection()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-//        Firebase.shared.getUserCollection()
+        Firebase.shared.getUserCollection()
         self.tableView.reloadData()
     }
 
