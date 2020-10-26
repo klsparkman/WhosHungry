@@ -41,6 +41,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var gameInviteCode: String?
     let db = Firestore.firestore()
     var currentUser = UserController.shared.currentUser
+    var googleAPIKey: String?
+    let remoteConfig = RemoteConfig.remoteConfig()
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -126,6 +128,23 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         //            locManager.startUpdatingLocation()
         //            currentLocation = locManager.location
         //        }
+        
+        let settings = RemoteConfigSettings()
+        settings.minimumFetchInterval = 0
+        remoteConfig.configSettings = settings
+        
+        remoteConfig.fetch { [unowned self] (status, error) in
+            if status == .success {
+                print("Config fetched!")
+                self.remoteConfig.activate { (changed, error) in
+                    self.updateViewWithRCValues()
+                    //...
+                }
+            } else {
+                print("Config not fetched")
+                print("Error: \(error?.localizedDescription ?? "No error available.")")
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,12 +152,15 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        let touch: UITouch? = touches.first
-//        if touch?.view != placesTableView {
-//            placesTableView.isHidden = true
-//        }
-//    }
+    func updateViewWithRCValues() {
+        let rc = RemoteConfig.remoteConfig()
+        let yelpKey = rc.configValue(forKey: "yelpAPIKey").stringValue ?? ""
+        let googleKey = rc["googleAPIKey"].stringValue ?? ""
+        print(yelpKey)
+        print(googleKey)
+        RestaurantController.shared.yelpAPIKey = yelpKey
+        CreateGameDetailsViewController.shared.googleAPIKey = googleKey
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchPlaceFromGoogle(place: citySearchTextField.text!)
@@ -147,7 +169,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     func searchPlaceFromGoogle(place: String) {
-        var strGoogleApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(place)&key=\(Constants.googleAPIKey)"
+        var strGoogleApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(place)&key=\(googleAPIKey!)"
         strGoogleApi = strGoogleApi.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         var urlRequest = URLRequest(url: URL(string: strGoogleApi)!)

@@ -168,7 +168,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    private func compareArray(restaurant: String, vote: Bool) {
+    private func compareArray(restaurant: [String], vote: [Bool]) {
         for i in 0 ..< displayedRestaurants.count {
             if restaurantVotes[i] == true {
                 let name = displayedRestaurants[i]
