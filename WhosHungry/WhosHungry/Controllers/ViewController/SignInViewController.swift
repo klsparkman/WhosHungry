@@ -19,6 +19,7 @@ class SignInViewController: UIViewController {
     // Mark: - Properties
     static var shared = SignInViewController()
     var loggedInCurrentUser: User?
+    
    
     
     // Mark: - Lifecycle
@@ -66,6 +67,8 @@ class SignInViewController: UIViewController {
         //            self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
         //        }, completion: nil)
     }
+    
+    
     
     func setupView() {
         let appleButton = ASAuthorizationAppleIDButton()
