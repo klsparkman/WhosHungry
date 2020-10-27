@@ -21,6 +21,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     static let shared = GameChoiceViewController()
     var currentUser = UserController.shared.currentUser
     let db = Firestore.firestore()
+    let remoteConfig = RemoteConfig.remoteConfig()
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -30,6 +31,9 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         createGameButton.layer.cornerRadius = 30
         joinGameButton.layer.cornerRadius = 30
         self.pasteCodeTextField.delegate = self
+        
+       
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,7 +41,9 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-//     Mark: - Actions
+   
+    
+    //     Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
     }
     
@@ -46,7 +52,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         if pasteCodeTextField != nil {
             joinThePartyButton.isHidden = false
         }
-        
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
@@ -57,7 +62,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
-//        pasteCodeTextField.becomeFirstResponder()
+        //        pasteCodeTextField.becomeFirstResponder()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -72,7 +77,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
             destinationVC.inviteCode = pasteCodeTextField.text
         }
     }
-    
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
         let firebaseAuth = Auth.auth()

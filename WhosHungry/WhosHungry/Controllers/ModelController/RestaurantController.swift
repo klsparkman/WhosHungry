@@ -39,7 +39,9 @@ class RestaurantController {
         urlComponents?.queryItems = [URLQueryItem(name: searchKey, value: searchTerm), URLQueryItem(name: radiusKey, value: "\(Int(radius))"), URLQueryItem(name: categoryTerm, value: category)]
         let finalURL = urlComponents?.url
         var request = URLRequest(url: finalURL!)
-        request.setValue("Bearer \(yelpAPIKey!)", forHTTPHeaderField: "Authorization")
+        guard let yelpAPIKey = yelpAPIKey else {return}
+        let apiKey = yelpAPIKey.replacingOccurrences(of: "\"", with: "")
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
