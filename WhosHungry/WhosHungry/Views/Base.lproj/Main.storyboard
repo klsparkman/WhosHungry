@@ -709,34 +709,20 @@
             </objects>
             <point key="canvasLocation" x="3079.1999999999998" y="-21.428571428571431"/>
         </scene>
-        <!--Map View Controller-->
-        <scene sceneID="67W-UQ-9Dd">
+        <!--View Controller-->
+        <scene sceneID="cTT-pe-INl">
             <objects>
-                <viewController storyboardIdentifier="mapVC" id="1Ys-5j-yR9" customClass="MapViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="DU9-PF-cUc">
+                <viewController id="Jsk-So-OPZ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GDH-3G-9tx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vk5-iH-iuJ">
-                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
-                            </mapView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="zH7-RZ-OsQ"/>
+                        <viewLayoutGuide key="safeArea" id="Tyr-tx-Te3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="vk5-iH-iuJ" firstAttribute="leading" secondItem="zH7-RZ-OsQ" secondAttribute="leading" id="L65-dI-Ez7"/>
-                            <constraint firstItem="vk5-iH-iuJ" firstAttribute="top" secondItem="zH7-RZ-OsQ" secondAttribute="top" id="OCi-6c-bjT"/>
-                            <constraint firstItem="zH7-RZ-OsQ" firstAttribute="trailing" secondItem="vk5-iH-iuJ" secondAttribute="trailing" id="nrp-qe-BcQ"/>
-                            <constraint firstItem="zH7-RZ-OsQ" firstAttribute="bottom" secondItem="vk5-iH-iuJ" secondAttribute="bottom" id="o9G-wC-vjd"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="mapView" destination="vk5-iH-iuJ" id="0zn-6A-Cdt"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZdW-oM-epM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gV8-ek-MNw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3790" y="-21"/>
+            <point key="canvasLocation" x="3809" y="-21"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dOS-MP-14K">
