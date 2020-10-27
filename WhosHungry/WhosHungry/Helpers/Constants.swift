@@ -24,10 +24,4 @@ struct Constants {
     static let uid = "uid"
     static let email = "email"
     static let creatorID = "creatorID"
-    
-    static let yelpAPIKey = "IPqG8u23-wN-1byYqFR139ryyzwCH0oACasS66cdyP2VJayWQe4muvtUMmByt8d2yCf5GZOUBd9WDwbJvV0ctNkegLhUZm1rP-Ye1cHsUWoBNS-QgAs7wWT1ZDiXX3Yx"
-    
-    static let googleAPIKey = "AIzaSyD2GoL3I6bT89OCh4uVq8LU9iZMCiayWnY"
-    //old api key "AIzaSyCX7hPyTPm3vokTYYzuDumnEVCtwC_lvXE"
-//    static let googleAPIKey = "AIzaSyCX7hPyTPm3vokTYYzuDumnEVCtwC_lvXE"
 }
