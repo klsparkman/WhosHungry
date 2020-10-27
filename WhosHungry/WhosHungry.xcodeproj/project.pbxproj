@@ -16,7 +16,6 @@
 		3581E5ED24C3EC8600B76DE6 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3581E5EC24C3EC8600B76DE6 /* UserError.swift */; };
 		35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A29247630AA0097299E /* neon_pixel-7.ttf */; };
 		35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A2B24763AE40097299E /* lunasol regular.ttf */; };
-		35847A2E2476E49C0097299E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35847A2D2476E49C0097299E /* MapViewController.swift */; };
 		358CBD19250FF89F00B340DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358CBD18250FF89F00B340DF /* Constants.swift */; };
 		358CBD1B2510073600B340DF /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358CBD1A2510073600B340DF /* UserController.swift */; };
 		359558D5244A37C1003A20BC /* CreateGameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */; };
@@ -38,6 +37,7 @@
 		35DCF26424AFE89A00BA3783 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26324AFE89A00BA3783 /* Game.swift */; };
 		35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26524AFE8A900BA3783 /* UserVote.swift */; };
 		35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26724AFE8F300BA3783 /* Firebase.swift */; };
+		35DE90B12548C2C100702606 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE90B02548C2C100702606 /* ResultsViewController.swift */; };
 		35FD875624FECF78004FEA32 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FD875524FECF78004FEA32 /* SignInViewController.swift */; };
 		EA9AC0DF7585D3C98F944DCA /* Pods_WhosHungry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,6 @@
 		3581E5EC24C3EC8600B76DE6 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		35847A29247630AA0097299E /* neon_pixel-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neon_pixel-7.ttf"; sourceTree = "<group>"; };
 		35847A2B24763AE40097299E /* lunasol regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lunasol regular.ttf"; sourceTree = "<group>"; };
-		35847A2D2476E49C0097299E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		358CBD18250FF89F00B340DF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		358CBD1A2510073600B340DF /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameDetailsViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +76,7 @@
 		35DCF26324AFE89A00BA3783 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		35DCF26524AFE8A900BA3783 /* UserVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVote.swift; sourceTree = "<group>"; };
 		35DCF26724AFE8F300BA3783 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
+		35DE90B02548C2C100702606 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		35FD875524FECF78004FEA32 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		3FF22E6C8F205185AAB87CE9 /* Pods-WhosHungry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhosHungry.release.xcconfig"; path = "Target Support Files/Pods-WhosHungry/Pods-WhosHungry.release.xcconfig"; sourceTree = "<group>"; };
 		C3FB14C6A35F9776E5C0F253 /* Pods_WhosHungry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhosHungry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +191,7 @@
 				359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */,
 				3598876C24F45A2D00E25EB9 /* UserListTableViewController.swift */,
 				359558D6244A5181003A20BC /* SwipeScreenViewController.swift */,
-				35847A2D2476E49C0097299E /* MapViewController.swift */,
+				35DE90B02548C2C100702606 /* ResultsViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -365,7 +365,6 @@
 				35DCF24024AE8E1B00BA3783 /* User.swift in Sources */,
 				35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */,
 				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,
-				35847A2E2476E49C0097299E /* MapViewController.swift in Sources */,
 				3549B65D25310EFB00CA4DFF /* Rating.swift in Sources */,
 				35DCF26424AFE89A00BA3783 /* Game.swift in Sources */,
 				3549B5A325264B8C00CA4DFF /* GameController.swift in Sources */,
@@ -373,6 +372,7 @@
 				35FD875624FECF78004FEA32 /* SignInViewController.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
 				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
+				35DE90B12548C2C100702606 /* ResultsViewController.swift in Sources */,
 				358CBD19250FF89F00B340DF /* Constants.swift in Sources */,
 				3581E5ED24C3EC8600B76DE6 /* UserError.swift in Sources */,
 				35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */,

@@ -184,23 +184,17 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-//    func restaurantPicked(restaurantString: String) {
-//        OperationQueue.main.addOperation {
-//            let alertController = UIAlertController(title: "A MATCH HAS BEEN MADE!", message: "Would you like to see where you are eating today?", preferredStyle: .alert)
-//            let okAction = UIAlertAction(title: "Show Me Fool!", style: .default) { (_) in
-//                func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//                    if segue.identifier == "mapVC" {
-//                        guard let destinationVC = segue.destination as? MapViewController else {return}
-//                        destinationVC.winningRestaurant = SwipeScreenViewController.shared.restaurant
-//                    }
-//                }
-//            }
-//            let cancelAction = UIAlertAction(title: "Nah, I'm good.", style: .cancel, handler: nil)
-//            alertController.addAction(okAction)
-//            alertController.addAction(cancelAction)
-//            self.present(alertController, animated: true)
-//        }
-//    }
+    func waitingForPlayersPopup() {
+        let alert = UIAlertController(title: nil, message: "Waiting for your friends...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
     
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)
