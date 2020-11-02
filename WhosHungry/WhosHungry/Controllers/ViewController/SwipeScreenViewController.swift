@@ -95,14 +95,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func showNextCard() {
-        guard RestaurantController.shared.restaurants.count > currentCardIndex + 1
-            else { return }
-        resetCard()
-        currentCardIndex += 1
-        let restaurant = RestaurantController.shared.restaurants[currentCardIndex]
-        populateCard(with: restaurant)
-        
-        if currentCardIndex  >= 19 {
+        if RestaurantController.shared.restaurants.count == currentCardIndex + 1 {
             compareArray()
             let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
@@ -112,6 +105,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                     }
                 }
             }
+        } else {
+            resetCard()
+            currentCardIndex += 1
+            let restaurant = RestaurantController.shared.restaurants[currentCardIndex]
+            populateCard(with: restaurant)
         }
     }
     
