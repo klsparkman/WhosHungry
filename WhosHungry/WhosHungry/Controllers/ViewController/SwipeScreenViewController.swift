@@ -97,10 +97,22 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func showNextCard() {
         guard RestaurantController.shared.restaurants.count > currentCardIndex + 1
             else { return }
+                
         resetCard()
         currentCardIndex += 1
         let restaurant = RestaurantController.shared.restaurants[currentCardIndex]
         populateCard(with: restaurant)
+        
+        if currentCardIndex  >= 19 {
+            let seconds = 3.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
+                    if let navigator = self.navigationController {
+                        navigator.pushViewController(viewController, animated: true)
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
@@ -135,8 +147,8 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             } else if card.center.x > (view.frame.width - 75) {
                 //Move off to the right side of the screen
                 restaurantVotes.append(true)
-                print("Displayed Restaurant Array: \(displayedRestaurants)")
-                print("Liked Restaurants Array: \(restaurantVotes)")
+//                print("Displayed Restaurant Array: \(displayedRestaurants)")
+//                print("Liked Restaurants Array: \(restaurantVotes)")
                 UIView.animate(withDuration: 0.3, animations:  {
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
@@ -168,33 +180,33 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    private func compareArray(restaurant: [String], vote: [Bool]) {
-        for i in 0 ..< displayedRestaurants.count {
-            if restaurantVotes[i] == true {
-                let name = displayedRestaurants[i]
-                if let _ = voteDictionary[name] {
-                    // case 1: the key already exists
-                    voteDictionary[name]! += 1
-                } else {
-                    // case 2: we're adding a key for the first time
-                    voteDictionary[name] = 1
-                }
-            }
-            print("Votes: \(voteDictionary)")
-        }
-    }
+//    private func compareArray(restaurant: [String], vote: [Bool]) {
+//        for i in 0 ..< displayedRestaurants.count {
+//            if restaurantVotes[i] == true {
+//                let name = displayedRestaurants[i]
+//                if let _ = voteDictionary[name] {
+//                    // case 1: the key already exists
+//                    voteDictionary[name]! += 1
+//                } else {
+//                    // case 2: we're adding a key for the first time
+//                    voteDictionary[name] = 1
+//                }
+//            }
+//            print("Votes: \(voteDictionary)")
+//        }
+//    }
     
-    func waitingForPlayersPopup() {
-        let alert = UIAlertController(title: nil, message: "Waiting for your friends...", preferredStyle: .alert)
-
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.medium
-        loadingIndicator.startAnimating();
-
-        alert.view.addSubview(loadingIndicator)
-        present(alert, animated: true, completion: nil)
-    }
+//    func waitingForPlayersPopup() {
+//        let alert = UIAlertController(title: nil, message: "Waiting for your friends...", preferredStyle: .alert)
+//
+//        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+//        loadingIndicator.hidesWhenStopped = true
+//        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+//        loadingIndicator.startAnimating();
+//
+//        alert.view.addSubview(loadingIndicator)
+//        present(alert, animated: true, completion: nil)
+//    }
     
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)

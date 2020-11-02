@@ -110,7 +110,7 @@ class Firebase {
         }
     }
     
-    func getUserCollection(gameCode: String) {
+    func getUserCollection() {
         let docRef = db.collection(Constants.gameContainer).document("76D04883-709C-4E67-BB1A-E37CB652A899")
         
         docRef.getDocument(source: .cache) { (document, error) in
