@@ -707,22 +707,52 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3079.1999999999998" y="-21.428571428571431"/>
+            <point key="canvasLocation" x="3129" y="-22"/>
         </scene>
-        <!--View Controller-->
+        <!--Results View Controller-->
         <scene sceneID="cTT-pe-INl">
             <objects>
-                <viewController id="Jsk-So-OPZ" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="resultsVC" id="Jsk-So-OPZ" customClass="ResultsViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GDH-3G-9tx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="thumbs up" translatesAutoresizingMaskIntoConstraints="NO" id="RqL-a7-G9K">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="YOU DID IT...             WELCOME TO THE RESULTS PAGE!!!" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yAd-9f-RcC">
+                                <rect key="frame" x="67" y="107" width="240" height="167"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="PLEASE WAIT FOR YOUR FRIENDS TO FINISH SWIPING." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="OS3-Xj-TSW">
+                                <rect key="frame" x="67" y="571" width="240" height="148"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Tyr-tx-Te3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="OS3-Xj-TSW" secondAttribute="trailing" constant="68" id="Fca-r8-67m"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="bottom" secondItem="OS3-Xj-TSW" secondAttribute="bottom" constant="59" id="NzJ-GK-rWB"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="bottom" secondItem="yAd-9f-RcC" secondAttribute="bottom" constant="504" id="RfR-Jj-Cwb"/>
+                            <constraint firstItem="OS3-Xj-TSW" firstAttribute="top" secondItem="yAd-9f-RcC" secondAttribute="bottom" constant="297" id="alq-mt-yl6"/>
+                            <constraint firstItem="OS3-Xj-TSW" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="67" id="be6-Gj-QAV"/>
+                            <constraint firstItem="yAd-9f-RcC" firstAttribute="top" secondItem="Tyr-tx-Te3" secondAttribute="top" constant="63" id="e5I-5U-8mV"/>
+                            <constraint firstItem="yAd-9f-RcC" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="67" id="fiO-Xu-CHP"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="yAd-9f-RcC" secondAttribute="trailing" constant="68" id="sWg-ub-Zpa"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gV8-ek-MNw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3809" y="-21"/>
+            <point key="canvasLocation" x="3808.8000000000002" y="-21.428571428571431"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dOS-MP-14K">
@@ -755,6 +785,7 @@
         <image name="gradient.1" width="800" height="1067"/>
         <image name="iceCreamNeon" width="800" height="1067"/>
         <image name="lessthan" catalog="system" width="128" height="111"/>
+        <image name="thumbs up" width="500" height="750"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
