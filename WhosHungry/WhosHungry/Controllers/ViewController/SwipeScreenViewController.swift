@@ -35,7 +35,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var category: String?
     var yelpURL: String?
     var displayedRestaurants: [String] = []
-    var restaurantVotes: [Bool] = []
+    var restaurantVote: [Bool] = []
     var voteDictionary: [String : Int] = [:]
     
     // Mark: - Lifecycle
@@ -45,7 +45,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         fetchRestaurants()
         card.layer.borderWidth = 1
         card.layer.borderColor = UIColor.white.cgColor
-//        matchRestaurants()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -75,8 +74,8 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func populateCard(with restaurant: Restaurant) {
-        guard let restaurantArray = restaurant.name else {return}
-        displayedRestaurants.append(restaurantArray)
+        guard let restaurantName = restaurant.name else {return}
+        displayedRestaurants.append(restaurantName)
         restaurantNameLabel.text = restaurant.name
         cuisineLabel.text = restaurant.cuisineList
         reviewCountLabel.text = "\(restaurant.reviewCount ?? 0) Reviews"
@@ -84,6 +83,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         yelpURL = restaurant.restaurantYelpLink
         let ratingString = RestaurantController.shared.setStarRating(rating: restaurant.rating ?? 0)
         ratingImageView.image = UIImage(named: ratingString)
+        print(restaurantName)
     }
     
     @IBAction func yelpButtonTapped(_ sender: Any) {
@@ -97,14 +97,14 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func showNextCard() {
         guard RestaurantController.shared.restaurants.count > currentCardIndex + 1
             else { return }
-                
         resetCard()
         currentCardIndex += 1
         let restaurant = RestaurantController.shared.restaurants[currentCardIndex]
         populateCard(with: restaurant)
         
         if currentCardIndex  >= 19 {
-            let seconds = 3.0
+            compareArray()
+            let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                 if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
                     if let navigator = self.navigationController {
@@ -134,7 +134,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         if sender.state == UIGestureRecognizer.State.ended {
             if card.center.x < (view.frame.width - 75) {
                 // Move off to the left side of the screen
-                restaurantVotes.append(false)
+                restaurantVote.append(false)
                 UIView.animate(withDuration: 0.3, animations: {
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
@@ -146,9 +146,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 return
             } else if card.center.x > (view.frame.width - 75) {
                 //Move off to the right side of the screen
-                restaurantVotes.append(true)
-//                print("Displayed Restaurant Array: \(displayedRestaurants)")
-//                print("Liked Restaurants Array: \(restaurantVotes)")
+                restaurantVote.append(true)
                 UIView.animate(withDuration: 0.3, animations:  {
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
@@ -180,21 +178,21 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-//    private func compareArray(restaurant: [String], vote: [Bool]) {
-//        for i in 0 ..< displayedRestaurants.count {
-//            if restaurantVotes[i] == true {
-//                let name = displayedRestaurants[i]
-//                if let _ = voteDictionary[name] {
-//                    // case 1: the key already exists
-//                    voteDictionary[name]! += 1
-//                } else {
-//                    // case 2: we're adding a key for the first time
-//                    voteDictionary[name] = 1
-//                }
-//            }
-//            print("Votes: \(voteDictionary)")
-//        }
-//    }
+    private func compareArray() {
+        for i in 0 ..< displayedRestaurants.count {
+            if restaurantVote[i] == true {
+                let name = displayedRestaurants[i]
+                if let _ = voteDictionary[name] {
+                    // case 1: the key already exists
+                    voteDictionary[name]! += 1
+                } else {
+                    // case 2: we're adding a key for the first time
+                    voteDictionary[name] = 1
+                }
+            }
+            print("Votes: \(voteDictionary)")
+        }
+    }
     
 //    func waitingForPlayersPopup() {
 //        let alert = UIAlertController(title: nil, message: "Waiting for your friends...", preferredStyle: .alert)

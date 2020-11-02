@@ -10,29 +10,18 @@ import UIKit
 
 class ResultsViewController: UIViewController {
     
-    let restaurant = SwipeScreenViewController.shared.displayedRestaurants
-    let vote = SwipeScreenViewController.shared.restaurantVotes
-    var voteDictionary = SwipeScreenViewController.shared.voteDictionary
+    static let shared = ResultsViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        compareArray(restaurant: restaurant, vote: vote)
     }
     
-    private func compareArray(restaurant: [String], vote: [Bool]) {
-        for i in 0 ..< restaurant.count {
-            if vote[i] == true {
-                let name = restaurant[i]
-                if let _ = voteDictionary[name] {
-                    // case 1: the key already exists
-                    voteDictionary[name]! += 1
-                } else {
-                    // case 2: we're adding a key for the first time
-                    voteDictionary[name] = 1
-                }
-                print("Votes: \(voteDictionary)")
+    private func findHighestVotedRestaurant() {
+        let votes = SwipeScreenViewController.shared.voteDictionary
+        for totals in votes.values {
+            if totals == RestaurantController.shared.users.count {
+                print(totals)
             }
         }
     }
-
 }// End of class
