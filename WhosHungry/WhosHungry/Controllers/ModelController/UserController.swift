@@ -112,7 +112,7 @@ extension UserController: ASAuthorizationControllerDelegate {
                     print("Error signing in: \(error)")
                 }
                 if let authUser = authDataResult?.user {
-                    print(authUser.uid)
+//                    print(authUser.uid)
                     self.defaults.setValue(authUser.uid, forKey: "uid")
                     // Fetch a user in Firebase using the authenticated uid
                     Firebase.shared.fetchUser(withID: authUser.uid) { (result) in

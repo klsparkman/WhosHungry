@@ -110,26 +110,7 @@ class Firebase {
         }
     }
     
-    //    func getUserCollection() {
-    //        db.collection(Constants.gameContainer).whereField(Constants.users, isEqualTo: true)
-    //            .getDocuments { (querySnapshot, error) in
-    //                if let error = error {
-    //                    print("Error getting documents: \(error)")
-    //                } else {
-    //                    guard let snapshot = querySnapshot else {return}
-    //                    for document in snapshot.documents {
-    //                        let user = User(firstName: (document.data()[Constants.firstName] as? String ?? ""),
-    //                                        lastName: (document.data()[Constants.lastName] as? String ?? ""),
-    //                                        email: (document.data()[Constants.email] as? String ?? ""),
-    //                                        uid: (document.data()[Constants.uid] as? String ?? ""))
-    //
-    //                        RestaurantController.shared.users.append(user)
-    //                    }
-    //                }
-    //        }
-    //    }
-    
-    func getUserCollection() {
+    func getUserCollection(gameCode: String) {
         let docRef = db.collection(Constants.gameContainer).document("76D04883-709C-4E67-BB1A-E37CB652A899")
         
         docRef.getDocument(source: .cache) { (document, error) in

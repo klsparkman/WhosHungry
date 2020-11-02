@@ -20,30 +20,26 @@ class SignInViewController: UIViewController {
     static var shared = SignInViewController()
     var loggedInCurrentUser: User?
     
-   
-    
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
     
 //        if Auth.auth().currentUser != nil {
-//            guard let firstName = loggedInCurrentUser,
-//            let lastName = loggedInCurrentUser?.lastName,
-//            let email = loggedInCurrentUser?.email,
-//            let uid = loggedInCurrentUser?.uid else {return}
-//            let user = User(firstName: firstName, lastName: lastName, email: email, uid: uid)
-//            RestaurantController.shared.users.append(user)
-//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
-//                if let navigator = navigationController {
-//                    navigator.pushViewController(viewController, animated: true)
+//            
+//            let user = Auth.auth().currentUser
+//            if let user = user {
+//                let uid = user.uid
+//                guard let email = user.email else {return}
+//                var multiFactorString = "MultiFactor: "
+//                for info in user.multiFactor.enrolledFactors {
+//                    multiFactorString += info.displayName ?? "[DisplayName]"
+//                    multiFactorString += " "
 //                }
+//                let currentUser = User(firstName: multiFactorString, lastName: multiFactorString, email: email, uid: uid)
+//                RestaurantController.shared.users.append(currentUser)
 //            }
-//        }
-//        if Auth.auth().currentUser != nil {
-//            guard let user = loggedInCurrentUser else {return}
-//            RestaurantController.shared.users.append(user)
-//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameChoiceVC") as? GameChoiceViewController {
+//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
 //                if let navigator = navigationController {
 //                    navigator.pushViewController(viewController, animated: true)
 //                }
@@ -73,7 +69,7 @@ class SignInViewController: UIViewController {
     func setupView() {
         let appleButton = ASAuthorizationAppleIDButton()
         appleButton.translatesAutoresizingMaskIntoConstraints = false
-        appleButton.addTarget(self, action: #selector(didTapAppleButton), for: .touchUpInside)
+        appleButton.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
         view.addSubview(appleButton)
         NSLayoutConstraint.activate([
             appleButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
@@ -82,7 +78,7 @@ class SignInViewController: UIViewController {
         ])
     }
     
-    @objc func didTapAppleButton() {
+    @objc func handleAuthorizationAppleIDButtonPress() {
         UserController.shared.didTapAppleButton(in: self)
     }
     
