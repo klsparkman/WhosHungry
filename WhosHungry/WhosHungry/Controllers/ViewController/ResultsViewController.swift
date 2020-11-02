@@ -14,13 +14,14 @@ class ResultsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        findHighestVotedRestaurant()
     }
     
     private func findHighestVotedRestaurant() {
         let votes = SwipeScreenViewController.shared.voteDictionary
         for totals in votes.values {
             if totals == RestaurantController.shared.users.count {
-                print(totals)
+                print("TOTALS: \(totals)")
             }
         }
     }
