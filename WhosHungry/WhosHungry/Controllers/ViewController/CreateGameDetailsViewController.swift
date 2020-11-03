@@ -245,7 +245,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
 //              let creatorID = currentUser?.uid
         else {return}
 //        gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType)
+        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType, submittedVotes: [:])
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
@@ -255,7 +255,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
                 print("Error saving game: \(error.localizedDescription)")
             }
         }
-        //        db.collection(Constants.userContainer).document(Constants.user).setData([Constants.inviteCode : inviteCode], merge: true)
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {

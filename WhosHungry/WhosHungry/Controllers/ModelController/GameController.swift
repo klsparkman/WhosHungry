@@ -37,7 +37,9 @@ class GameController: NSObject {
                         print("Error: \(error)")
                     //Successfully grabbed the documentID, add to the users field within the given document
                     case .success(let gameUID):
-                        print(gameUID)
+//                        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "swipeScreenVC") as? SwipeScreenViewController{
+                        //                        }
+                        SwipeScreenViewController.shared.gameUID?.append(gameUID)
                         guard let currentUser = UserController.shared.currentUser else {return}
                         let userRef = self.db.collection(Constants.gameContainer).document(gameUID)
                         userRef.updateData([Constants.users : FieldValue.arrayUnion(["\(currentUser.firstName + " " + currentUser.lastName)"])
