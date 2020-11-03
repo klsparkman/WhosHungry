@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import SafariServices
+import Firebase
 
 class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -24,12 +25,8 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     // Mark: - Properties
     static var shared = SwipeScreenViewController()
     var divisor: CGFloat!
-//    let restaurantService = RestaurantService()
     var restaurant: Restaurant?
-//    var location: CLLocation?
     var currentCardIndex: Int = 0
-//    var user: [Int] = []
-//    var liked: [Restaurant] = []
     var city: String?
     var radius: Double?
     var category: String?
@@ -37,6 +34,8 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var displayedRestaurants: [String] = []
     var restaurantVote: [Bool] = []
     var voteDictionary: [String : Int] = [:]
+    var gameUID: String?
+    let db = Firestore.firestore()
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -100,7 +99,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                 if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
-                    viewController.voteDict = self.voteDictionary
+                    guard let gameUID = self.gameUID else {return}
+                    let userRef = self.db.collection(Constants.gameContainer).document(gameUID)
+                    userRef.updateData([Constants.submittedVotes : FieldValue.arrayUnion(["\(self.voteDictionary)"])])
+   
                     if let navigator = self.navigationController {
                         navigator.pushViewController(viewController, animated: true)
                     }
