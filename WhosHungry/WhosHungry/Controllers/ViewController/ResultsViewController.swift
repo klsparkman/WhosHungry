@@ -20,9 +20,23 @@ class ResultsViewController: UIViewController {
     
     private func findHighestVotedRestaurant() {
         for totals in self.voteDict.values {
-            if totals == RestaurantController.shared.users.count {
-                print("TOTALS: \(voteDict.keys) : \(totals)")
+            if totals != 0 {
+                if totals == RestaurantController.shared.users.count {
+                    print("TOTALS: \(voteDict.keys) : \(totals)")
+                }
+            } else {
+                if totals == 0 {
+                    noRestaurantVote()
+                }
             }
         }
     }
+    
+    private func noRestaurantVote() {
+        let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least 1 restaurant", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Nevery mind", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }// End of class
