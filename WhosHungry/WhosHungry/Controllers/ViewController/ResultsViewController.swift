@@ -11,6 +11,7 @@ import UIKit
 class ResultsViewController: UIViewController {
     
     static let shared = ResultsViewController()
+    var voteDict: [String : Int] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,10 +19,9 @@ class ResultsViewController: UIViewController {
     }
     
     private func findHighestVotedRestaurant() {
-        let votes = SwipeScreenViewController.shared.voteDictionary
-        for totals in votes.values {
+        for totals in self.voteDict.values {
             if totals == RestaurantController.shared.users.count {
-                print("TOTALS: \(totals)")
+                print("TOTALS: \(voteDict.keys) : \(totals)")
             }
         }
     }

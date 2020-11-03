@@ -100,6 +100,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                 if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
+                    viewController.voteDict = self.voteDictionary
                     if let navigator = self.navigationController {
                         navigator.pushViewController(viewController, animated: true)
                     }
