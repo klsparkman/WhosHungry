@@ -51,8 +51,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
         Firebase.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
-        //        let user = User(firstName: <#T##String#>, lastName: <#T##String#>, email: <#T##String#>, uid: <#T##String#>)
-        //        RestaurantController.shared.users.append(user)
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
@@ -66,9 +64,21 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        if segue.identifier == "toUserListVC" {
-            guard let destinationVC = segue.destination as? UserListTableViewController else {return}
-            destinationVC.inviteCode = pasteCodeTextField.text
+        let inviteCode = pasteCodeTextField.text!
+        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case.success(let game):
+                if let game = game {
+                if segue.identifier == "toUserListVC" {
+                    guard let destinationVC = segue.destination as? UserListTableViewController else {return}
+                    destinationVC.category = game.mealType
+                    destinationVC.city = game.city
+                    destinationVC.radius = game.radius
+                }
+                }
+            }
         }
     }
     
