@@ -98,6 +98,9 @@ class Firebase {
             if let error = error {
                 print("Error getting documents: \(error)")
                 completion(.failure(.firebaseError(error)))
+            } else if let snapshot = querySnapshot?.documents.first {
+                guard let game = Game(dictionary: snapshot.data()) else {return}
+                completion(.success(game))
             } else {
                 completion(.success(nil))
             }
