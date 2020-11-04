@@ -31,17 +31,12 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         createGameButton.layer.cornerRadius = 30
         joinGameButton.layer.cornerRadius = 30
         self.pasteCodeTextField.delegate = self
-        
-       
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-    
-   
     
     //     Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
@@ -58,7 +53,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         GameController.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
         //        let user = User(firstName: <#T##String#>, lastName: <#T##String#>, email: <#T##String#>, uid: <#T##String#>)
         //        RestaurantController.shared.users.append(user)
-        
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {

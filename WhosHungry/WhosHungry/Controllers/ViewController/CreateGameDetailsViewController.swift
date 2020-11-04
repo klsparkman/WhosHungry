@@ -35,7 +35,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     static let shared = CreateGameDetailsViewController()
     var locManager = CLLocationManager()
     var currentLocation: CLLocation?
-    var users: [User]? = []
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
     var mealType: String?
     var gameInviteCode: String?
@@ -43,6 +42,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var currentUser = UserController.shared.currentUser
     var googleAPIKey: String?
     let remoteConfig = RemoteConfig.remoteConfig()
+    let submittedVotes: [Dictionary<String, Int>]? = [[:]]
+//    var users: [User] = []
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -171,24 +172,18 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         citySearchTextField.resignFirstResponder()
         return true
     }
-    
 
-    
     func searchPlaceFromGoogle(place: String) {
         guard let api = googleAPIKey else {return}
         let googleapi = api.replacingOccurrences(of: "\"", with: "")
         var strGoogleApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(place)&key=\(googleapi)"
         strGoogleApi = strGoogleApi.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        
         var urlRequest = URLRequest(url: URL(string: strGoogleApi)!)
         urlRequest.httpMethod = "GET"
-        
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if error == nil {
-                
                 if let responseData = data {
                     let jsonDict = try? JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
-                    
                     if let dict = jsonDict as? Dictionary<String, AnyObject> {
                         if let results = dict["results"] as? [Dictionary<String, AnyObject>] {
                             print("json = \(results)")
@@ -213,7 +208,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let allowedCharsCount = UInt32(allowedChars.count)
         var randomString = ""
-        
         for _ in 0..<length {
             let randomNum = Int(arc4random_uniform(allowedCharsCount))
             let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
@@ -237,24 +231,36 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     @IBAction func createGameButtonPressed(_ sender: Any) {
-        guard let inviteCode = codeLabel.text,
-              let users = users,
+        guard let user = currentUser,
+              let inviteCode = codeLabel.text,
               let city = citySearchTextField.text,
               let mealType = mealType,
-              let radius = Double("\(radiusLabel.text!)")
-//              let creatorID = currentUser?.uid
+              let radius = Double("\(radiusLabel.text!)"),
+              let votes = submittedVotes
+        //              let creatorID = currentUser?.uid
         else {return}
-//        gameInviteCode?.append(inviteCode) ?? nil
-        let game = Game(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType, submittedVotes: [:])
+//        users.append(user)
+        let game = Game(inviteCode: inviteCode, users: [user], city: city, radius: radius, mealType: mealType, submittedVotes: votes)
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
             case .success(_):
-                GameController.shared.addUserToGame(inviteCode: inviteCode)
+                print("User")
+                Firebase.shared.getGameUID(inviteCode: inviteCode) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print("Error getting gameUID: \(error.localizedDescription)")
+                    case .success(let gameUID):
+                        print("Game UID: \(gameUID)")
+                        SwipeScreenViewController.shared.gameUID?.append(gameUID)
+                    }
+                }
+//                GameController.shared.addUserToGame(inviteCode: inviteCode)
             case .failure(let error):
                 print("Error saving game: \(error.localizedDescription)")
             }
         }
+       
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
