@@ -50,7 +50,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
-        GameController.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
+        Firebase.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
         //        let user = User(firstName: <#T##String#>, lastName: <#T##String#>, email: <#T##String#>, uid: <#T##String#>)
         //        RestaurantController.shared.users.append(user)
     }
