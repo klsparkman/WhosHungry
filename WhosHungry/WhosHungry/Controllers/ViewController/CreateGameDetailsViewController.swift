@@ -42,7 +42,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var currentUser = UserController.shared.currentUser
     var googleAPIKey: String?
     let remoteConfig = RemoteConfig.remoteConfig()
-    let submittedVotes: [Dictionary<String, Int>]? = [[:]]
+    let submittedVotes: [Dictionary<String, Int>] = Array()
 //    var users: [User] = []
     
     // Mark: - Lifecycle
@@ -231,36 +231,24 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     @IBAction func createGameButtonPressed(_ sender: Any) {
-        guard let user = currentUser,
+        guard let currentUser = currentUser,
               let inviteCode = codeLabel.text,
               let city = citySearchTextField.text,
               let mealType = mealType,
-              let radius = Double("\(radiusLabel.text!)"),
-              let votes = submittedVotes
-        //              let creatorID = currentUser?.uid
+              let radius = Double("\(radiusLabel.text!)")
         else {return}
-//        users.append(user)
+        let user = currentUser.firstName + " " + currentUser.lastName
+        let votes = Array(submittedVotes.map { ("\($0.keys) \($0.values)") })
         let game = Game(inviteCode: inviteCode, users: [user], city: city, radius: radius, mealType: mealType, submittedVotes: votes)
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
             case .success(_):
-                print("User")
-                Firebase.shared.getGameUID(inviteCode: inviteCode) { (result) in
-                    switch result {
-                    case .failure(let error):
-                        print("Error getting gameUID: \(error.localizedDescription)")
-                    case .success(let gameUID):
-                        print("Game UID: \(gameUID)")
-                        SwipeScreenViewController.shared.gameUID?.append(gameUID)
-                    }
-                }
-//                GameController.shared.addUserToGame(inviteCode: inviteCode)
+                print("This worked!")
             case .failure(let error):
                 print("Error saving game: \(error.localizedDescription)")
             }
         }
-       
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {

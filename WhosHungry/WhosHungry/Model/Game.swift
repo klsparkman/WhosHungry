@@ -10,15 +10,15 @@ import Foundation
 
 struct Game {
     let inviteCode: String
-    let users: [User]
+    let users: [String]
     let city: String
     let radius: Double
     let mealType: String
-    let submittedVotes: [Dictionary<String, Int>]
+    let submittedVotes: [String]
     let uid: String
 //    let creatorID: String
     
-    init(inviteCode: String, users: [User], city: String, radius: Double, mealType: String, submittedVotes: [Dictionary<String, Int>], uid: String = UUID().uuidString) {
+    init(inviteCode: String, users: [String], city: String, radius: Double, mealType: String, submittedVotes: [String], uid: String = UUID().uuidString) {
         self.inviteCode = inviteCode
         self.users = users
         self.city = city
