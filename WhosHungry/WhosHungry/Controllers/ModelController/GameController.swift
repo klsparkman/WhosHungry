@@ -19,6 +19,8 @@ class GameController: NSObject {
         super.init()
     }
     
+
+    
     func addUserToGame(inviteCode: String) {
         //Go to Firestore and see if the invite code matches a game
         Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
@@ -37,9 +39,8 @@ class GameController: NSObject {
                         print("Error: \(error)")
                     //Successfully grabbed the documentID, add to the users field within the given document
                     case .success(let gameUID):
-//                        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "swipeScreenVC") as? SwipeScreenViewController{
-                        //                        }
-                        SwipeScreenViewController.shared.gameUID?.append(gameUID)
+//                        SwipeScreenViewController.shared.gameUID?.append(gameUID)
+                        SwipeScreenViewController.shared.gameUID = gameUID
                         guard let currentUser = UserController.shared.currentUser else {return}
                         let userRef = self.db.collection(Constants.gameContainer).document(gameUID)
                         userRef.updateData([Constants.users : FieldValue.arrayUnion(["\(currentUser.firstName + " " + currentUser.lastName)"])

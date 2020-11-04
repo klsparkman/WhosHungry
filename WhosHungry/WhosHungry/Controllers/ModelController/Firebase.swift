@@ -19,24 +19,26 @@ class Firebase {
     var userInviteCode: [Any] = []
     var navigationController: UINavigationController?
     var users: [User] = []
-    var gameUID: String?
+    var currentGame: Game?
     
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
-        let gameUID = UUID().uuidString
+//        let gameUID = UUID().uuidString
         let gameDictionary: [String : Any] = [Constants.inviteCode : game.inviteCode,
                                               Constants.users : game.users,
                                               Constants.city : game.city,
                                               Constants.radius : game.radius,
-                                              Constants.mealType : game.mealType]
+                                              Constants.mealType : game.mealType,
+                                              Constants.submittedVotes : game.submittedVotes]
         //                                              Constants.creatorID : game.creatorID
         
-        db.collection(Constants.gameContainer).document(gameUID).setData(gameDictionary) { (error) in
+        db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
             if let error = error {
                 print("There was an error creating a game: \(error)")
                 completion(.failure(error))
             } else {
                 print("Successfully created a game!")
-                self.gameUID = gameUID
+                self.currentGame = game
+//                self.gameUID = gameUID
                 completion(.success(game))
             }
         }
@@ -54,6 +56,7 @@ class Firebase {
     //        }
     //    }
     
+    // Mark: - Get a game with an invite code, no need for gameUID
     func getGameUID(inviteCode: String, completion: @escaping (Result<String, GameError>) -> Void) {
         self.db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -62,6 +65,8 @@ class Firebase {
             } else {
                 for document in querySnapshot!.documents {
                     let gameUID = document.documentID
+                    //take data from snapshot and turn into game
+                    //Should complete with a game
                     completion(.success(gameUID))
                 }
             }
