@@ -35,7 +35,6 @@
 		35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */; };
 		35DCF24024AE8E1B00BA3783 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF23F24AE8E1B00BA3783 /* User.swift */; };
 		35DCF26424AFE89A00BA3783 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26324AFE89A00BA3783 /* Game.swift */; };
-		35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26524AFE8A900BA3783 /* UserVote.swift */; };
 		35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26724AFE8F300BA3783 /* Firebase.swift */; };
 		35DE90B12548C2C100702606 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE90B02548C2C100702606 /* ResultsViewController.swift */; };
 		35FD875624FECF78004FEA32 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FD875524FECF78004FEA32 /* SignInViewController.swift */; };
@@ -74,7 +73,6 @@
 		35DCF23F24AE8E1B00BA3783 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35DCF24124AE907F00BA3783 /* WhosHungry.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhosHungry.entitlements; sourceTree = "<group>"; };
 		35DCF26324AFE89A00BA3783 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		35DCF26524AFE8A900BA3783 /* UserVote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVote.swift; sourceTree = "<group>"; };
 		35DCF26724AFE8F300BA3783 /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
 		35DE90B02548C2C100702606 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		35FD875524FECF78004FEA32 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -143,7 +141,6 @@
 				359C40312447702E007C2AEF /* Restaurant.swift */,
 				35DCF23F24AE8E1B00BA3783 /* User.swift */,
 				35DCF26324AFE89A00BA3783 /* Game.swift */,
-				35DCF26524AFE8A900BA3783 /* UserVote.swift */,
 				3549B65C25310EFB00CA4DFF /* Rating.swift */,
 			);
 			path = Model;
@@ -375,7 +372,6 @@
 				35DE90B12548C2C100702606 /* ResultsViewController.swift in Sources */,
 				358CBD19250FF89F00B340DF /* Constants.swift in Sources */,
 				3581E5ED24C3EC8600B76DE6 /* UserError.swift in Sources */,
-				35DCF26624AFE8A900BA3783 /* UserVote.swift in Sources */,
 				358CBD1B2510073600B340DF /* UserController.swift in Sources */,
 				359558D7244A5181003A20BC /* SwipeScreenViewController.swift in Sources */,
 				359E26B324A19F640011358A /* StyleGuide.swift in Sources */,
