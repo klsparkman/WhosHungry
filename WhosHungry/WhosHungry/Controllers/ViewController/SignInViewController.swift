@@ -25,26 +25,26 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         UserController.shared.delegate = self
     
-//        if Auth.auth().currentUser != nil {
-//            
-//            let user = Auth.auth().currentUser
-//            if let user = user {
-//                let uid = user.uid
+        if Auth.auth().currentUser != nil {
+            let user = Auth.auth().currentUser
+            if let user = user {
+                let uid = user.uid
 //                guard let email = user.email else {return}
-//                var multiFactorString = "MultiFactor: "
-//                for info in user.multiFactor.enrolledFactors {
-//                    multiFactorString += info.displayName ?? "[DisplayName]"
-//                    multiFactorString += " "
-//                }
-//                let currentUser = User(firstName: multiFactorString, lastName: multiFactorString, email: email, uid: uid)
-//                RestaurantController.shared.users.append(currentUser)
-//            }
+                var multiFactorString = "MultiFactor: "
+                for info in user.multiFactor.enrolledFactors {
+                    multiFactorString += info.displayName ?? "[DisplayName]"
+                    multiFactorString += " "
+                }
+                let currentUser = User(firstName: multiFactorString, lastName: multiFactorString, email: "", uid: uid)
+                print(multiFactorString)
+                RestaurantController.shared.users.append(currentUser)
+            }
 //            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
 //                if let navigator = navigationController {
 //                    navigator.pushViewController(viewController, animated: true)
 //                }
 //            }
-//        }
+        }
 //        else {
 //            UserController.shared.performExistingAccountSetupFlows()
 //        }
