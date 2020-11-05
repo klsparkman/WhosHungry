@@ -15,16 +15,16 @@ struct Game {
     let radius: Double
     let mealType: String
     let submittedVotes: [String]
-    let uid: String
+    let uid: String = UUID().uuidString
     
-    init(inviteCode: String, users: [String], city: String, radius: Double, mealType: String, submittedVotes: [String], uid: String = UUID().uuidString) {
+    init(inviteCode: String, users: [String], city: String, radius: Double, mealType: String, submittedVotes: [String]) {
         self.inviteCode = inviteCode
         self.users = users
         self.city = city
         self.radius = radius
         self.mealType = mealType
         self.submittedVotes = submittedVotes
-        self.uid = uid
+
     }
 }
 
@@ -35,9 +35,9 @@ extension Game {
               let city = dictionary[Constants.city] as? String,
               let radius = dictionary[Constants.radius] as? Double,
               let mealType = dictionary[Constants.mealType] as? String,
-              let submittedVotes = dictionary[Constants.submittedVotes] as? [String],
-              let uid = dictionary[Constants.uid] as? String
+              let submittedVotes = dictionary[Constants.submittedVotes] as? [String]
+//              let uid = dictionary[Constants.uid] as? String
         else {return nil}
-        self.init(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType, submittedVotes: submittedVotes, uid: uid)
+        self.init(inviteCode: inviteCode, users: users, city: city, radius: radius, mealType: mealType, submittedVotes: submittedVotes)
     }
 }

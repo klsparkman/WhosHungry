@@ -12,7 +12,7 @@ import AuthenticationServices
 import FirebaseAuth
 
 class SignInViewController: UIViewController {
-
+    
     // Mark: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -24,35 +24,28 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
-        
-//        let group = DispatchGroup()
-        
-//        group.enter()
-            
-            if Auth.auth().currentUser != nil {
-                guard let userID = Auth.auth().currentUser?.uid else {return}
-                Firebase.shared.fetchUser(withID: userID) { (result) in
-                    switch result {
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    case . success(let user):
-                        if let user = user {
-                            UserController.shared.currentUser = user
-                            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
-                                if let navigator = self.navigationController {
-                                    navigator.pushViewController(viewController, animated: true)
-                                }
+        if Auth.auth().currentUser != nil {
+            guard let userID = Auth.auth().currentUser?.uid else {return}
+            Firebase.shared.fetchUser(withID: userID) { (result) in
+                switch result {
+                case .failure(let error):
+                    print(error.localizedDescription)
+                case . success(let user):
+                    if let user = user {
+                        UserController.shared.currentUser = user
+                        RestaurantController.shared.users.append(user)
+                        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
+                            if let navigator = self.navigationController {
+                                navigator.pushViewController(viewController, animated: true)
                             }
                         }
                     }
-//                    group.leave()
                 }
-        }
-        
-        //        else {
-//            UserController.shared.performExistingAccountSetupFlows()
+            }
+        } else {
             self.animateTitle()
             self.setupView()
+        }
     }// End of ViewDidLoad
     
     func animateTitle() {
@@ -65,12 +58,7 @@ class SignInViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
-        //        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-        //            self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-        //        }, completion: nil)
     }
-    
-    
     
     func setupView() {
         let appleButton = ASAuthorizationAppleIDButton()

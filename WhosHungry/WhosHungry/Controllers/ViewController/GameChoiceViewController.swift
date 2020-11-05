@@ -68,15 +68,15 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
             switch result {
             case .failure(let error):
-                print(error.localizedDescription)
+                print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
             case.success(let game):
                 if let game = game {
-                if segue.identifier == "toUserListVC" {
-                    guard let destinationVC = segue.destination as? UserListTableViewController else {return}
-                    destinationVC.category = game.mealType
-                    destinationVC.city = game.city
-                    destinationVC.radius = game.radius
-                }
+                    if segue.identifier == "toUserListVC" {
+                        guard let destinationVC = segue.destination as? UserListTableViewController else {return}
+                        destinationVC.category = game.mealType
+                        destinationVC.city = game.city
+                        destinationVC.radius = game.radius
+                    }
                 }
             }
         }
