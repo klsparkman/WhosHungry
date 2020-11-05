@@ -24,37 +24,43 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
-    
-        if Auth.auth().currentUser != nil {
-            let user = Auth.auth().currentUser
-            if let user = user {
-                let uid = user.uid
-//                guard let email = user.email else {return}
-                var multiFactorString = "MultiFactor: "
-                for info in user.multiFactor.enrolledFactors {
-                    multiFactorString += info.displayName ?? "[DisplayName]"
-                    multiFactorString += " "
+        
+//        let group = DispatchGroup()
+        
+//        group.enter()
+            
+            if Auth.auth().currentUser != nil {
+                guard let userID = Auth.auth().currentUser?.uid else {return}
+                Firebase.shared.fetchUser(withID: userID) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    case . success(let user):
+                        if let user = user {
+                            UserController.shared.currentUser = user
+                            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
+                                if let navigator = self.navigationController {
+                                    navigator.pushViewController(viewController, animated: true)
+                                }
+                            }
+                        }
+                    }
+//                    group.leave()
                 }
-                let currentUser = User(firstName: multiFactorString, lastName: multiFactorString, email: "", uid: uid)
-                print(multiFactorString)
-                RestaurantController.shared.users.append(currentUser)
-            }
-//            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gameChoiceVC") as? GameChoiceViewController {
-//                if let navigator = navigationController {
-//                    navigator.pushViewController(viewController, animated: true)
-//                }
-//            }
         }
-//        else {
+        
+        //        else {
 //            UserController.shared.performExistingAccountSetupFlows()
-//        }
-        titleLabel.UILabelTextShadow(color: UIColor.cyan)
+            self.animateTitle()
+            self.setupView()
+    }// End of ViewDidLoad
+    
+    func animateTitle() {
+        self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
         UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
             self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
         }, completion: nil)
-        setupView()
-    }// End of ViewDidLoad
-    
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
