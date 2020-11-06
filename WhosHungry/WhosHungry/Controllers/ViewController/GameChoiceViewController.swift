@@ -71,6 +71,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
                 print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
             case.success(let game):
                 if let game = game {
+                    Firebase.shared.currentGame = game
                     if segue.identifier == "toUserListVC" {
                         guard let destinationVC = segue.destination as? UserListTableViewController else {return}
                         destinationVC.category = game.mealType

@@ -15,20 +15,18 @@ class Firebase {
     // Mark: - Properties
     static let shared = Firebase()
     let db = Firestore.firestore()
-    var userInviteCode: [Any] = []
     var navigationController: UINavigationController?
     var users: [User] = []
     var currentGame: Game?
     
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
-//        let gameUID = UUID().uuidString
         let gameDictionary: [String : Any] = [Constants.inviteCode : game.inviteCode,
                                               Constants.users : game.users,
                                               Constants.city : game.city,
                                               Constants.radius : game.radius,
                                               Constants.mealType : game.mealType,
-                                              Constants.submittedVotes : game.submittedVotes]
-        //                                              Constants.creatorID : game.creatorID
+                                              Constants.submittedVotes : game.submittedVotes,
+                                              Constants.uid : game.uid]
         
         db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
             if let error = error {
@@ -118,6 +116,24 @@ class Firebase {
             }
         }
     }
+    
+    func fetchUsersWithListeners(game: Game, completion: @escaping (Result<User?, UserError>) -> Void) {
+        db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(String(describing: error))")
+                completion(.failure(.firebaseError(error!)))
+                return
+            }
+            guard let data = document.data() else {
+                completion(.failure(.noData))
+                return
+            }
+//            let user = data
+            print("Current data: \(data)")
+            completion(.success(nil))
+        }
+    }
+    
 }//End of Class
 
 

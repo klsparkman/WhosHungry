@@ -243,7 +243,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
-            case .success(_):
+            case .success(let game):
                 print("This worked!")
             case .failure(let error):
                 print("Error saving game: \(error.localizedDescription)")
