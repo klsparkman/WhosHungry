@@ -52,6 +52,7 @@ class Firebase {
                 print("We found a game that matches that invite code")
                 //Get the documentID that matches the game with the given inviteCode
                 guard let currentUser = UserController.shared.currentUser else {return}
+                
                 print(currentUser)
                 guard let game = game else {return}
                 let userRef = self.db.collection(Constants.gameContainer).document("\(game.uid)")
@@ -133,7 +134,6 @@ class Firebase {
             completion(.success(nil))
         }
     }
-    
 }//End of Class
 
 

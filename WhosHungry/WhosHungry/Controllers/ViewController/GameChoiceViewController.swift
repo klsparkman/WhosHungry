@@ -22,6 +22,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     var currentUser = UserController.shared.currentUser
     let db = Firestore.firestore()
     let remoteConfig = RemoteConfig.remoteConfig()
+    var trimmedInviteCode: String?
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -62,9 +63,19 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    func fixInviteCode(){
+        let inviteCode = pasteCodeTextField.text!
+        if pasteCodeTextField.text!.count > 10 {
+            let trimmedInviteCode = inviteCode.replacingOccurrences(of: "Your Who's Hungry invite code is:", with: "")
+            self.trimmedInviteCode = inviteCode
+            print(trimmedInviteCode)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        let inviteCode = pasteCodeTextField.text!
+        fixInviteCode()
+        guard let inviteCode = self.trimmedInviteCode else {return}
         Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
             switch result {
             case .failure(let error):
