@@ -22,6 +22,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     var currentUser = UserController.shared.currentUser
     let db = Firestore.firestore()
     let remoteConfig = RemoteConfig.remoteConfig()
+    var trimmedInviteCode: String?
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -50,7 +51,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
-        Firebase.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
+//        Firebase.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
@@ -62,14 +63,25 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    func fixInviteCode(){
+        let inviteCode = pasteCodeTextField.text!
+        if pasteCodeTextField.text!.count > 10 {
+            let trimmedInviteCode = inviteCode.replacingOccurrences(of: "Your Who's Hungry invite code is: ", with: "")
+            self.trimmedInviteCode = trimmedInviteCode
+            print(trimmedInviteCode)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        let inviteCode = pasteCodeTextField.text!
+        fixInviteCode()
+        guard let inviteCode = self.trimmedInviteCode else {return}
         Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
             switch result {
             case .failure(let error):
                 print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
             case.success(let game):
+                Firebase.shared.addUserToGame(inviteCode: inviteCode)
                 if let game = game {
                     Firebase.shared.currentGame = game
                     if segue.identifier == "toUserListVC" {
@@ -93,3 +105,5 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         }
     }
 }
+
+//Your Who's Hungry invite code is: alWi7E95PR
