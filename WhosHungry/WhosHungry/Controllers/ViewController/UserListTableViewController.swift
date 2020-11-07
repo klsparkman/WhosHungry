@@ -11,6 +11,7 @@ import UIKit
 class UserListTableViewController: UITableViewController {
     
     // Mark: - Properties
+    static var shared = UserListTableViewController()
     var city: String?
     var radius: Double?
     var category: String?
@@ -89,9 +90,9 @@ class UserListTableViewController: UITableViewController {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "toSwipeScreenVC" {
             guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
-            destinationVC.radius = radius
-            destinationVC.city = city
-            destinationVC.category = category
+            destinationVC.radius = self.radius
+            destinationVC.city = self.city
+            destinationVC.category = self.category
         }
     }
 }

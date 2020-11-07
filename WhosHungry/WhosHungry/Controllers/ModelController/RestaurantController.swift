@@ -26,7 +26,6 @@ class RestaurantController {
     let baseURL = URL(string: "https://api.yelp.com/v3/businesses")
     let searchEndpoint = "search"
     let authType = "Bearer Token"
-    
     let searchKey = "location"
     let radiusKey = "radius"
     let categoryTerm = "term"
