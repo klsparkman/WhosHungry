@@ -32,6 +32,8 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         createGameButton.layer.cornerRadius = 30
         joinGameButton.layer.cornerRadius = 30
         self.pasteCodeTextField.delegate = self
+        GameController.shared.updateViewWithRCValues()
+        GameController.shared.fetchRemoteConfig()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -49,11 +49,10 @@ class Firebase {
                 print("There was an error fetching the game in Firestore: \(error)")
             //If there is a game that matches, add the user to the [User] in the game
             case .success(let game):
-                print("We found a game that matches that invite code")
+//                print("We found a game that matches that invite code")
                 //Get the documentID that matches the game with the given inviteCode
                 guard let currentUser = UserController.shared.currentUser else {return}
-                
-                print(currentUser)
+//                print(currentUser)
                 guard let game = game else {return}
                 let userRef = self.db.collection(Constants.gameContainer).document("\(game.uid)")
                 userRef.updateData([Constants.users : FieldValue.arrayUnion(["\(currentUser.firstName + " " + currentUser.lastName)"])
@@ -100,7 +99,7 @@ class Firebase {
                 completion(.failure(.firebaseError(error)))
             } else if let snapshot = querySnapshot?.documents.first {
                 guard let game = Game(dictionary: snapshot.data()) else {return}
-                print(snapshot.data())
+//                print(snapshot.data())
                 completion(.success(game))
             }
         }
@@ -130,7 +129,7 @@ class Firebase {
                 return
             }
 //            let user = data
-            print("Current data: \(data)")
+//            print("Current data: \(data)")
             completion(.success(nil))
         }
     }

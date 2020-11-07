@@ -19,17 +19,16 @@ class RestaurantController {
     var users: [User] = []
     var yelpAPIKey: String?
     
-    private init() {
-    }
-    
     // Mark: - Yelp URL Constants
     let baseURL = URL(string: "https://api.yelp.com/v3/businesses")
     let searchEndpoint = "search"
     let authType = "Bearer Token"
-    
     let searchKey = "location"
     let radiusKey = "radius"
     let categoryTerm = "term"
+    
+    private init() {
+    }
     
     // Mark: - Fetch Request
     func fetchRestaurants(searchTerm: String, radius: Int, category: String, completion: @escaping (Result<Void, RestaurantError>) -> Void) {
@@ -39,7 +38,7 @@ class RestaurantController {
         urlComponents?.queryItems = [URLQueryItem(name: searchKey, value: searchTerm), URLQueryItem(name: radiusKey, value: "\(Int(radius))"), URLQueryItem(name: categoryTerm, value: category)]
         let finalURL = urlComponents?.url
         var request = URLRequest(url: finalURL!)
-        guard let yelpAPIKey = yelpAPIKey else {return}
+        guard let yelpAPIKey = GameController.shared.yelpAPIKey else {return}
         let apiKey = yelpAPIKey.replacingOccurrences(of: "\"", with: "")
         request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
@@ -56,6 +55,8 @@ class RestaurantController {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).businesses
 
                 let restaurants = restaurantContainers.compactMap({$0})
+                
+                // ****This is where my code is breaking when a user joins a game
                 guard !restaurants.isEmpty else {return completion(.failure(.noData))}
                 
                 let group = DispatchGroup()
