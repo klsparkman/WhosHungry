@@ -14,8 +14,9 @@ class GameController: NSObject {
     // Mark: - Properties
     static var shared = GameController()
     let db = Firestore.firestore()
-    var googleAPIKey: String?
     let remoteConfig = RemoteConfig.remoteConfig()
+    var googleAPIKey: String?
+    var yelpAPIKey: String?
     
     private override init() {
         super.init()
@@ -25,14 +26,13 @@ class GameController: NSObject {
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 0
         remoteConfig.configSettings = settings
-        updateViewWithRCValues()
+//        updateViewWithRCValues()
         
         self.remoteConfig.fetch { [unowned self] (status, error) in
             if status == .success {
-                print("Config fetched!")
+//                print("Config fetched!")
                 self.remoteConfig.activate { (changed, error) in
                     self.updateViewWithRCValues()
-                    //...
                 }
             } else {
                 print("Config not fetched")
@@ -46,7 +46,7 @@ class GameController: NSObject {
             let rc = RemoteConfig.remoteConfig()
             let yelpKey = rc.configValue(forKey: Constants.yelpAPIKey).stringValue ?? ""
             let googleKey = rc.configValue(forKey:Constants.googleAPIKey).stringValue ?? ""
-            RestaurantController.shared.yelpAPIKey = yelpKey
+            self.yelpAPIKey = yelpKey
             self.googleAPIKey = googleKey
         }
     }
