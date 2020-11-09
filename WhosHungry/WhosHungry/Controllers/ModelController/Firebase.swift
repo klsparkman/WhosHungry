@@ -20,13 +20,14 @@ class Firebase {
     var currentGame: Game?
     
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
-        let gameDictionary: [String : Any] = [Constants.inviteCode : game.inviteCode,
-                                              Constants.users : game.users,
+        let gameDictionary: [String : Any] = [Constants.uid : game.uid,
+                                              Constants.inviteCode : game.inviteCode,
                                               Constants.city : game.city,
                                               Constants.radius : game.radius,
                                               Constants.mealType : game.mealType,
+                                              Constants.users : game.users,
                                               Constants.submittedVotes : game.submittedVotes,
-                                              Constants.uid : game.uid]
+        ]
         
         db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
             if let error = error {
@@ -133,6 +134,21 @@ class Firebase {
             completion(.success(nil))
         }
     }
+    
+    func listenForSubmittedVotes(gameUID: String) {
+        db.collection(Constants.gameContainer).document(gameUID).addSnapshotListener { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                print("There was an error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("The document data was empty")
+                return
+            }
+            print("Current data: \(data)")
+        }
+    }
+    
 }//End of Class
 
 

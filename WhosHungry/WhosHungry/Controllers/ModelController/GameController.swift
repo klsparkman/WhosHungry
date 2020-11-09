@@ -26,11 +26,8 @@ class GameController: NSObject {
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 0
         remoteConfig.configSettings = settings
-//        updateViewWithRCValues()
-        
         self.remoteConfig.fetch { [unowned self] (status, error) in
             if status == .success {
-//                print("Config fetched!")
                 self.remoteConfig.activate { (changed, error) in
                     self.updateViewWithRCValues()
                 }
@@ -49,6 +46,10 @@ class GameController: NSObject {
             self.yelpAPIKey = yelpKey
             self.googleAPIKey = googleKey
         }
+    }
+    
+    func updateSubmittedVotes() {
+        
     }
    
 }//End of Class
