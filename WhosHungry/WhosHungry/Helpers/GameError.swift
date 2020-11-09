@@ -12,6 +12,7 @@ enum GameError: LocalizedError {
     
     case noGameExists
     case firebaseError(Error)
+    case noData
     
     var errorDescription: String? {
         
@@ -20,6 +21,8 @@ enum GameError: LocalizedError {
             return("There is no game that matches that invite code")
         case .firebaseError(let error):
             return("Firebase returned with an error: \(error.localizedDescription)")
+        case .noData:
+            return("There was no data")
         }
     }
 }

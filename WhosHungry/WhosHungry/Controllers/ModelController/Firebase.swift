@@ -135,17 +135,20 @@ class Firebase {
         }
     }
     
-    func listenForSubmittedVotes(gameUID: String) {
+    func listenForSubmittedVotes(gameUID: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
         db.collection(Constants.gameContainer).document(gameUID).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
                 print("There was an error fetching document: \(error!)")
-                return
+                
+                return completion(.failure(.firebaseError(error!)))
             }
             guard let data = document.data() else {
                 print("The document data was empty")
-                return
+                return completion(.failure(.noData))
             }
-            print("Current data: \(data)")
+            ResultsViewController.shared.snapshotListenerData = data
+            return completion(.success(nil))
+            //            print("Current data: \(data)")
         }
     }
     
