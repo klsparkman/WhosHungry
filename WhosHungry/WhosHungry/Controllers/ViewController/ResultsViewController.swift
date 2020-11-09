@@ -52,16 +52,10 @@ class ResultsViewController: UIViewController {
                         print(error.localizedDescription)
                     }
                 }
-//                print("Here are the submitted votes: \(game.submittedVotes.count)")
             }
         }
     }
     
-    private func noRestaurantVote() {
-        let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least 1 restaurant", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Nevery mind", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
+    
     
 }// End of class

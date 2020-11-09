@@ -70,7 +70,8 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         if pasteCodeTextField.text!.count > 10 {
             let trimmedInviteCode = inviteCode.replacingOccurrences(of: "Your Who's Hungry invite code is: ", with: "")
             self.trimmedInviteCode = trimmedInviteCode
-            print(trimmedInviteCode)
+        } else {
+            self.trimmedInviteCode = inviteCode
         }
     }
     

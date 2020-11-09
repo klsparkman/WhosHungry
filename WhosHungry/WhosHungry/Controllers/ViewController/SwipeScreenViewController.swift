@@ -194,6 +194,13 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    private func noRestaurantVote() {
+        let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least 1 restaurant", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Nevery mind", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 //    func waitingForPlayersPopup() {
 //        let alert = UIAlertController(title: nil, message: "Waiting for your friends...", preferredStyle: .alert)
 //
