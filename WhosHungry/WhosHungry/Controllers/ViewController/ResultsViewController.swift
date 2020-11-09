@@ -12,9 +12,11 @@ class ResultsViewController: UIViewController {
     
     static let shared = ResultsViewController()
     var voteDict: [String : Int] = [:]
+    var gameUID: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        Firebase.shared.listenForSubmittedVotes(gameUID: <#T##String#>)
         findHighestVotedRestaurant()
     }
     
@@ -31,6 +33,8 @@ class ResultsViewController: UIViewController {
             }
         }
     }
+    
+    
     
     private func noRestaurantVote() {
         let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least 1 restaurant", preferredStyle: .alert)

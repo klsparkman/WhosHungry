@@ -23,9 +23,7 @@ class UserListTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         //****Maybe add your listener here??
-        
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
         guard let game = Firebase.shared.currentGame else {return}
@@ -75,9 +73,6 @@ class UserListTableViewController: UITableViewController {
     }
     
     // Mark: - Actions
-    
-    //****May also need to deactivate listener when leaving this screen at all?
-    
     @IBAction func backButtonPressed(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }

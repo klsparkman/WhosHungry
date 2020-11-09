@@ -90,7 +90,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
                         guard let destinationVC = segue.destination as? UserListTableViewController else {return}
                         destinationVC.category = game.mealType
                         destinationVC.city = game.city
-                        destinationVC.radius = game.radius
+                        destinationVC.radius = game.radius * 1600
                     }
                 }
             }
