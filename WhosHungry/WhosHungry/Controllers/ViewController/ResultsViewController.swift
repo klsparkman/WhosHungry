@@ -13,10 +13,14 @@ class ResultsViewController: UIViewController {
     static let shared = ResultsViewController()
     var voteDict: [String : Int] = [:]
     var snapshotListenerData: [String : Any] = [:]
+    var submittedVoteArray: [String] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         comparingSubmittedVotes()
+        submittedVoteArray = SwipeScreenViewController.shared.likedRestaurants
+        print(submittedVoteArray)
     }
     
     //    private func findHighestVotedRestaurant() {
@@ -46,6 +50,11 @@ class ResultsViewController: UIViewController {
                     switch result {
                     case .success(let game):
                         if let game = game {
+                            
+                            for votes in game.submittedVotes {
+                                
+                            }
+                            
                             print("Here are the submitted votes: \(game.submittedVotes)")
                         }
                     case .failure(let error):

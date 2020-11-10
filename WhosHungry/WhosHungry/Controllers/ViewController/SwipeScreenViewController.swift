@@ -34,6 +34,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var displayedRestaurants: [String] = []
     var restaurantVote: [Bool] = []
     var voteDictionary: [String : Int] = [:]
+    var likedRestaurants: [String] = []
     var gameUID: String?
     let db = Firestore.firestore()
     
@@ -98,7 +99,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             compareArray()
             guard let game = Firebase.shared.currentGame else {return}
             let userRef = self.db.collection(Constants.gameContainer).document(game.uid)
-            userRef.updateData([Constants.submittedVotes : FieldValue.arrayUnion(["\(self.voteDictionary)"])])
+            userRef.updateData([Constants.submittedVotes : FieldValue.arrayUnion(["\(self.likedRestaurants)"])])
             let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                 if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
@@ -122,6 +123,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
         let scale = min(100/abs(xFromCenter), 1)
         card.transform = CGAffineTransform(rotationAngle: xFromCenter/divisor).scaledBy(x: scale, y: scale)
+        
         if xFromCenter > 0 {
             thumbImageView.image = #imageLiteral(resourceName: "Untitled")
             thumbImageView.tintColor = .green
@@ -132,10 +134,12 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         thumbImageView.alpha = abs(xFromCenter) / view.center.x
         
         if sender.state == UIGestureRecognizer.State.ended {
-            if card.center.x < (view.frame.width - 75) {
+            if card.center.x < 75 {
+//                (view.frame.width - 75) {
                 // Move off to the left side of the screen
                 restaurantVote.append(false)
                 UIView.animate(withDuration: 0.3, animations: {
+//                    card.center = self.view.center
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
                 }) { (success) in
@@ -148,6 +152,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 //Move off to the right side of the screen
                 restaurantVote.append(true)
                 UIView.animate(withDuration: 0.3, animations:  {
+//                    card.center = self.view.center
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
                 }) { (success) in
@@ -182,13 +187,14 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         for i in 0 ..< displayedRestaurants.count {
             if restaurantVote[i] == true {
                 let name = displayedRestaurants[i]
-                if let _ = voteDictionary[name] {
-                    // case 1: the key already exists
-                    voteDictionary[name]! += 1
-                } else {
-                    // case 2: we're adding a key for the first time
-                    voteDictionary[name] = 1
-                }
+                likedRestaurants.append(name)
+//                if let _ = voteDictionary[name] {
+//                    // case 1: the key already exists
+//                    voteDictionary[name]! += 1
+//                } else {
+//                    // case 2: we're adding a key for the first time
+//                    voteDictionary[name] = 1
+//                }
             }
 //            print("Votes: \(voteDictionary)")
         }
