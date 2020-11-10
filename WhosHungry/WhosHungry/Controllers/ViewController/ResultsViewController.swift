@@ -15,6 +15,7 @@ class ResultsViewController: UIViewController {
     var snapshotListenerData: [String : Any] = [:]
     var submittedVoteArray: [String] = []
     
+    @IBOutlet weak var restaurantRestultLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,8 @@ class ResultsViewController: UIViewController {
         submittedVoteArray = SwipeScreenViewController.shared.likedRestaurants
         print(submittedVoteArray)
     }
+    
+    
     
     //    private func findHighestVotedRestaurant() {
     //        for totals in self.voteDict.values {
@@ -51,9 +54,8 @@ class ResultsViewController: UIViewController {
                     case .success(let game):
                         if let game = game {
                             
-                            for votes in game.submittedVotes {
-                                
-                            }
+                            let likedRestaurants = game.submittedVotes
+                            self.restaurantRestultLabel.text = likedRestaurants.randomElement()
                             
                             print("Here are the submitted votes: \(game.submittedVotes)")
                         }
