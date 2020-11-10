@@ -40,7 +40,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var gameInviteCode: String?
     let db = Firestore.firestore()
     var currentUser = UserController.shared.currentUser
-    let submittedVotes: [Dictionary<String, Int>] = Array()
+//    let submittedVotes: [Dictionary<String, Int>] = Array()
 //    var users: [User] = []
     
     // Mark: - Lifecycle
@@ -204,10 +204,11 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let city = citySearchTextField.text,
               let mealType = mealType,
               let radius = Double("\(radiusLabel.text!)")
+//              let votes = submittedVotes
         else {return}
         let user = currentUser.firstName + " " + currentUser.lastName
-        let votes = Array(submittedVotes.map { ("\($0.keys) \($0.values)") })
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], submittedVotes: votes)
+//        let votes = Array(submittedVotes.map { ("\($0.keys) \($0.values)") })
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], submittedVotes: [])
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kyg-g6-ZiL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kyg-g6-ZiL">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -717,38 +716,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="thumbs up" translatesAutoresizingMaskIntoConstraints="NO" id="RqL-a7-G9K">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thumbs up" translatesAutoresizingMaskIntoConstraints="NO" id="RqL-a7-G9K">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="YOU DID IT...             WELCOME TO THE RESULTS PAGE!!!" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yAd-9f-RcC">
-                                <rect key="frame" x="67" y="107" width="240" height="167"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Congrats on finishing! Please wait for your friends to finish, and see results below." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QWr-8D-rIC">
+                                <rect key="frame" x="16" y="65" width="343" height="190"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="PLEASE WAIT FOR YOUR FRIENDS TO FINISH SWIPING." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="OS3-Xj-TSW">
-                                <rect key="frame" x="67" y="571" width="240" height="148"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-OO-1Pf">
+                                <rect key="frame" x="16" y="582" width="343" height="83"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="83" id="VJa-sW-Q3w"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tyr-tx-Te3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="OS3-Xj-TSW" secondAttribute="trailing" constant="68" id="Fca-r8-67m"/>
-                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="bottom" secondItem="OS3-Xj-TSW" secondAttribute="bottom" constant="59" id="NzJ-GK-rWB"/>
-                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="bottom" secondItem="yAd-9f-RcC" secondAttribute="bottom" constant="504" id="RfR-Jj-Cwb"/>
-                            <constraint firstItem="OS3-Xj-TSW" firstAttribute="top" secondItem="yAd-9f-RcC" secondAttribute="bottom" constant="297" id="alq-mt-yl6"/>
-                            <constraint firstItem="OS3-Xj-TSW" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="67" id="be6-Gj-QAV"/>
-                            <constraint firstItem="yAd-9f-RcC" firstAttribute="top" secondItem="Tyr-tx-Te3" secondAttribute="top" constant="63" id="e5I-5U-8mV"/>
-                            <constraint firstItem="yAd-9f-RcC" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="67" id="fiO-Xu-CHP"/>
-                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="yAd-9f-RcC" secondAttribute="trailing" constant="68" id="sWg-ub-Zpa"/>
+                            <constraint firstItem="QWr-8D-rIC" firstAttribute="top" secondItem="Tyr-tx-Te3" secondAttribute="top" constant="21" id="7kD-Vc-Qin"/>
+                            <constraint firstAttribute="bottom" secondItem="RqL-a7-G9K" secondAttribute="bottom" id="D3Q-XH-V1O"/>
+                            <constraint firstItem="RqL-a7-G9K" firstAttribute="top" secondItem="GDH-3G-9tx" secondAttribute="top" id="J3h-TH-nKR"/>
+                            <constraint firstItem="QWr-8D-rIC" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="JXj-hM-TZv"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="QWr-8D-rIC" secondAttribute="trailing" constant="16" id="JpJ-vS-6tp"/>
+                            <constraint firstItem="RqL-a7-G9K" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" id="LuH-oj-sHM"/>
+                            <constraint firstItem="1pT-OO-1Pf" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="M9H-ew-FI2"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="bottom" secondItem="1pT-OO-1Pf" secondAttribute="bottom" constant="113" id="MX7-5k-FZc"/>
+                            <constraint firstItem="RqL-a7-G9K" firstAttribute="trailing" secondItem="Tyr-tx-Te3" secondAttribute="trailing" id="j7c-QD-Zw2"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="1pT-OO-1Pf" secondAttribute="trailing" constant="16" id="nJI-UE-KIt"/>
+                            <constraint firstItem="1pT-OO-1Pf" firstAttribute="top" secondItem="QWr-8D-rIC" secondAttribute="bottom" constant="327" id="vX4-0q-Eyj"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="restaurantRestultLabel" destination="1pT-OO-1Pf" id="F2T-9y-PUi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gV8-ek-MNw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
