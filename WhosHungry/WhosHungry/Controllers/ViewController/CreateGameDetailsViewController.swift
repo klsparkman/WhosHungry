@@ -46,95 +46,35 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        citySearchTextField.layer.cornerRadius = 10
-        citySearchTextField.layer.borderColor = UIColor.black.cgColor
-        citySearchTextField.layer.borderWidth = 1
-        citySearchTextField.layer.masksToBounds = true
-        
-        whatCityLabel.layer.cornerRadius = 10
-        whatCityLabel.layer.borderColor = UIColor.white.cgColor
-        whatCityLabel.layer.borderWidth = 1
-        whatCityLabel.layer.masksToBounds = true
-        
-        radiusLabel.layer.cornerRadius = 10
-        radiusLabel.layer.borderColor = UIColor.white.cgColor
-        radiusLabel.layer.borderWidth = 1
-        radiusLabel.layer.masksToBounds = true
-        
-        typeOfFoodLabel.layer.cornerRadius = 10
-        typeOfFoodLabel.layer.borderColor = UIColor.white.cgColor
-        typeOfFoodLabel.layer.borderWidth = 1
-        typeOfFoodLabel.layer.masksToBounds = true
-        
-        distanceLabel.layer.cornerRadius = 10
-        distanceLabel.layer.borderColor = UIColor.white.cgColor
-        distanceLabel.layer.borderWidth = 1
-        distanceLabel.layer.masksToBounds = true
-        
-        radiusSlider.layer.cornerRadius = 10
-        radiusSlider.layer.borderColor = UIColor.white.cgColor
-        radiusSlider.layer.borderWidth = 1
-        radiusSlider.layer.masksToBounds = true
-        
-        codeLabel.isHidden = true
-        codeLabel.layer.cornerRadius = 10
-        codeLabel.layer.borderColor = UIColor.black.cgColor
-        codeLabel.layer.borderWidth = 1
-        codeLabel.layer.masksToBounds = true
-        
-        yourInviteCodeIsLabel.isHidden = true
-        yourInviteCodeIsLabel.layer.cornerRadius = 10
-        yourInviteCodeIsLabel.layer.borderColor = UIColor.black.cgColor
-        yourInviteCodeIsLabel.layer.borderWidth = 1
-        yourInviteCodeIsLabel.layer.masksToBounds = true
-        
+        StyleConstants.setTextFieldStyle(textField: citySearchTextField)
+        StyleConstants.setLabelWhiteBorderStyle(label: whatCityLabel)
+        StyleConstants.setLabelWhiteBorderStyle(label: radiusLabel)
+        StyleConstants.setLabelWhiteBorderStyle(label: typeOfFoodLabel)
+        StyleConstants.setLabelWhiteBorderStyle(label: distanceLabel)
+        StyleConstants.setLabelBlackBorderStyle(label: codeLabel)
+        StyleConstants.setLabelBlackBorderStyle(label: yourInviteCodeIsLabel)
+        StyleConstants.setRadiusSliderStyle(slider: radiusSlider)
+        StyleConstants.setButtonStyle(button: generateCodeButton)
+        StyleConstants.setButtonStyle(button: breakfastButton)
+        StyleConstants.setButtonStyle(button: lunchButton)
+        StyleConstants.setButtonStyle(button: dinnerButton)
+        StyleConstants.setButtonStyle(button: dessertButton)
         copycodeButton.isHidden = true
         placesTableView.isHidden = true
         createGameButton.isHidden = true
-        
-        generateCodeButton.layer.cornerRadius = 10
-        generateCodeButton.layer.borderWidth = 1
-        generateCodeButton.layer.borderColor = UIColor.white.cgColor
-        
-        breakfastButton.layer.cornerRadius = 10
-        breakfastButton.layer.borderColor = UIColor.black.cgColor
-        breakfastButton.layer.borderWidth = 1
-        
-        lunchButton.layer.cornerRadius = 10
-        lunchButton.layer.borderColor = UIColor.black.cgColor
-        lunchButton.layer.borderWidth = 1
-        
-        dinnerButton.layer.cornerRadius = 10
-        dinnerButton.layer.borderColor = UIColor.black.cgColor
-        dinnerButton.layer.borderWidth = 1
-        
-        dessertButton.layer.cornerRadius = 10
-        dessertButton.layer.borderColor = UIColor.black.cgColor
-        dessertButton.layer.borderWidth = 1
-        
-        locManager.requestAlwaysAuthorization()
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self
-//        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-//        view.addGestureRecognizer(tap)
-        
-        //        if CLLocationManager.locationServicesEnabled() {
-        //            locManager.delegate = self
-        //            locManager.desiredAccuracy = kCLLocationAccuracyBest
-        //            locManager.startUpdatingLocation()
-        //            currentLocation = locManager.location
-        //        }
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
+//        locManager.requestAlwaysAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchPlaceFromGoogle(place: citySearchTextField.text!)
         citySearchTextField.resignFirstResponder()
@@ -172,74 +112,17 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         task.resume()
     }
     
-    func randomAlphaNumericString(length: Int) -> String {
-        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        let allowedCharsCount = UInt32(allowedChars.count)
-        var randomString = ""
-        for _ in 0..<length {
-            let randomNum = Int(arc4random_uniform(allowedCharsCount))
-            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
-            let newCharacter = allowedChars[randomIndex]
-            randomString += String(newCharacter)
-        }
-        return randomString
-    }
-    
     // Mark: - Actions
-    @IBAction func generateCodeButtonPressed(_ sender: Any) {
-        codeLabel.isHidden = false
-        yourInviteCodeIsLabel.isHidden = false
-        codeLabel.text = randomAlphaNumericString(length: 10)
-        copycodeButton.isHidden = false
-    }
-    
-    @IBAction func copyCodePressed(_ sender: Any) {
-        UIPasteboard.general.string = "Your Who's Hungry invite code is: \(codeLabel.text!)"
-        createGameButton.isHidden = false
-    }
-    
-    @IBAction func createGameButtonPressed(_ sender: Any) {
-        guard let currentUser = currentUser,
-              let inviteCode = codeLabel.text,
-              let city = citySearchTextField.text,
-              let mealType = mealType,
-              let radius = Double("\(radiusLabel.text!)")
-//              let votes = submittedVotes
-        else {return}
-        let user = currentUser.firstName + " " + currentUser.lastName
-//        let votes = Array(submittedVotes.map { ("\($0.keys) \($0.values)") })
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], submittedVotes: [])
-        Firebase.shared.createGame(game: game) { (result) in
-            // MORE TO DO HERE!!!
-            switch result {
-            case .success(_):
-                print("This worked!")
-            case .failure(let error):
-                print("Error saving game: \(error.localizedDescription)")
-            }
-        }
-    }
-    
     @IBAction func backButtonPressed(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func logoutButtonPressed(_ sender: Any) {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            _ = self.navigationController?.popToRootViewController(animated: true)
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
+    @IBAction func citySearchTextFieldTapped(_ sender: Any) {
+        placesTableView.isHidden = false
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
         radiusLabel.text = "\(Int(radiusSlider.value))"
-    }
-    
-    @IBAction func citySearchTextFieldTapped(_ sender: Any) {
-        placesTableView.isHidden = false
     }
     
     @IBAction func breakfastButtonTapped(_ sender: Any) {
@@ -274,24 +157,48 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         mealType = "dessert"
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if (status == CLAuthorizationStatus.denied) {
-            showLocationDisabledPopup()
-        }
+    @IBAction func generateCodeButtonPressed(_ sender: Any) {
+        codeLabel.isHidden = false
+        yourInviteCodeIsLabel.isHidden = false
+        codeLabel.text = GameController.shared.randomAlphaNumericString(length: 10)
+        copycodeButton.isHidden = false
     }
     
-    func showLocationDisabledPopup() {
-        let alertController = UIAlertController(title: "Background location access disabled.", message: "In order to pull restaurants in your area, we need your location.", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        let openAction = UIAlertAction(title: "Open settings", style: .default) { (action) in
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    @IBAction func copyCodePressed(_ sender: Any) {
+        UIPasteboard.general.string = "Your Who's Hungry invite code is: \(codeLabel.text!)"
+        createGameButton.isHidden = false
+    }
+    
+    @IBAction func createGameButtonPressed(_ sender: Any) {
+        guard let currentUser = currentUser,
+              let inviteCode = codeLabel.text,
+              let city = citySearchTextField.text,
+              let mealType = mealType,
+              let radius = Double("\(radiusLabel.text!)")
+//              let votes = submittedVotes
+        else {return}
+        let user = currentUser.firstName + " " + currentUser.lastName
+//        let votes = Array(submittedVotes.map { ("\($0.keys) \($0.values)") })
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], submittedVotes: [])
+        Firebase.shared.createGame(game: game) { (result) in
+            // MORE TO DO HERE!!!
+            switch result {
+            case .success(_):
+                print("This worked!")
+            case .failure(let error):
+                print("Error saving game: \(error.localizedDescription)")
             }
         }
-        alertController.addAction(openAction)
-        self.present(alertController, animated: true, completion: nil)
+    }
+
+    @IBAction func logoutButtonPressed(_ sender: Any) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            _ = self.navigationController?.popToRootViewController(animated: true)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -328,3 +235,26 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         placesTableView.isHidden = true
     }
 }//End of class
+
+
+
+
+//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//        if (status == CLAuthorizationStatus.denied) {
+//            showLocationDisabledPopup()
+//        }
+//    }
+//
+//    func showLocationDisabledPopup() {
+//        let alertController = UIAlertController(title: "Background location access disabled.", message: "In order to pull restaurants in your area, we need your location.", preferredStyle: .alert)
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        alertController.addAction(cancelAction)
+//
+//        let openAction = UIAlertAction(title: "Open settings", style: .default) { (action) in
+//            if let url = URL(string: UIApplication.openSettingsURLString) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            }
+//        }
+//        alertController.addAction(openAction)
+//        self.present(alertController, animated: true, completion: nil)
+//    }

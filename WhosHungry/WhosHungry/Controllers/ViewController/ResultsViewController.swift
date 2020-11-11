@@ -53,11 +53,21 @@ class ResultsViewController: UIViewController {
                     switch result {
                     case .success(let game):
                         if let game = game {
+                            let arrays = game.submittedVotes
                             
-                            let likedRestaurants = game.submittedVotes
-                            self.restaurantRestultLabel.text = likedRestaurants.randomElement()
+                            for array in arrays {
+                                
+                                let randomRestaurant = array.randomElement()!
+                                print(randomRestaurant)
+                            }
                             
-                            print("Here are the submitted votes: \(game.submittedVotes)")
+//                            for (index, restaurant) in array.enumerated() {
+//                                print("Index: \(index), Restaurant: \(restaurant.randomElement()!)")
+//                        }
+//                            let likedRestaurants = game.submittedVotes
+//                            self.restaurantRestultLabel.text = likedRestaurants.randomElement()
+//
+//                            print("Here are the submitted votes: \(game.submittedVotes.count)")
                         }
                     case .failure(let error):
                         print(error.localizedDescription)
@@ -66,6 +76,7 @@ class ResultsViewController: UIViewController {
             }
         }
     }
+    
     
     
     

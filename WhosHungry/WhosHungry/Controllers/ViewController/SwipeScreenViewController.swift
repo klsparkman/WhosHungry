@@ -99,7 +99,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             compareArray()
             guard let game = Firebase.shared.currentGame else {return}
             let userRef = self.db.collection(Constants.gameContainer).document(game.uid)
-            userRef.updateData([Constants.submittedVotes : FieldValue.arrayUnion(["\(self.likedRestaurants)"])])
+            userRef.updateData([
+                Constants.submittedVotes : FieldValue.arrayUnion(["\(self.likedRestaurants)"])
+            ])
+            
             let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                 if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {

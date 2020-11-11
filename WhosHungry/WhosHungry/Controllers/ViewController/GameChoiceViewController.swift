@@ -53,11 +53,9 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
-//        Firebase.shared.addUserToGame(inviteCode: pasteCodeTextField.text!)
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
-        //        pasteCodeTextField.becomeFirstResponder()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -108,5 +106,3 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         }
     }
 }
-
-//Your Who's Hungry invite code is: alWi7E95PR
