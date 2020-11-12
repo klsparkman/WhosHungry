@@ -26,8 +26,8 @@ class UserListTableViewController: UITableViewController {
         //****Maybe add your listener here??
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        guard let game = Firebase.shared.currentGame else {return}
-        Firebase.shared.getUserCollection(currentGame: game)
+//        guard let game = Firebase.shared.currentGame else {return}
+//        Firebase.shared.getUserCollection(currentGame: game)
         self.tableView.reloadData()
         fetchGameUsers()
     }
@@ -46,19 +46,19 @@ class UserListTableViewController: UITableViewController {
     //        }
     //    }
     
-    func fetchGameUsers() {
-        guard let game = Firebase.shared.currentGame else {return}
-        Firebase.shared.fetchUsersWithListeners(game: game) { (result) in
-            switch result {
-            case .failure(let error):
-                print("Error fetching users from Firebase: \(error.localizedDescription)")
-            case .success(let user):
-                if let user = user {
-                    RestaurantController.shared.users.append(user)
-                }
-            }
-        }
-    }
+//    func fetchGameUsers() {
+//        guard let game = Firebase.shared.currentGame else {return}
+//        Firebase.shared.fetchUsersWithListeners(game: game) { (result) in
+//            switch result {
+//            case .failure(let error):
+//                print("Error fetching users from Firebase: \(error.localizedDescription)")
+//            case .success(let user):
+//                if let user = user {
+//                    RestaurantController.shared.users.append(user)
+//                }
+//            }
+//        }
+//    }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

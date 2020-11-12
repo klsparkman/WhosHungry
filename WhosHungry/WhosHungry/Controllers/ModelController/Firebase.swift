@@ -18,7 +18,9 @@ class Firebase {
     var navigationController: UINavigationController?
     var users: [User] = []
     var currentGame: Game?
+    private var listener: ListenerRegistration?
     
+    // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
         let gameDictionary: [String : Any] = [Constants.uid : game.uid,
                                               Constants.inviteCode : game.inviteCode,
@@ -41,27 +43,6 @@ class Firebase {
         }
     }
     
-    func addUserToGame(inviteCode: String) {
-        //Go to Firestore and see if the invite code matches a game
-        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
-            switch result {
-            //If it doesn't match a game, show an error
-            case .failure(let error):
-                print("There was an error fetching the game in Firestore: \(error)")
-            //If there is a game that matches, add the user to the [User] in the game
-            case .success(let game):
-//                print("We found a game that matches that invite code")
-                //Get the documentID that matches the game with the given inviteCode
-                guard let currentUser = UserController.shared.currentUser else {return}
-//                print(currentUser)
-                guard let game = game else {return}
-                let userRef = self.db.collection(Constants.gameContainer).document("\(game.uid)")
-                userRef.updateData([Constants.users : FieldValue.arrayUnion(["\(currentUser.firstName + " " + currentUser.lastName)"])
-                ])
-            }
-        }
-    }
-                
     func createUser(with firstName: String, lastName: String, email: String, uid: String, completion: @escaping (Result<User?, UserError>) -> Void) {
         let userDictionary: [String : Any] = [Constants.firstName : firstName,
                                               Constants.lastName : lastName,
@@ -79,6 +60,26 @@ class Firebase {
         }
     }
     
+    func updateUserList(inviteCode: String) {
+        //Go to Firestore and see if the invite code matches a game
+        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+            switch result {
+            //If it doesn't match a game, show an error
+            case .failure(let error):
+                print("There was an error fetching the game in Firestore: \(error)")
+            //If there is a game that matches, add the user to the [User] in the game
+            case .success(let game):
+                //Get the documentID that matches the game with the given inviteCode
+                guard let currentUser = UserController.shared.currentUser else {return}
+                guard let game = game else {return}
+                let userRef = self.db.collection(Constants.gameContainer).document("\(game.uid)")
+                userRef.updateData([Constants.users : FieldValue.arrayUnion(["\(currentUser.firstName + " " + currentUser.lastName)"])
+                ])
+            }
+        }
+    }
+                
+    // Mark: - Fetches
     func fetchUser(withID id: String, completion: @escaping (Result<User?, FirebaseError>) -> Void) {
         db.collection(Constants.userContainer).whereField(Constants.uid, isEqualTo: id).getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -100,56 +101,39 @@ class Firebase {
                 completion(.failure(.firebaseError(error)))
             } else if let snapshot = querySnapshot?.documents.first {
                 guard let game = Game(dictionary: snapshot.data()) else {return}
-//                print(snapshot.data())
                 completion(.success(game))
             }
         }
     }
     
-    func getUserCollection(currentGame: Game) {
-        let docRef = db.collection(Constants.gameContainer).document(currentGame.uid)
-        docRef.getDocument(source: .cache) { (document, error) in
-            if let document = document, document.exists {
-                let property = document.get(Constants.users)
-                print("Document data: \(property!)")
-            } else {
-                print("Document does not exist in cache")
+    // Mark: - Listener
+    func startListener(completion: @escaping () -> Void) {
+        guard let currentGame = currentGame else {return}
+        
+        db.collection(Constants.gameContainer).document(currentGame.uid).collection("\(currentGame.submittedVotes)").addSnapshotListener { (querySnapshot, error) in
+            guard let snapshot = querySnapshot else {
+                print("Error fetching submittedVotes: \(error!)")
+                return
             }
+            
+            snapshot.documentChanges.forEach { (diff) in
+                switch diff.type {
+                case .added:
+                    print("New votes have been submitted: \(diff.document.data())")
+                case .modified:
+                    print("The votes have been changed: \(diff.document.data())")
+                case .removed:
+                    print("The votes have been removed: \(diff.document.data())")
+                }
+            }
+            completion()
         }
     }
     
-    func fetchUsersWithListeners(game: Game, completion: @escaping (Result<User?, UserError>) -> Void) {
-        db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(String(describing: error))")
-                completion(.failure(.firebaseError(error!)))
-                return
-            }
-            guard let data = document.data() else {
-                completion(.failure(.noData))
-                return
-            }
-//            let user = data
-//            print("Current data: \(data)")
-            completion(.success(nil))
-        }
-    }
-    
-    func listenForSubmittedVotes(gameUID: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
-        db.collection(Constants.gameContainer).document(gameUID).addSnapshotListener { (documentSnapshot, error) in
-            guard let document = documentSnapshot else {
-                print("There was an error fetching document: \(error!)")
-                
-                return completion(.failure(.firebaseError(error!)))
-            }
-            guard let data = document.data() else {
-                print("The document data was empty")
-                return completion(.failure(.noData))
-            }
-            ResultsViewController.shared.snapshotListenerData = data
-            return completion(.success(nil))
-            //            print("Current data: \(data)")
-        }
+    func stopListener() {
+        guard let listener = listener else {return}
+        listener.remove()
+        print("Firebase.swift stopped listening")
     }
     
 }//End of Class
@@ -157,6 +141,51 @@ class Firebase {
 
 
 
+//    func getUserCollection(currentGame: Game) {
+//        let docRef = db.collection(Constants.gameContainer).document(currentGame.uid)
+//        docRef.getDocument(source: .cache) { (document, error) in
+//            if let document = document, document.exists {
+//                let property = document.get(Constants.users)
+//                print("Document data: \(property!)")
+//            } else {
+//                print("Document does not exist in cache")
+//            }
+//        }
+//    }
+
+//    func fetchUsersWithListeners(game: Game, completion: @escaping (Result<User?, UserError>) -> Void) {
+//        db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
+//            guard let document = documentSnapshot else {
+//                print("Error fetching document: \(String(describing: error))")
+//                completion(.failure(.firebaseError(error!)))
+//                return
+//            }
+//            guard let data = document.data() else {
+//                completion(.failure(.noData))
+//                return
+//            }
+////            let user = data
+////            print("Current data: \(data)")
+//            completion(.success(nil))
+//        }
+//    }
+
+//    func listenForSubmittedVotes(gameUID: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
+//        db.collection(Constants.gameContainer).document(gameUID).addSnapshotListener { (documentSnapshot, error) in
+//            guard let document = documentSnapshot else {
+//                print("There was an error fetching document: \(error!)")
+//
+//                return completion(.failure(.firebaseError(error!)))
+//            }
+//            guard let data = document.data() else {
+//                print("The document data was empty")
+//                return completion(.failure(.noData))
+//            }
+//            ResultsViewController.shared.snapshotListenerData = data
+//            return completion(.success(nil))
+//            //            print("Current data: \(data)")
+//        }
+//    }
 //                self.fetchGame(withinviteCode: inviteCode) { (result) in
 //                    switch result {
 //                    case .failure(let error):
