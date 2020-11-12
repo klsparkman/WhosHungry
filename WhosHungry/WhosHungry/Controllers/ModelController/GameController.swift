@@ -60,5 +60,4 @@ class GameController: NSObject {
         }
         return randomString
     }
-
 }//End of Class

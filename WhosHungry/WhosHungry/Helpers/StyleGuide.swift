@@ -25,6 +25,7 @@ extension UIView {
 }
 
 struct StyleConstants {
+    
     static func setLabelBlackBorderStyle(label: UILabel) {
         label.layer.cornerRadius = 10
         label.layer.borderColor = UIColor.black.cgColor
@@ -42,6 +43,12 @@ struct StyleConstants {
     static func setButtonStyle(button: UIButton) {
         button.layer.cornerRadius = 10
         button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+    }
+    
+    static func setButtonWhiteBorderStyle(button: UIButton) {
+        button.layer.cornerRadius = 10
+        button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1
     }
     

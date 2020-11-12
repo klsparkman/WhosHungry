@@ -82,7 +82,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
             case .failure(let error):
                 print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
             case.success(let game):
-                Firebase.shared.addUserToGame(inviteCode: inviteCode)
+                Firebase.shared.updateUserList(inviteCode: inviteCode)
                 if let game = game {
                     Firebase.shared.currentGame = game
                     if segue.identifier == "toUserListVC" {

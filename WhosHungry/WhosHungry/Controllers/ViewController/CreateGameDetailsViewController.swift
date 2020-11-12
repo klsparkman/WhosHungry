@@ -54,7 +54,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         StyleConstants.setLabelBlackBorderStyle(label: codeLabel)
         StyleConstants.setLabelBlackBorderStyle(label: yourInviteCodeIsLabel)
         StyleConstants.setRadiusSliderStyle(slider: radiusSlider)
-        StyleConstants.setButtonStyle(button: generateCodeButton)
+        StyleConstants.setButtonWhiteBorderStyle(button: generateCodeButton)
         StyleConstants.setButtonStyle(button: breakfastButton)
         StyleConstants.setButtonStyle(button: lunchButton)
         StyleConstants.setButtonStyle(button: dinnerButton)
@@ -62,6 +62,9 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         copycodeButton.isHidden = true
         placesTableView.isHidden = true
         createGameButton.isHidden = true
+        yourInviteCodeIsLabel.isHidden = true
+        codeLabel.isHidden = true
+        
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self
