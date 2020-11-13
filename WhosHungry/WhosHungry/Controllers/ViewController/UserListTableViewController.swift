@@ -29,7 +29,7 @@ class UserListTableViewController: UITableViewController {
 //        guard let game = Firebase.shared.currentGame else {return}
 //        Firebase.shared.getUserCollection(currentGame: game)
         self.tableView.reloadData()
-        fetchGameUsers()
+//        fetchGameUsers()
     }
     
     //    func fetchGameUsers() {

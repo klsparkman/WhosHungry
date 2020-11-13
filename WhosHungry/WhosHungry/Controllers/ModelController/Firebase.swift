@@ -19,6 +19,7 @@ class Firebase {
     var users: [User] = []
     var currentGame: Game?
     private var listener: ListenerRegistration?
+    var finishedSubVotes: Any? = []
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
@@ -110,24 +111,32 @@ class Firebase {
     func startListener(completion: @escaping () -> Void) {
         guard let currentGame = currentGame else {return}
         
-        db.collection(Constants.gameContainer).document(currentGame.uid).collection("\(currentGame.submittedVotes)").addSnapshotListener { (querySnapshot, error) in
-            guard let snapshot = querySnapshot else {
-                print("Error fetching submittedVotes: \(error!)")
+        db.collection(Constants.gameContainer).document(currentGame.uid).addSnapshotListener { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
                 return
             }
-            
-            snapshot.documentChanges.forEach { (diff) in
-                switch diff.type {
-                case .added:
-                    print("New votes have been submitted: \(diff.document.data())")
-                case .modified:
-                    print("The votes have been changed: \(diff.document.data())")
-                case .removed:
-                    print("The votes have been removed: \(diff.document.data())")
-                }
+            guard var data = document.data() else {
+                print("Document was empty")
+                return
             }
+            let subVotesData = data.removeValue(forKey: Constants.submittedVotes)
+            self.finishedSubVotes = subVotesData
+            print("current data: \(subVotesData!)")
             completion()
         }
+//
+//        db.collection(Constants.gameContainer).document(currentGame.uid).collection("\(currentGame.submittedVotes)").addSnapshotListener { (documentSnapshot, error) in
+//            guard let document = documentSnapshot else {
+//                print("Error fetching submittedVotes: \(error!)")
+//                return
+//            }
+//            guard let data = document.data() else {
+//                print("Document data was empty.")
+//                return
+//            }
+//            completion()
+//        }
     }
     
     func stopListener() {
@@ -227,3 +236,20 @@ class Firebase {
 //            }
 //        }
 //    }
+
+
+
+
+//current data: ["submittedVotes": <__NSArrayM 0x283b04cf0>(["UTOG Brewing", "Sonora Grill", "Tona", "Aroy-D Thai Cuisine", "Hanamaru", "The Yes Hell"]),
+//
+//"inviteCode": A5DmsA2Stc,
+//
+//"mealType": dinner,
+//
+//"radius": 5,
+//
+//"users": <__NSArrayM 0x283b046c0>(Kelsey Sparkman),
+//
+//"uid": F8CE868C-48E4-4C2E-869B-C9AAFCB67748,
+//
+//"city": Ogden, UT, USA]
