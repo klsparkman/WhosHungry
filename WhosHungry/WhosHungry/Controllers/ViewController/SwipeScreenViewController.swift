@@ -83,7 +83,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         yelpURL = restaurant.restaurantYelpLink
         let ratingString = RestaurantController.shared.setStarRating(rating: restaurant.rating ?? 0)
         ratingImageView.image = UIImage(named: ratingString)
-        print(restaurantName)
+//        print(restaurantName)
     }
     
     @IBAction func yelpButtonTapped(_ sender: Any) {
@@ -191,13 +191,13 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             if restaurantVote[i] == true {
                 let name = displayedRestaurants[i]
                 likedRestaurants.append(name)
-//                if let _ = voteDictionary[name] {
-//                    // case 1: the key already exists
-//                    voteDictionary[name]! += 1
-//                } else {
-//                    // case 2: we're adding a key for the first time
-//                    voteDictionary[name] = 1
-//                }
+                if let _ = voteDictionary[name] {
+                    // case 1: the key already exists
+                    voteDictionary[name]! += 1
+                } else {
+                    // case 2: we're adding a key for the first time
+                    voteDictionary[name] = 1
+                }
             }
 //            print("Votes: \(voteDictionary)")
         }

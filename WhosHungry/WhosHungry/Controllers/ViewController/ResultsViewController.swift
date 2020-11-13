@@ -19,7 +19,7 @@ class ResultsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        comparingSubmittedVotes()
+//        comparingSubmittedVotes()
 //        submittedVoteArray = SwipeScreenViewController.shared.likedRestaurants
     }
     
@@ -27,7 +27,10 @@ class ResultsViewController: UIViewController {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
         Firebase.shared.startListener {
-            self.submittedVoteArray
+            guard let game = Firebase.shared.currentGame else {return}
+            guard let voteArray = Firebase.shared.finishedSubVotes else {return}
+            print(voteArray)
+            print(game.submittedVotes.count)
         }
     }
     
