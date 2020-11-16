@@ -120,9 +120,14 @@ class Firebase {
                 print("Document was empty")
                 return
             }
-            let subVotesData = data.removeValue(forKey: Constants.submittedVotes)
-            self.finishedSubVotes = subVotesData
-            print("current data: \(subVotesData!)")
+            guard let submittedRestVotes = data.removeValue(forKey: Constants.submittedVotes) else {return}
+            
+            let peoplesVotes = submittedRestVotes as? [[String]]
+            let voteSet = Set(arrayLiteral: peoplesVotes.map {$0})
+            self.finishedSubVotes = voteSet
+            print("current data: \(voteSet)")
+            print(voteSet.count + 1)
+            
             completion()
         }
 //

@@ -11,28 +11,34 @@ import UIKit
 class ResultsViewController: UIViewController {
     
     static let shared = ResultsViewController()
-    var voteDict: [String : Int] = [:]
-    var snapshotListenerData: [String : Any] = [:]
-    var submittedVoteArray: [String] = []
+    var voteSet = Set<String>()
+//    var voteDict: [String : Int] = [:]
+//    var snapshotListenerData: [String : Any] = [:]
+//    var submittedVoteArray: [String] = []
     
     @IBOutlet weak var restaurantRestultLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        comparingSubmittedVotes()
-//        submittedVoteArray = SwipeScreenViewController.shared.likedRestaurants
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
         Firebase.shared.startListener {
-            guard let game = Firebase.shared.currentGame else {return}
-            guard let voteArray = Firebase.shared.finishedSubVotes else {return}
+            guard let game = Firebase.shared.currentGame,
+                  let voteArray = Firebase.shared.finishedSubVotes else {return}
+            let voteSet = voteArray as? NSSet
+            print("Vote SET -> \(voteSet!)")
+            //            let array = String(voteArray)
+            //            self.voteSet.insert(array)
             print(voteArray)
+//            print(self.voteSet.count)
             print(game.submittedVotes.count)
         }
     }
+    
+    
     
 //    func comparingSubmittedVotes() {
 //        guard let gameUID = Firebase.shared.currentGame?.uid else {return}
