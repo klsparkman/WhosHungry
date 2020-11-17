@@ -10,6 +10,10 @@ import UIKit
 import Firebase
 import AuthenticationServices
 
+@objc protocol VotesSubmittedListener: AnyObject {
+    func allVotesAreSubmitted(isSubmitted: Bool)
+}
+
 class Firebase {
     
     // Mark: - Properties
@@ -19,7 +23,7 @@ class Firebase {
     var users: [User] = []
     var currentGame: Game?
     private var listener: ListenerRegistration?
-    var finishedSubVotes: Any? = []
+    var finishedVotes: [String] = []
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
@@ -116,20 +120,47 @@ class Firebase {
                 print("Error fetching document: \(error!)")
                 return
             }
-            guard var data = document.data() else {
+            guard let data = document.data() else {
                 print("Document was empty")
                 return
             }
-            guard let submittedRestVotes = data.removeValue(forKey: Constants.submittedVotes) else {return}
             
-            let peoplesVotes = submittedRestVotes as? [[String]]
-            let voteSet = Set(arrayLiteral: peoplesVotes.map {$0})
-            self.finishedSubVotes = voteSet
-            print("current data: \(voteSet)")
-            print(voteSet.count + 1)
+//            for _ in data {
+//
+//                var values = data.values
+//                var restaurants = values[Constants.submittedVotes]
+//
+//                let likedRestaurants = data[Constants.submittedVotes]
+//                let voteSet = Set([likedRestaurants])
+//                print("LIKED RESTAURANTS: \(likedRestaurants)")
+//            }
             
+            let voteValues = data[Constants.submittedVotes] as? [String]
+            let voteSet = Set(voteValues!)
+            
+//            let voteSet: Set = voteValues as? Set<String> ?? [""]
+            print("VOTE SET: \(voteSet)")
+            self.finishedVotes.append(contentsOf: voteSet)
             completion()
         }
+    }
+        
+            
+            //            let voteDict = data.compactMap( { $0.key } )
+            //            print("Vote Dictionary: \(voteDict)")
+//            print("VOTE VALUES: \(voteValues)")
+//            guard let submittedRestVotes = data.removeValue(forKey: Constants.submittedVotes) else {return}
+            
+//            let peoplesVotes = submittedRestVotes as? [[String]]
+//            let peoplesVotes = submittedRestVotes as? String
+//            let voteSet = Set(arrayLiteral: peoplesVotes.map {$0})
+//            for votes in submittedRestVotes {
+//                print("Here are the votes in the voteSet \(votes)")
+//                self.finishedSubVotes = votes
+//            }
+//            print("current data: \(voteSet)")
+//            print(voteSet.count + 1)
+            
 //
 //        db.collection(Constants.gameContainer).document(currentGame.uid).collection("\(currentGame.submittedVotes)").addSnapshotListener { (documentSnapshot, error) in
 //            guard let document = documentSnapshot else {
@@ -142,7 +173,6 @@ class Firebase {
 //            }
 //            completion()
 //        }
-    }
     
     func stopListener() {
         guard let listener = listener else {return}
