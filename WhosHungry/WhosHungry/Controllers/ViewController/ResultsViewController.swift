@@ -11,10 +11,6 @@ import UIKit
 class ResultsViewController: UIViewController {
     
     static let shared = ResultsViewController()
-    var voteSet = Set<String>()
-//    var voteDict: [String : Int] = [:]
-//    var snapshotListenerData: [String : Any] = [:]
-//    var submittedVoteArray: [String] = []
     
     @IBOutlet weak var restaurantRestultLabel: UILabel!
     
@@ -26,15 +22,11 @@ class ResultsViewController: UIViewController {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
         Firebase.shared.startListener {
-            guard let game = Firebase.shared.currentGame,
-                  let voteArray = Firebase.shared.finishedSubVotes else {return}
-            let voteSet = voteArray as? NSSet
-            print("Vote SET -> \(voteSet!)")
-            //            let array = String(voteArray)
-            //            self.voteSet.insert(array)
-            print(voteArray)
-//            print(self.voteSet.count)
-            print(game.submittedVotes.count)
+            guard let game = Firebase.shared.currentGame else {return}
+            if game.submittedVotes.count + 1 == game.users.count {
+                let votes = Firebase.shared.finishedVotes
+                print("FINAL VOTES: \(votes)")
+            }
         }
     }
     
