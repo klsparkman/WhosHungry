@@ -25,9 +25,10 @@ class ResultsViewController: UIViewController {
         Firebase.shared.startListener {
             guard let game = Firebase.shared.currentGame else {return}
             if game.submittedVotes.count + 1 == game.users.count {
-                let votes = Firebase.shared.finishedVotes
+                _ = Firebase.shared.finishedVotes
 //                print("FINAL VOTES: \(votes)")
-                self.findMatchingRestaurants()
+//                self.findMatchingRestaurants()
+                self.findMatches()
             } else {
                 print("Still waiting for everyone to finish")
             }
@@ -35,31 +36,48 @@ class ResultsViewController: UIViewController {
     }
     
     func findMatches() {
-        let voteSet: Set = Firebase.shared.finishedVotes
-        var voteDict: [String : Int] = [:]
+        guard let voteSet: Set = Firebase.shared.finishedVotes else {return}
+//        var voteDict: [String : Int] = [:]
+        print("Vote set: \(voteSet)")
+//        let firstSet = voteSet.remove(at: voteSet.index(after: Set<voteSet>[1]))
         
-        for restaurant in voteSet {
-            if restaurant == restaurant {
-                voteDict[restaurant] = 1
-            } else {
-                voteDict[restaurant]! += 1
-            }
-            print("VOTE DICTIONARY: \(voteDict)")
-        }
+        let firstIntersect = voteSet.intersection(voteSet)
+        print("FIRST INTERSECTION: \(firstIntersect)")
+        
+//        for restaurants in voteSet {
+//            let array = restaurants
+//            var counts: [String : Int] = [:]
+//
+//            for restaurant in array {
+//
+//                var arrayOfLetters = restaurant[0].map(String.init)
+//
+//                counts[restaurant] = (counts[restaurant] ?? 0) + 1
+//            }
+//        }
+        
+//        for restaurant in voteSet {
+//            if restaurant == restaurant {
+//                voteDict[restaurant] = 1
+//            } else {
+//                voteDict[restaurant]! += 1
+//            }
+//            print("VOTE DICTIONARY: \(voteDict)")
+//        }
     }
     
-    func findMatchingRestaurants() {
-        let arr = Firebase.shared.finishedVotes
-        var counts: [String : Int] = [:]
-        
-        for item in arr {
-            counts[item] = (counts[item] ?? 0) + 1
-        }
-        
-        for (key, value) in counts {
-            print("\(key) occurs \(value) time(s)")
-        }
-    }
+//    func findMatchingRestaurants() {
+//        let arr = Firebase.shared.finishedVotes
+//        var counts: [String : Int] = [:]
+//
+//        for item in arr {
+//            counts[item] = (counts[item] ?? 0) + 1
+//        }
+//
+//        for (key, value) in counts {
+//            print("\(key) occurs \(value) time(s)")
+//        }
+//    }
     
     
 //    private func compareArray() {
