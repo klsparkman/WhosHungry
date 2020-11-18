@@ -19,7 +19,7 @@ class Firebase {
     var users: [User] = []
     var currentGame: Game?
     private var listener: ListenerRegistration?
-    var finishedVotes: Set<String> = []
+    var finishedVotes: Set<String>?
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
@@ -122,8 +122,7 @@ class Firebase {
             }
             let voteValues = data[Constants.submittedVotes] as? [String]
             let voteSet = Set(voteValues!)
-            print("VOTE SET: \(voteSet)")
-            self.finishedVotes.insert("\(voteSet)")
+            self.finishedVotes = voteSet
             completion()
         }
     }
