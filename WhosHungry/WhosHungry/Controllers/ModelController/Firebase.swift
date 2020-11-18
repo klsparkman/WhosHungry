@@ -10,10 +10,6 @@ import UIKit
 import Firebase
 import AuthenticationServices
 
-@objc protocol VotesSubmittedListener: AnyObject {
-    func allVotesAreSubmitted(isSubmitted: Bool)
-}
-
 class Firebase {
     
     // Mark: - Properties
@@ -23,7 +19,7 @@ class Firebase {
     var users: [User] = []
     var currentGame: Game?
     private var listener: ListenerRegistration?
-    var finishedVotes: [String] = []
+    var finishedVotes: Set<String> = []
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
@@ -124,55 +120,13 @@ class Firebase {
                 print("Document was empty")
                 return
             }
-            
-//            for _ in data {
-//
-//                var values = data.values
-//                var restaurants = values[Constants.submittedVotes]
-//
-//                let likedRestaurants = data[Constants.submittedVotes]
-//                let voteSet = Set([likedRestaurants])
-//                print("LIKED RESTAURANTS: \(likedRestaurants)")
-//            }
-            
             let voteValues = data[Constants.submittedVotes] as? [String]
             let voteSet = Set(voteValues!)
-            
-//            let voteSet: Set = voteValues as? Set<String> ?? [""]
             print("VOTE SET: \(voteSet)")
-            self.finishedVotes.append(contentsOf: voteSet)
+            self.finishedVotes.insert("\(voteSet)")
             completion()
         }
     }
-        
-            
-            //            let voteDict = data.compactMap( { $0.key } )
-            //            print("Vote Dictionary: \(voteDict)")
-//            print("VOTE VALUES: \(voteValues)")
-//            guard let submittedRestVotes = data.removeValue(forKey: Constants.submittedVotes) else {return}
-            
-//            let peoplesVotes = submittedRestVotes as? [[String]]
-//            let peoplesVotes = submittedRestVotes as? String
-//            let voteSet = Set(arrayLiteral: peoplesVotes.map {$0})
-//            for votes in submittedRestVotes {
-//                print("Here are the votes in the voteSet \(votes)")
-//                self.finishedSubVotes = votes
-//            }
-//            print("current data: \(voteSet)")
-//            print(voteSet.count + 1)
-            
-//
-//        db.collection(Constants.gameContainer).document(currentGame.uid).collection("\(currentGame.submittedVotes)").addSnapshotListener { (documentSnapshot, error) in
-//            guard let document = documentSnapshot else {
-//                print("Error fetching submittedVotes: \(error!)")
-//                return
-//            }
-//            guard let data = document.data() else {
-//                print("Document data was empty.")
-//                return
-//            }
-//            completion()
-//        }
     
     func stopListener() {
         guard let listener = listener else {return}
@@ -181,110 +135,3 @@ class Firebase {
     }
     
 }//End of Class
-
-
-
-
-//    func getUserCollection(currentGame: Game) {
-//        let docRef = db.collection(Constants.gameContainer).document(currentGame.uid)
-//        docRef.getDocument(source: .cache) { (document, error) in
-//            if let document = document, document.exists {
-//                let property = document.get(Constants.users)
-//                print("Document data: \(property!)")
-//            } else {
-//                print("Document does not exist in cache")
-//            }
-//        }
-//    }
-
-//    func fetchUsersWithListeners(game: Game, completion: @escaping (Result<User?, UserError>) -> Void) {
-//        db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
-//            guard let document = documentSnapshot else {
-//                print("Error fetching document: \(String(describing: error))")
-//                completion(.failure(.firebaseError(error!)))
-//                return
-//            }
-//            guard let data = document.data() else {
-//                completion(.failure(.noData))
-//                return
-//            }
-////            let user = data
-////            print("Current data: \(data)")
-//            completion(.success(nil))
-//        }
-//    }
-
-//    func listenForSubmittedVotes(gameUID: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
-//        db.collection(Constants.gameContainer).document(gameUID).addSnapshotListener { (documentSnapshot, error) in
-//            guard let document = documentSnapshot else {
-//                print("There was an error fetching document: \(error!)")
-//
-//                return completion(.failure(.firebaseError(error!)))
-//            }
-//            guard let data = document.data() else {
-//                print("The document data was empty")
-//                return completion(.failure(.noData))
-//            }
-//            ResultsViewController.shared.snapshotListenerData = data
-//            return completion(.success(nil))
-//            //            print("Current data: \(data)")
-//        }
-//    }
-//                self.fetchGame(withinviteCode: inviteCode) { (result) in
-//                    switch result {
-//                    case .failure(let error):
-//                        print("There was an error fetching this game: \(error.localizedDescription)")
-//                    case .success(let game):
-//
-//                    }
-//                }
-
-//                Firebase.shared.getGameUID(inviteCode: inviteCode) { (result) in
-//                    switch result {
-//                    //There was an error getting the documentID
-//                    case .failure(let error):
-//                        print("Error: \(error)")
-//                    //Successfully grabbed the documentID, add to the users field within the given document
-//                    case .success(let gameUID):
-////                        SwipeScreenViewController.shared.gameUID?.append(gameUID)
-//                        SwipeScreenViewController.shared.gameUID = gameUID
-//                        guard let currentUser = UserController.shared.currentUser else {return}
-//                        let userRef = self.db.collection(Constants.gameContainer).document(gameUID)
-//                        userRef.updateData([Constants.users : FieldValue.arrayUnion(["\(currentUser.firstName + " " + currentUser.lastName)"])
-//                        ])
-//                    }
-//                }
-
-// Mark: - Get a game with an invite code, no need for gameUID
-//    func getGameUID(inviteCode: String, completion: @escaping (Result<String, GameError>) -> Void) {
-//        self.db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                print("There was an error getting the gameUID: \(error.localizedDescription)")
-//                completion(.failure(.firebaseError(error)))
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    let gameUID = document.documentID
-//                    //take data from snapshot and turn into game
-//                    //Should complete with a game
-//                    completion(.success(gameUID))
-//                }
-//            }
-//        }
-//    }
-
-
-
-
-//current data: ["submittedVotes": <__NSArrayM 0x283b04cf0>(["UTOG Brewing", "Sonora Grill", "Tona", "Aroy-D Thai Cuisine", "Hanamaru", "The Yes Hell"]),
-//
-//"inviteCode": A5DmsA2Stc,
-//
-//"mealType": dinner,
-//
-//"radius": 5,
-//
-//"users": <__NSArrayM 0x283b046c0>(Kelsey Sparkman),
-//
-//"uid": F8CE868C-48E4-4C2E-869B-C9AAFCB67748,
-//
-//"city": Ogden, UT, USA]
