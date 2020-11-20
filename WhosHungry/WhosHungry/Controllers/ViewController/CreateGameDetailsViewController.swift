@@ -64,7 +64,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         createGameButton.isHidden = true
         yourInviteCodeIsLabel.isHidden = true
         codeLabel.isHidden = true
-        
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self

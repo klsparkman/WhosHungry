@@ -37,7 +37,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         self.pasteCodeTextField.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
