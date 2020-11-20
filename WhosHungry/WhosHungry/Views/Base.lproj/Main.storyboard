@@ -103,18 +103,6 @@
                                     <action selector="inviteCodeTextFieldTapped:" destination="bS9-tj-mLh" eventType="editingDidEnd" id="aQe-Up-ina"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtX-8v-a71">
-                                <rect key="frame" x="0.0" y="510" width="351.66666666666669" height="33"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
-                                <state key="normal" title="Let's join the party">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="joinThePartyButtonTapped:" destination="bS9-tj-mLh" eventType="touchUpInside" id="KMZ-cB-FUe"/>
-                                    <segue destination="uuz-9i-6e9" kind="show" identifier="toUserListVC" id="uNR-7Z-GE8"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="492-5q-Ugi">
                                 <rect key="frame" x="-1" y="670" width="375" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -130,6 +118,21 @@
                                     <action selector="logoutButtonTapped:" destination="bS9-tj-mLh" eventType="touchUpInside" id="0VV-O8-2MW"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtX-8v-a71">
+                                <rect key="frame" x="23" y="520" width="329" height="40"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="dQF-Kp-ee6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
+                                <state key="normal" title="Let's join the party">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="joinThePartyButtonTapped:" destination="bS9-tj-mLh" eventType="touchUpInside" id="KMZ-cB-FUe"/>
+                                    <segue destination="uuz-9i-6e9" kind="show" identifier="toUserListVC" id="uNR-7Z-GE8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="wtv-r9-1xy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -138,16 +141,16 @@
                             <constraint firstItem="sjG-dm-KPM" firstAttribute="top" secondItem="BaQ-7E-5f6" secondAttribute="bottom" constant="70" id="B7r-uL-PnY"/>
                             <constraint firstItem="BaQ-7E-5f6" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="trailing" multiplier="70/370" id="BQz-fT-M0c"/>
                             <constraint firstItem="jKe-wI-2Ig" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="leading" id="CNe-XK-QDQ"/>
-                            <constraint firstItem="rtX-8v-a71" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="leading" multiplier="186/320" id="Fca-sh-Yaa"/>
                             <constraint firstAttribute="trailing" secondItem="BaQ-7E-5f6" secondAttribute="trailing" multiplier="370/300" id="Lbc-XT-Zyx"/>
                             <constraint firstItem="492-5q-Ugi" firstAttribute="leading" secondItem="2Xh-G3-VtJ" secondAttribute="leading" constant="-1" id="N57-tc-5sv"/>
                             <constraint firstItem="jKe-wI-2Ig" firstAttribute="top" secondItem="2Xh-G3-VtJ" secondAttribute="top" id="OHY-EI-96z"/>
+                            <constraint firstItem="rtX-8v-a71" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="leading" constant="23" id="Obh-dn-mEU"/>
+                            <constraint firstItem="wtv-r9-1xy" firstAttribute="trailing" secondItem="rtX-8v-a71" secondAttribute="trailing" constant="23" id="Xvj-b2-8Qa"/>
                             <constraint firstAttribute="bottom" secondItem="jKe-wI-2Ig" secondAttribute="bottom" id="ZAQ-YR-GG5"/>
                             <constraint firstItem="sjG-dm-KPM" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="trailing" multiplier="20/320" id="jG3-vX-zbi"/>
                             <constraint firstItem="492-5q-Ugi" firstAttribute="trailing" secondItem="wtv-r9-1xy" secondAttribute="trailing" constant="-1" id="jwR-Wg-peN"/>
-                            <constraint firstItem="wtv-r9-1xy" firstAttribute="trailing" secondItem="rtX-8v-a71" secondAttribute="trailing" multiplier="320/300" id="sh8-6x-sNf"/>
                             <constraint firstItem="BaQ-7E-5f6" firstAttribute="top" secondItem="wtv-r9-1xy" secondAttribute="top" constant="200" id="upf-ul-rjW"/>
-                            <constraint firstItem="rtX-8v-a71" firstAttribute="top" secondItem="sjG-dm-KPM" secondAttribute="bottom" constant="10" id="v71-0j-IAb"/>
+                            <constraint firstItem="rtX-8v-a71" firstAttribute="top" secondItem="sjG-dm-KPM" secondAttribute="bottom" constant="20" id="v71-0j-IAb"/>
                             <constraint firstItem="492-5q-Ugi" firstAttribute="bottom" secondItem="wtv-r9-1xy" secondAttribute="bottom" constant="10" id="xcu-ZH-Z3O"/>
                             <constraint firstItem="wtv-r9-1xy" firstAttribute="trailing" secondItem="sjG-dm-KPM" secondAttribute="trailing" multiplier="320/300" id="zKl-GV-2iB"/>
                         </constraints>
@@ -162,7 +165,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gtO-nu-9M5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1079.7101449275362" y="-21.428571428571427"/>
+            <point key="canvasLocation" x="1079.2" y="-21.428571428571431"/>
         </scene>
         <!--Create Game Details View Controller-->
         <scene sceneID="UWQ-2k-1pW">
