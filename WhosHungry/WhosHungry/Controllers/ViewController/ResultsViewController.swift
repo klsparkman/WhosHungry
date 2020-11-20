@@ -38,11 +38,22 @@ class ResultsViewController: UIViewController {
     func findMatches() {
         guard let voteSet: Set = Firebase.shared.finishedVotes else {return}
 //        var voteDict: [String : Int] = [:]
-        print("Vote set: \(voteSet)")
+//        print("Vote set: \(voteSet)")
 //        let firstSet = voteSet.remove(at: voteSet.index(after: Set<voteSet>[1]))
+        let firstVotes: Set = Set(voteSet[voteSet.index(voteSet.startIndex, offsetBy: 0)])
+        let secondVotes: Set = Set(voteSet[voteSet.index(voteSet.startIndex, offsetBy: 1)])
+        let thirdVotes: Set = Set(voteSet[voteSet.index(voteSet.startIndex, offsetBy: 2)])
         
-        let firstIntersect = voteSet.intersection(voteSet)
-        print("FIRST INTERSECTION: \(firstIntersect)")
+        let firstIntersect = firstVotes.intersection(secondVotes)
+        print(firstIntersect)
+        
+//        print("First Votes: \(firstVotes)")
+//        print("Second Votes: \(secondVotes)")
+//        print("Third Votes: \(thirdVotes)")
+        
+//        print("VOTES: \(votes)")
+//        let firstIntersect = voteSet.intersection(vot)
+//        print("FIRST INTERSECTION: \(firstIntersect)")
         
 //        for restaurants in voteSet {
 //            let array = restaurants
