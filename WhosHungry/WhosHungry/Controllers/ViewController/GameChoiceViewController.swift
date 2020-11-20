@@ -31,9 +31,13 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         joinThePartyButton.isHidden = true
         createGameButton.layer.cornerRadius = 30
         joinGameButton.layer.cornerRadius = 30
+        joinThePartyButton.layer.cornerRadius = 20
+        joinThePartyButton.layer.borderWidth = 2
+        joinThePartyButton.layer.borderColor = UIColor.white.cgColor
         self.pasteCodeTextField.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +52,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     @IBAction func joinGameButtonTapped(_ sender: Any) {
         pasteCodeTextField.isHidden = false
         if pasteCodeTextField != nil {
-            joinThePartyButton.isHidden = false
         }
     }
     
@@ -60,6 +63,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
+        joinThePartyButton.isHidden = false
         return false
     }
     
