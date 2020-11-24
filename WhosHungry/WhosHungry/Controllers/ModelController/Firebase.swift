@@ -120,13 +120,6 @@ class Firebase {
                 print("Document was empty")
                 return
             }
-            
-//            for _ in data.keys {
-////                print("SUBMITTED VOTES: \(String(describing: data[Constants.submittedVotes]))")
-//                guard let voteValues = String(describing: data[Constants.submittedVotes]) as? [String] else {return}
-//                self.votes = voteValues
-//            }
-            
             guard let voteValues = data[Constants.submittedVotes] as? [String] else {return}
             self.votes = voteValues
 //            print("Vote Values: \(voteValues)")
@@ -140,12 +133,29 @@ class Firebase {
         print("Firebase.swift stopped listening")
     }
     
-    func addLikeToFirebase(restaurantStr: String) {
+    func addLikeToFirebase(restaurantArr: [String]) {
         guard let game = Firebase.shared.currentGame else {return}
         let userRef = self.db.collection(Constants.gameContainer).document(game.uid)
         userRef.updateData([
-            Constants.submittedVotes : FieldValue.arrayUnion([restaurantStr])
+            Constants.submittedVotes : FieldValue.arrayUnion([restaurantArr])
         ])
+    }
+    
+    func fetchAllUsers(completion: @escaping ((String) -> ())) {
+//        guard let game = Firebase.shared.currentGame else {return}
+        
+        db.collection(Constants.gameContainer).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error fetching users from Firestore: \(error.localizedDescription)")
+            } else {
+                guard let snapshot = snapshot else {return}
+                for document in snapshot.documents {
+                    let myData = document.data()
+                    let user = myData[Constants.firstName + " " + Constants.lastName] as? String ?? "No name found"
+                    completion(user)
+                }
+            }
+        }
     }
     
 }//End of Class
