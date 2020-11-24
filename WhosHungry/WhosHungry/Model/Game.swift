@@ -16,6 +16,7 @@ struct Game {
     let mealType: String
     let users: [String]
     let submittedVotes: [String]
+//    let creatorID: String
     
     init(uid: String = UUID().uuidString, inviteCode: String, city: String, radius: Double, mealType: String, users: [String], submittedVotes: [String]) {
         self.uid = uid
