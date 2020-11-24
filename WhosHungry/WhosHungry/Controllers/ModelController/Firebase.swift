@@ -120,9 +120,16 @@ class Firebase {
                 print("Document was empty")
                 return
             }
+            
+//            for _ in data.keys {
+////                print("SUBMITTED VOTES: \(String(describing: data[Constants.submittedVotes]))")
+//                guard let voteValues = String(describing: data[Constants.submittedVotes]) as? [String] else {return}
+//                self.votes = voteValues
+//            }
+            
             guard let voteValues = data[Constants.submittedVotes] as? [String] else {return}
-            print("VOTE VALUES: \(voteValues)")
             self.votes = voteValues
+//            print("Vote Values: \(voteValues)")
             completion()
         }
     }
@@ -131,6 +138,14 @@ class Firebase {
         guard let listener = listener else {return}
         listener.remove()
         print("Firebase.swift stopped listening")
+    }
+    
+    func addLikeToFirebase(restaurantStr: String) {
+        guard let game = Firebase.shared.currentGame else {return}
+        let userRef = self.db.collection(Constants.gameContainer).document(game.uid)
+        userRef.updateData([
+            Constants.submittedVotes : FieldValue.arrayUnion([restaurantStr])
+        ])
     }
     
 }//End of Class

@@ -34,24 +34,32 @@ class ResultsViewController: UIViewController {
     }
     
     func findMatches() {
-        var voteDict: [String : Int] = [:]
-        let testVoteValues = [Firebase.shared.votes]
-        print("TEST VOTE VALUES: \(testVoteValues)")
+        var restaurantVotes: [String : Int] = [:]
+        let voteValues = [Firebase.shared.votes]
         
-        for personsVotes in testVoteValues {
+        for personsVotes in voteValues {
             for restaurant in personsVotes {
-                if voteDict[restaurant] != nil {
-                    voteDict[restaurant]! += 1
+                if restaurantVotes[restaurant] != nil {
+                    restaurantVotes[restaurant]! += 1
                 } else {
-                    voteDict[restaurant] = 1
+                    restaurantVotes[restaurant] = 1
                 }
             }
-            print("VOTE DICTIONARY: \(voteDict)")
         }
+        print("VOTE DICTIONARY: \(restaurantVotes)")
     }
 }// End of class
 
 /*
  
- VOTE VALUES: ["[\"The Park Café\", \"Pulp Lifestyle Kitchen-Downtown\", \"Bruges Belgian Bistro\", \"The Original Pancake House - Sugarhouse\", \"Hruska\\\'s Kolaches\", \"Even Stevens Sandwiches\"]"]
+ RESULTSVC VOTE VALUES: [["[\"The Park Café\", \"Pulp Lifestyle Kitchen-Downtown\", \"Bruges Belgian Bistro\", \"The Original Pancake House - Sugarhouse\", \"Hruska\\\'s Kolaches\", \"Even Stevens Sandwiches\"]", "[\"The Park Café\", \"Sweet Lake Biscuits & Limeade\", \"Pig & a Jelly Jar\", \"Bruges Belgian Bistro\", \"Hruska\\\'s Kolaches\"]"]]
+ 
+ 
+ PERSONS VOTES: ["[\"The Park Café\", \"Pulp Lifestyle Kitchen-Downtown\", \"Bruges Belgian Bistro\", \"The Original Pancake House - Sugarhouse\", \"Hruska\\\'s Kolaches\", \"Even Stevens Sandwiches\"]", "[\"The Park Café\", \"Sweet Lake Biscuits & Limeade\", \"Pig & a Jelly Jar\", \"Bruges Belgian Bistro\", \"Hruska\\\'s Kolaches\"]"]
+ 
+ 
+ RESTAURANT: ["The Park Café", "Pulp Lifestyle Kitchen-Downtown", "Bruges Belgian Bistro", "The Original Pancake House - Sugarhouse", "Hruska\'s Kolaches", "Even Stevens Sandwiches"]
+ 
+ 
+ RESTAURANT: ["The Park Café", "Sweet Lake Biscuits & Limeade", "Pig & a Jelly Jar", "Bruges Belgian Bistro", "Hruska\'s Kolaches"]
  */
