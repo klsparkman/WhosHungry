@@ -181,7 +181,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         else {return}
         let user = currentUser.firstName + " " + currentUser.lastName
 //        let votes = Array(submittedVotes.map { ("\($0.keys) \($0.values)") })
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], submittedVotes: [])
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], submittedVotes: [], creatorID: currentUser.uid)
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
@@ -210,6 +210,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             destinationVC.radius = Double(radiusSlider.value * 1600)
             destinationVC.city = citySearchTextField.text
             destinationVC.category = mealType
+            guard let currentUser = currentUser else {return}
+            destinationVC.creatorID = "\(currentUser.firstName + " " + currentUser.lastName): Game Creator"
         }
     }
     
@@ -235,6 +237,10 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         let selectedCity = resultsArray[indexPath.row]
         citySearchTextField.text = "\(selectedCity[Constants.address] as! String)"
         placesTableView.isHidden = true
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 45
     }
 }//End of class
 

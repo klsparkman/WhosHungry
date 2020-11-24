@@ -17,6 +17,8 @@ class UserListTableViewController: UITableViewController {
     var category: String?
     var inviteCode: String?
     var currentPlayers: [String] = []
+    var creatorID: String?
+    var players: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,49 +28,27 @@ class UserListTableViewController: UITableViewController {
         //****Maybe add your listener here??
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-//        guard let game = Firebase.shared.currentGame else {return}
-//        Firebase.shared.getUserCollection(currentGame: game)
         self.tableView.reloadData()
-//        fetchGameUsers()
+        Firebase.shared.fetchAllUsers { (result) in
+            switch result {
+            
+            default:
+                self.players.append(result)
+            }
+        }
     }
-    
-    //    func fetchGameUsers() {
-    //        guard let inviteCode = self.inviteCode else {return}
-    //        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
-    //            switch result {
-    //            case .failure(let error):
-    //                print("There was an error attempting to get the users in your game! \(error.localizedDescription)")
-    //            case.success(let game):
-    //                if let game = game {
-    //                    self.currentPlayers.append(contentsOf: game.users)
-    //                }
-    //            }
-    //        }
-    //    }
-    
-//    func fetchGameUsers() {
-//        guard let game = Firebase.shared.currentGame else {return}
-//        Firebase.shared.fetchUsersWithListeners(game: game) { (result) in
-//            switch result {
-//            case .failure(let error):
-//                print("Error fetching users from Firebase: \(error.localizedDescription)")
-//            case .success(let user):
-//                if let user = user {
-//                    RestaurantController.shared.users.append(user)
-//                }
-//            }
-//        }
-//    }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return players.count
         return RestaurantController.shared.users.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath)
-        let user = RestaurantController.shared.users[indexPath.row]
-        cell.textLabel?.text = user.firstName + " " + user.lastName
+//        let user = RestaurantController.shared.users[indexPath.row]
+        cell.textLabel?.text = self.creatorID
+//        cell.textLabel?.text = user.firstName + " " + user.lastName
         return cell
     }
     

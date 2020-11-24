@@ -97,9 +97,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func showNextCard() {
         if RestaurantController.shared.restaurants.count == currentCardIndex + 1 {
             compareArray()
-            for restaurant in self.likedRestaurants {
-                Firebase.shared.addLikeToFirebase(restaurantStr: restaurant)
-            }
+                Firebase.shared.addLikeToFirebase(restaurantArr: likedRestaurants)
             let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                 if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
