@@ -141,9 +141,7 @@ class Firebase {
         ])
     }
     
-    func fetchAllUsers(completion: @escaping ((String) -> ())) {
-//        guard let game = Firebase.shared.currentGame else {return}
-        
+    func fetchAllUsers(completion: @escaping ((String) -> ())) {        
         db.collection(Constants.gameContainer).getDocuments { (snapshot, error) in
             if let error = error {
                 print("Error fetching users from Firestore: \(error.localizedDescription)")
@@ -151,7 +149,8 @@ class Firebase {
                 guard let snapshot = snapshot else {return}
                 for document in snapshot.documents {
                     let myData = document.data()
-                    let user = myData[Constants.firstName + " " + Constants.lastName] as? String ?? "No name found"
+                    let user: String = String(describing: myData[Constants.users])
+//                    let user = myData[Constants.users] as? String ?? "No user found"
                     completion(user)
                 }
             }
