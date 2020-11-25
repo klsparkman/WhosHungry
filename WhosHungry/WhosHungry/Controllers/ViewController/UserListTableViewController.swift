@@ -31,7 +31,6 @@ class UserListTableViewController: UITableViewController {
         self.tableView.reloadData()
         Firebase.shared.fetchAllUsers { (result) in
             switch result {
-            
             default:
                 self.players.append(result)
             }
@@ -40,14 +39,17 @@ class UserListTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return players.count
-        return RestaurantController.shared.users.count
+        return players.count
+//        return RestaurantController.shared.users.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath)
+        for player in players {
+            cell.textLabel?.text = player
+        }
 //        let user = RestaurantController.shared.users[indexPath.row]
-        cell.textLabel?.text = self.creatorID
+//        cell.textLabel?.text = self.creatorID
 //        cell.textLabel?.text = user.firstName + " " + user.lastName
         return cell
     }
