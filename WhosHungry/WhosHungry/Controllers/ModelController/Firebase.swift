@@ -157,4 +157,18 @@ class Firebase {
         }
     }
     
+    func createUserVoteCollection(userVote: User, game: Game, completion: @escaping (Result <User, UserError>) -> Void) {
+        let voteDictionary: [String : Any] = [Constants.submittedVotes : game.submittedVotes]
+        
+        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document(userVote.firstName + " " + userVote.lastName).setData(voteDictionary) { (error) in
+            if let error = error {
+                print("There was an error saving the users votes to Firestore: \(error.localizedDescription)")
+                completion(.failure(error as! UserError))
+            } else {
+                print("successfully saved users votes!")
+                completion(.success(userVote))
+            }
+        }
+    }
+    
 }//End of Class
