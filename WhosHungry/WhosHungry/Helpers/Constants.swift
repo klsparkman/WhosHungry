@@ -27,4 +27,5 @@ struct Constants {
     static let yelpAPIKey = "yelpAPIKey"
     static let googleAPIKey = "googleAPIKey"
     static let submittedVotes = "submittedVotes"
+    static let usersVotes = "usersVotes"
 }
