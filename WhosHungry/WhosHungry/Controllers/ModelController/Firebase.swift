@@ -29,7 +29,7 @@ class Firebase {
                                               Constants.radius : game.radius,
                                               Constants.mealType : game.mealType,
                                               Constants.users : game.users,
-                                              Constants.submittedVotes : game.submittedVotes,
+//                                              Constants.submittedVotes : game.submittedVotes,
         ]
         
         db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
@@ -157,18 +157,19 @@ class Firebase {
         }
     }
     
-    func createUserVoteCollection(userVote: User, game: Game, completion: @escaping (Result <User, UserError>) -> Void) {
-        let voteDictionary: [String : Any] = [Constants.submittedVotes : game.submittedVotes]
+    func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
+        guard let game = currentGame else {return}
+        let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote]
+        guard let user = UserController.shared.currentUser else {return}
         
-        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document(userVote.firstName + " " + userVote.lastName).setData(voteDictionary) { (error) in
+        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)'s vote").setData(voteDictionary) { (error) in
             if let error = error {
-                print("There was an error saving the users votes to Firestore: \(error.localizedDescription)")
-                completion(.failure(error as! UserError))
+                print("There was an error saving users votes to Firestore: \(error.localizedDescription)")
+                completion(.failure(.fbError(error)))
             } else {
-                print("successfully saved users votes!")
+                print("Successfully saved users votes!")
                 completion(.success(userVote))
             }
         }
     }
-    
 }//End of Class

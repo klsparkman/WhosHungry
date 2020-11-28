@@ -97,7 +97,17 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func showNextCard() {
         if RestaurantController.shared.restaurants.count == currentCardIndex + 1 {
             compareArray()
-                Firebase.shared.addLikeToFirebase(restaurantArr: likedRestaurants)
+            Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
+                switch result {
+                case .success(let userVote):
+                    guard let game = Firebase.shared.currentGame else {return}
+                    guard let user = UserController.shared.currentUser else {return}
+                    self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user)'s vote").updateData([Constants.submittedVotes : userVote])
+                case .failure(let error):
+                print("Error updating user vote collection: \(error)")
+                }
+            }
+            //                Firebase.shared.addLikeToFirebase(restaurantArr: likedRestaurants)
             let seconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                 if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {

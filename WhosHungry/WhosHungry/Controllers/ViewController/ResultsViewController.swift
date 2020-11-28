@@ -24,12 +24,12 @@ class ResultsViewController: UIViewController {
         self.becomeFirstResponder()
         Firebase.shared.startListener {
             guard let game = Firebase.shared.currentGame else {return}
-            if game.submittedVotes.count + 1 == game.users.count {
-                //                _ = Firebase.shared.finishedVotes
-                self.findMatches()
-            } else {
-                print("Still waiting for everyone to finish")
-            }
+//            if game.submittedVotes.count + 1 == game.users.count {
+//                //                _ = Firebase.shared.finishedVotes
+//                self.findMatches()
+//            } else {
+//                print("Still waiting for everyone to finish")
+//            }
         }
     }
     
