@@ -108,22 +108,39 @@ class Firebase {
     }
     
     // Mark: - Listener
-    func startListener(completion: @escaping () -> Void) {
-        guard let currentGame = currentGame else {return}
-        
-        db.collection(Constants.gameContainer).document(currentGame.uid).addSnapshotListener { (documentSnapshot, error) in
+//    func startListener(completion: @escaping () -> Void) {
+//        guard let currentGame = currentGame else {return}
+//        
+//        db.collection(Constants.gameContainer).document(currentGame.uid).addSnapshotListener { (documentSnapshot, error) in
+//            guard let document = documentSnapshot else {
+//                print("Error fetching document: \(error!)")
+//                return
+//            }
+//            guard let data = document.data() else {
+//                print("Document was empty")
+//                return
+//            }
+//            guard let voteValues = data[Constants.submittedVotes] as? [String] else {return}
+//            self.votes = voteValues
+////            print("Vote Values: \(voteValues)")
+//            completion()
+//        }
+//    }
+    
+    func listenForUsers(completion: @escaping ((String)) -> Void) {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
             }
             guard let data = document.data() else {
-                print("Document was empty")
+                print("Document data was empty")
                 return
             }
-            guard let voteValues = data[Constants.submittedVotes] as? [String] else {return}
-            self.votes = voteValues
-//            print("Vote Values: \(voteValues)")
-            completion()
+
+            let player = String(describing: data[Constants.users])
+            completion(player)
         }
     }
     
@@ -141,21 +158,21 @@ class Firebase {
         ])
     }
     
-    func fetchAllUsers(completion: @escaping ((String) -> ())) {        
-        db.collection(Constants.gameContainer).getDocuments { (snapshot, error) in
-            if let error = error {
-                print("Error fetching users from Firestore: \(error.localizedDescription)")
-            } else {
-                guard let snapshot = snapshot else {return}
-                for document in snapshot.documents {
-                    let myData = document.data()
-                    let user: String = String(describing: myData[Constants.users])
-//                    let user = myData[Constants.users] as? String ?? "No user found"
-                    completion(user)
-                }
-            }
-        }
-    }
+//    func fetchAllUsers(completion: @escaping ((String) -> ())) {
+//        db.collection(Constants.gameContainer).getDocuments { (snapshot, error) in
+//            if let error = error {
+//                print("Error fetching users from Firestore: \(error.localizedDescription)")
+//            } else {
+//                guard let snapshot = snapshot else {return}
+//                for document in snapshot.documents {
+//                    let myData = document.data()
+//                    let user: String = String(describing: myData[Constants.users])
+////                    let user = myData[Constants.users] as? String ?? "No user found"
+//                    completion(user)
+//                }
+//            }
+//        }
+//    }
     
     func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
         guard let game = currentGame else {return}

@@ -22,15 +22,15 @@ class ResultsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
-        Firebase.shared.startListener {
-            guard let game = Firebase.shared.currentGame else {return}
+//        Firebase.shared.startListener {
+//            guard let game = Firebase.shared.currentGame else {return}
 //            if game.submittedVotes.count + 1 == game.users.count {
 //                //                _ = Firebase.shared.finishedVotes
 //                self.findMatches()
 //            } else {
 //                print("Still waiting for everyone to finish")
 //            }
-        }
+//        }
     }
     
     func findMatches() {
