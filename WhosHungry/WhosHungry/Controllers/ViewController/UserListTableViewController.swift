@@ -18,8 +18,8 @@ class UserListTableViewController: UITableViewController {
     var inviteCode: String?
     var currentPlayers: [String] = []
     var creatorID: String?
-    var players: String?
-//    var players: [String] = []
+//    var players: String?
+    var players: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,29 +35,29 @@ class UserListTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Firebase.shared.listenForUsers { (result) in
-            switch result {
-            default:
-                self.players = result
-                print("PLAYERS: \(result)")
-                self.tableView.reloadData()
+            self.players = []
+            for player in result {
+                self.players.append(player)
             }
+
+            print("PLAYERS: \(result)")
+            self.tableView.reloadData()
         } 
     }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let players = players else {return 10}
+//        guard let players = players else {return 0}
         return players.count
-//        return RestaurantController.shared.users.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath)
-        guard let players = players else {return UITableViewCell()}
+//        guard let players = players else {return UITableViewCell()}
 //        for player in players {
 //            cell.textLabel?.text = player
 //        }
-        cell.textLabel?.text = players
+        cell.textLabel?.text = players[indexPath.row]
 //        cell.textLabel?.text = players.map( {$0} )
 //        let user = RestaurantController.shared.users[indexPath.row]
 //        cell.textLabel?.text = self.creatorID

@@ -127,7 +127,7 @@ class Firebase {
 //        }
 //    }
     
-    func listenForUsers(completion: @escaping ((String)) -> Void) {
+    func listenForUsers(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
         db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
@@ -138,9 +138,12 @@ class Firebase {
                 print("Document data was empty")
                 return
             }
+             print("DATA: \(data)")
 
-            let player = String(describing: data[Constants.users])
-            completion(player)
+            let result = data[Constants.users]
+            let players = result as? [String] ?? []
+            
+            completion(players)
         }
     }
     
@@ -179,7 +182,7 @@ class Firebase {
         let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote]
         guard let user = UserController.shared.currentUser else {return}
         
-        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)'s vote").setData(voteDictionary) { (error) in
+        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").setData(voteDictionary) { (error) in
             if let error = error {
                 print("There was an error saving users votes to Firestore: \(error.localizedDescription)")
                 completion(.failure(.fbError(error)))
