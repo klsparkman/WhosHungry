@@ -55,6 +55,17 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
+        fixInviteCode()
+        guard let inviteCode = self.trimmedInviteCode else {return}
+        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+            switch result {
+            case .failure(let error):
+                print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
+            case.success(let game):
+//                Firebase.shared.currentGame = game
+                Firebase.shared.updateUserList(inviteCode: inviteCode)
+            }
+        }
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
@@ -78,24 +89,12 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        fixInviteCode()
-        guard let inviteCode = self.trimmedInviteCode else {return}
-        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
-            switch result {
-            case .failure(let error):
-                print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
-            case.success(let game):
-                Firebase.shared.updateUserList(inviteCode: inviteCode)
-                if let game = game {
-                    Firebase.shared.currentGame = game
-                    if segue.identifier == "toUserListVC" {
-                        guard let destinationVC = segue.destination as? UserListTableViewController else {return}
-                        destinationVC.category = game.mealType
-                        destinationVC.city = game.city
-                        destinationVC.radius = game.radius * 1600
-                    }
-                }
-            }
+        if segue.identifier == "toUserListVC" {
+            guard let game = Firebase.shared.currentGame else {return}
+            guard let destinationVC = segue.destination as? UserListTableViewController else {return}
+            destinationVC.category = game.mealType
+            destinationVC.city = game.city
+            destinationVC.radius = game.radius * 1600
         }
     }
     

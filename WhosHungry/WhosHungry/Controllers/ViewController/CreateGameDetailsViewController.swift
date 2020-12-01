@@ -177,11 +177,9 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let city = citySearchTextField.text,
               let mealType = mealType,
               let radius = Double("\(radiusLabel.text!)")
-//              let votes = submittedVotes
         else {return}
         let user = currentUser.firstName + " " + currentUser.lastName
-//        let votes = Array(submittedVotes.map { ("\($0.keys) \($0.values)") })
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], creatorID: currentUser.uid)
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user])
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
