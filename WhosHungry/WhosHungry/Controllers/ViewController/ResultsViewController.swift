@@ -12,6 +12,7 @@ class ResultsViewController: UIViewController {
     
     static let shared = ResultsViewController()
     var likedRestDict: [String : Int] = [:]
+    var likes: [String] = []
     
     @IBOutlet weak var restaurantRestultLabel: UILabel!
     
@@ -22,6 +23,15 @@ class ResultsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
+        
+        Firebase.shared.listenForLikes { (result) in
+            self.likes = []
+            for vote in result {
+                self.likes.append(vote)
+                print("VOTES: \(self.likes)")
+            }
+        }
+        
 //        Firebase.shared.startListener {
 //            guard let game = Firebase.shared.currentGame else {return}
 //            if game.submittedVotes.count + 1 == game.users.count {
