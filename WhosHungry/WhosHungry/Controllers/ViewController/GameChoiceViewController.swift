@@ -55,17 +55,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
-        fixInviteCode()
-        guard let inviteCode = self.trimmedInviteCode else {return}
-        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
-            switch result {
-            case .failure(let error):
-                print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
-            case.success(let game):
-//                Firebase.shared.currentGame = game
-                Firebase.shared.updateUserList(inviteCode: inviteCode)
-            }
-        }
+       
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
@@ -74,6 +64,18 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         joinThePartyButton.isHidden = false
+        
+        fixInviteCode()
+        guard let inviteCode = self.trimmedInviteCode else {return false}
+        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+            switch result {
+            case .failure(let error):
+                print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
+            case.success(_):
+                Firebase.shared.updateUserList(inviteCode: inviteCode)
+            }
+        }
+        
         return false
     }
     
