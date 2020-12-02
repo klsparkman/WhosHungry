@@ -35,8 +35,8 @@ class UserListTableViewController: UITableViewController {
             self.players = []
             for player in result {
                 self.players.append(player)
+//                ResultsViewController.shared.playerCount = self.players.count
             }
-            print("PLAYERS: \(result)")
             self.tableView.reloadData()
         }
     }

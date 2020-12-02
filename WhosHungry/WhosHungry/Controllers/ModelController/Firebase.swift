@@ -20,6 +20,7 @@ class Firebase {
     var currentGame: Game?
     private var listener: ListenerRegistration?
     var votes: [String] = []
+    var playerCount: Int?
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
@@ -125,6 +126,9 @@ class Firebase {
             }
             let voteValues = data[Constants.submittedVotes]
             let votes = voteValues as? [String] ?? []
+            print(currentGame.users)
+            print("VOTES: \(votes)")
+            print("VOTE VALUE COUNT: \(Constants.usersVotes.count)")
             completion(votes)
         }
     }
@@ -143,6 +147,8 @@ class Firebase {
             let result = data[Constants.users]
             let players = result as? [String] ?? []
             completion(players)
+            self.playerCount = players.count
+//            print("PLAYER COUNT: \(players.count)")
         }
     }
     

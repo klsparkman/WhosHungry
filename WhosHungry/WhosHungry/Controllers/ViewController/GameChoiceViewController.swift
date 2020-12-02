@@ -55,7 +55,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
-       
     }
     
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
@@ -64,7 +63,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         joinThePartyButton.isHidden = false
-        
         fixInviteCode()
         guard let inviteCode = self.trimmedInviteCode else {return false}
         Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
@@ -75,7 +73,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
                 Firebase.shared.updateUserList(inviteCode: inviteCode)
             }
         }
-        
         return false
     }
     
