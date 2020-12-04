@@ -124,11 +124,16 @@ class Firebase {
                 print("Document was empty")
                 return
             }
+            
+//           print("DATA: \(data)")
+            
             let voteValues = data[Constants.submittedVotes]
             let votes = voteValues as? [String] ?? []
             print(currentGame.users)
-            print("VOTES: \(votes)")
-            print("VOTE VALUE COUNT: \(Constants.usersVotes.count)")
+            //This is printing 20??
+//            print("VOTES: \(votes.count)")
+            //This is printing 10??
+//            print("VOTE VALUE COUNT: \(Constants.usersVotes.count)")
             completion(votes)
         }
     }
@@ -148,7 +153,6 @@ class Firebase {
             let players = result as? [String] ?? []
             completion(players)
             self.playerCount = players.count
-//            print("PLAYER COUNT: \(players.count)")
         }
     }
     
@@ -165,23 +169,7 @@ class Firebase {
             Constants.submittedVotes : FieldValue.arrayUnion([restaurantArr])
         ])
     }
-    
-//    func fetchAllUsers(completion: @escaping ((String) -> ())) {
-//        db.collection(Constants.gameContainer).getDocuments { (snapshot, error) in
-//            if let error = error {
-//                print("Error fetching users from Firestore: \(error.localizedDescription)")
-//            } else {
-//                guard let snapshot = snapshot else {return}
-//                for document in snapshot.documents {
-//                    let myData = document.data()
-//                    let user: String = String(describing: myData[Constants.users])
-////                    let user = myData[Constants.users] as? String ?? "No user found"
-//                    completion(user)
-//                }
-//            }
-//        }
-//    }
-    
+
     func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
         guard let game = currentGame else {return}
         let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote]
@@ -194,7 +182,25 @@ class Firebase {
             } else {
                 print("Successfully saved users votes!")
                 completion(.success(userVote))
+//                print("Vote Dictionary Count: \(voteDictionary.count + 1)")
+//                print("Vote Dictionary: \(voteDictionary)")
+
             }
         }
     }
+    
+    func fetchNumberOfVotes(completion: @escaping (Int) -> Void) {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching the number of submitted votes: \(error)")
+            } else {
+                if let submittedVoteCount = querySnapshot?.documents.count {
+                    
+                    ResultsViewController.shared.result = submittedVoteCount
+                }
+            }
+        }
+    }
+    
 }//End of Class

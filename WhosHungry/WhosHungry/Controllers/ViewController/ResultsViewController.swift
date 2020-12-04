@@ -25,20 +25,24 @@ class ResultsViewController: UIViewController {
         super.viewWillAppear(animated)
         Firebase.shared.listenForLikes { (result) in
             self.likes = []
-            self.result = result.count
-            print("RESULT COUNT: \(result.count)")
+//            self.result = result.count
+//            print("RESULT COUNT: \(result.count)")
             for vote in result {
                 self.likes.append(vote)
+                Firebase.shared.fetchNumberOfVotes { (result) in
+                    self.result = result
+                }
             }
-            print("LIKES: \(self.likes)")
+//            print("LIKES: \(self.likes)")
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
-        let players = Firebase.shared.playerCount
-        if players ==  result {
+        let players = Firebase.shared.playerCount!
+        guard let result = result else {return}
+        if players == result {
             self.findMatches()
         } else {
             print("Still waiting for everyone to finish swiping")
