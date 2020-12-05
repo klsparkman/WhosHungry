@@ -40,6 +40,7 @@ class Firebase {
                 print("Successfully created a game!")
                 self.currentGame = game
                 completion(.success(game))
+                self.playerCount = 1
             }
         }
     }
@@ -77,6 +78,11 @@ class Firebase {
                 let userRef = self.db.collection(Constants.gameContainer).document("\(game.uid)")
                 userRef.updateData([Constants.users : FieldValue.arrayUnion(["\(currentUser.firstName + " " + currentUser.lastName)"])
                 ])
+                if self.playerCount != 0 {
+                    self.playerCount! += 1
+                } else {
+                    self.playerCount = 1
+                }
             }
         }
     }
@@ -124,9 +130,7 @@ class Firebase {
                 print("Document was empty")
                 return
             }
-            
-//           print("DATA: \(data)")
-            
+                        
             let voteValues = data[Constants.submittedVotes]
             let votes = voteValues as? [String] ?? []
             print(currentGame.users)
@@ -182,9 +186,6 @@ class Firebase {
             } else {
                 print("Successfully saved users votes!")
                 completion(.success(userVote))
-//                print("Vote Dictionary Count: \(voteDictionary.count + 1)")
-//                print("Vote Dictionary: \(voteDictionary)")
-
             }
         }
     }
@@ -195,9 +196,10 @@ class Firebase {
             if let error = error {
                 print("Error fetching the number of submitted votes: \(error)")
             } else {
-                if let submittedVoteCount = querySnapshot?.documents.count {
+                if let snapshot = querySnapshot?.documents {
+                    print("SNAPSHOT: \(snapshot)")
                     
-                    ResultsViewController.shared.result = submittedVoteCount
+//                    ResultsViewController.shared.result = submittedVoteCount
                 }
             }
         }
