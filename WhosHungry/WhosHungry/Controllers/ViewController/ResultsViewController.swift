@@ -29,9 +29,6 @@ class ResultsViewController: UIViewController {
 //            print("RESULT COUNT: \(result.count)")
             for vote in result {
                 self.likes.append(vote)
-                Firebase.shared.fetchNumberOfVotes { (result) in
-                    self.result = result
-                }
             }
 //            print("LIKES: \(self.likes)")
         }
