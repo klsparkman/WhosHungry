@@ -14,36 +14,42 @@ class ResultsViewController: UIViewController {
     var likedRestDict: [String : Int] = [:]
     var likes: [String] = []
     var result: Int?
+    var playerCount = Firebase.shared.playerCount!
+    var voteCount = Firebase.shared.voteCount!
     
     @IBOutlet weak var restaurantRestultLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if self.playerCount == self.voteCount {
+            
+        }
+        Firebase.shared.listenForLikes { (arrOfLikes) in
+            self.likes = []
+            for restaurant in arrOfLikes {
+                self.likes.append(restaurant)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Firebase.shared.listenForLikes { (result) in
-            self.likes = []
-//            self.result = result.count
-//            print("RESULT COUNT: \(result.count)")
-            for vote in result {
-                self.likes.append(vote)
-            }
-//            print("LIKES: \(self.likes)")
-        }
+//        Firebase.shared.listenForLikes { (result) in
+//            self.likes = []
+//            for vote in result {
+//                self.likes.append(vote)
+//            }
+//            if self.playerCount == self.voteCount {
+//                self.findMatches()
+//            } else {
+//                print("Still waiting for everyone to finish swiping")
+//            }
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
-        let players = Firebase.shared.playerCount!
-        let votes = Firebase.shared.voteCount!
-        if players == votes {
-            self.findMatches()
-        } else {
-            print("Still waiting for everyone to finish swiping")
-        }
     }
     
     func findMatches() {
