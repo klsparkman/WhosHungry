@@ -39,7 +39,6 @@ class ResultsViewController: UIViewController {
         self.becomeFirstResponder()
         let players = Firebase.shared.playerCount!
         let votes = Firebase.shared.voteCount!
-//        guard let result = result else {return}
         if players == votes {
             self.findMatches()
         } else {
@@ -50,16 +49,13 @@ class ResultsViewController: UIViewController {
     func findMatches() {
         var restaurantVotes: [String : Int] = [:]
         let voteValues = self.likes
-//        let voteValues = [Firebase.shared.votes]
         
         for personsVotes in voteValues {
-//            for restaurant in personsVotes {
                 if restaurantVotes[personsVotes] != nil {
                     restaurantVotes[personsVotes]! += 1
                 } else {
                     restaurantVotes[personsVotes] = 1
                 }
-//            }
         }
         print("VOTE DICTIONARY: \(restaurantVotes)")
     }
