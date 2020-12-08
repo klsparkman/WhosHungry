@@ -19,6 +19,7 @@ class UserListTableViewController: UITableViewController {
     var currentPlayers: [String] = []
     var creatorID: String?
     var players: [String] = []
+    var gameCreator: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,6 @@ class UserListTableViewController: UITableViewController {
             self.players = []
             for player in result {
                 self.players.append(player)
-//                ResultsViewController.shared.playerCount = self.players.count
             }
             self.tableView.reloadData()
         }
@@ -48,7 +48,13 @@ class UserListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath)
-        cell.textLabel?.text = players[indexPath.row]
+        let player = CreateGameDetailsViewController.shared.gameCreator ?? ""
+//        cell.textLabel?.text = "\(gameCreator) game creator"
+        if player == gameCreator {
+            cell.textLabel?.text = "\(player) game creator"
+        } else {
+            cell.textLabel?.text = players[indexPath.row]
+        }
         return cell
     }
     

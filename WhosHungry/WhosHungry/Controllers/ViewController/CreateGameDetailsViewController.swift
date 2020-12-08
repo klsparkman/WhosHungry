@@ -40,6 +40,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var gameInviteCode: String?
     let db = Firestore.firestore()
     var currentUser = UserController.shared.currentUser
+    var gameCreator: String?
 //    let submittedVotes: [Dictionary<String, Int>] = Array()
 //    var users: [User] = []
     
@@ -177,9 +178,11 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let city = citySearchTextField.text,
               let mealType = mealType,
               let radius = Double("\(radiusLabel.text!)")
+            
         else {return}
         let user = currentUser.firstName + " " + currentUser.lastName
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user])
+        self.gameCreator = user
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], creatorID: "\(user) creator")
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
