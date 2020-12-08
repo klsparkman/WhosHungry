@@ -38,8 +38,9 @@ class ResultsViewController: UIViewController {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
         let players = Firebase.shared.playerCount!
-        guard let result = result else {return}
-        if players == result {
+        let votes = Firebase.shared.voteCount!
+//        guard let result = result else {return}
+        if players == votes {
             self.findMatches()
         } else {
             print("Still waiting for everyone to finish swiping")
