@@ -60,15 +60,4 @@ class GameController: NSObject {
         }
         return randomString
     }
-    
-//    func comparingVoteSets(voteSet: Set<String>) {
-//        
-//        let allVotes = voteSet.intersection()
-//        
-//        for votes in voteSet {
-//            
-//        }
-//        
-//    }
-    
 }//End of Class
