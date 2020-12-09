@@ -10,6 +10,8 @@ import UIKit
 
 class UserListTableViewController: UITableViewController {
     
+    @IBOutlet weak var letsBeginButton: UIBarButtonItem!
+    
     // Mark: - Properties
     static var shared = UserListTableViewController()
     var city: String?
@@ -19,15 +21,17 @@ class UserListTableViewController: UITableViewController {
     var currentPlayers: [String] = []
     var creatorID: String?
     var players: [String] = []
-    var gameCreator: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.letsBeginButton.isEnabled = false
+//        self.navigationItem.rightBarButtonItem = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
+       
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,6 +42,11 @@ class UserListTableViewController: UITableViewController {
                 self.players.append(player)
             }
             self.tableView.reloadData()
+            for player in self.players {
+                if player.contains(": Game Creator") {
+                    self.letsBeginButton.isEnabled = true
+                }
+            }
         }
     }
     
@@ -48,13 +57,7 @@ class UserListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath)
-        let player = CreateGameDetailsViewController.shared.gameCreator ?? ""
-//        cell.textLabel?.text = "\(gameCreator) game creator"
-        if player == gameCreator {
-            cell.textLabel?.text = "\(player) game creator"
-        } else {
-            cell.textLabel?.text = players[indexPath.row]
-        }
+        cell.textLabel?.text = players[indexPath.row]
         return cell
     }
     

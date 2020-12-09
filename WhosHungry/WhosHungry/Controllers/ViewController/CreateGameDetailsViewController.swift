@@ -70,7 +70,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         placesTableView.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
-//        locManager.requestAlwaysAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,6 +109,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
                 }
             } else {
                 // There is an error with google places API
+                print("There is an error with google places API: \(error!.localizedDescription)")
             }
         }
         task.resume()
@@ -180,14 +180,15 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let radius = Double("\(radiusLabel.text!)")
             
         else {return}
-        let user = currentUser.firstName + " " + currentUser.lastName
-        self.gameCreator = user
+        let user = "\(currentUser.firstName + " " + currentUser.lastName): Game Creator"
+       
         let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], creatorID: "\(user) creator")
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
             case .success(_):
-                print("This worked!")
+                print("Success!")
+                self.gameCreator = user
             case .failure(let error):
                 print("Error saving game: \(error.localizedDescription)")
             }
