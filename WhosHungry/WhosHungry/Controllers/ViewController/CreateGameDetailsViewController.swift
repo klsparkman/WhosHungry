@@ -169,7 +169,19 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     
     @IBAction func copyCodePressed(_ sender: Any) {
         UIPasteboard.general.string = "Your Who's Hungry invite code is: \(codeLabel.text!)"
-        createGameButton.isHidden = false
+        if citySearchTextField.text != "" {
+            if radiusLabel.text != nil {
+                if self.mealType != nil  {
+                    createGameButton.isHidden = false
+                } else {
+                    fillInAllFields()
+                }
+            } else {
+                fillInAllFields()
+            }
+        } else {
+            fillInAllFields()
+        }
     }
     
     @IBAction func createGameButtonPressed(_ sender: Any) {
@@ -178,10 +190,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let city = citySearchTextField.text,
               let mealType = mealType,
               let radius = Double("\(radiusLabel.text!)")
-            
         else {return}
         let user = "\(currentUser.firstName + " " + currentUser.lastName): Game Creator"
-       
         let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], creatorID: "\(user) creator")
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
@@ -244,6 +254,14 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 45
     }
+    
+    func fillInAllFields() {
+        let alert = UIAlertController(title: "HOLD UP!", message: "You forgot something? Check all fields to continue!", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Okie Dokie", style: .cancel, handler: nil)
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
+    }
+    
 }//End of class
 
 

@@ -30,6 +30,7 @@
 		359E26B324A19F640011358A /* StyleGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359E26B224A19F640011358A /* StyleGuide.swift */; };
 		359E26BA24A1AEA70011358A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 359E26B824A1ADDA0011358A /* GoogleService-Info.plist */; };
 		35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */; };
+		35D31D8025819C4100B469AD /* PopUps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D31D7F25819C4000B469AD /* PopUps.swift */; };
 		35DCF24024AE8E1B00BA3783 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF23F24AE8E1B00BA3783 /* User.swift */; };
 		35DCF26424AFE89A00BA3783 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26324AFE89A00BA3783 /* Game.swift */; };
 		35DCF26824AFE8F300BA3783 /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DCF26724AFE8F300BA3783 /* Firebase.swift */; };
@@ -64,6 +65,7 @@
 		359E26B224A19F640011358A /* StyleGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGuide.swift; sourceTree = "<group>"; };
 		359E26B824A1ADDA0011358A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35C2EAA6248A8A7400D8CB1C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		35D31D7F25819C4000B469AD /* PopUps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUps.swift; sourceTree = "<group>"; };
 		35DCF23F24AE8E1B00BA3783 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35DCF24124AE907F00BA3783 /* WhosHungry.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhosHungry.entitlements; sourceTree = "<group>"; };
 		35DCF26324AFE89A00BA3783 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				35DCF26724AFE8F300BA3783 /* Firebase.swift */,
 				358CBD1A2510073600B340DF /* UserController.swift */,
 				3549B5A225264B8C00CA4DFF /* GameController.swift */,
+				35D31D7F25819C4000B469AD /* PopUps.swift */,
 			);
 			path = ModelController;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				35DCF24024AE8E1B00BA3783 /* User.swift in Sources */,
 				35C2EAA7248A8A7400D8CB1C /* UIViewExtension.swift in Sources */,
 				359C403624477083007C2AEF /* RestaurantController.swift in Sources */,
+				35D31D8025819C4100B469AD /* PopUps.swift in Sources */,
 				3549B65D25310EFB00CA4DFF /* Rating.swift in Sources */,
 				35DCF26424AFE89A00BA3783 /* Game.swift in Sources */,
 				3549B5A325264B8C00CA4DFF /* GameController.swift in Sources */,
