@@ -10,6 +10,7 @@ import UIKit
 
 class ResultsViewController: UIViewController {
     
+    // Mark: - Properties
     static let shared = ResultsViewController()
     var likedRestDict: [String : Int] = [:]
     var likes: [String] = []
@@ -17,34 +18,25 @@ class ResultsViewController: UIViewController {
     var playerCount = Firebase.shared.playerCount!
     var voteCount = Firebase.shared.voteCount!
     
+    // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
     
+    // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.playerCount == self.voteCount {
-            
-        }
         Firebase.shared.listenForLikes { (arrOfLikes) in
             self.likes = []
             for restaurant in arrOfLikes {
                 self.likes.append(restaurant)
+            }
+            if self.playerCount == self.voteCount {
+                self.findMatches()
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        Firebase.shared.listenForLikes { (result) in
-//            self.likes = []
-//            for vote in result {
-//                self.likes.append(vote)
-//            }
-//            if self.playerCount == self.voteCount {
-//                self.findMatches()
-//            } else {
-//                print("Still waiting for everyone to finish swiping")
-//            }
-//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,11 +49,11 @@ class ResultsViewController: UIViewController {
         let voteValues = self.likes
         
         for personsVotes in voteValues {
-                if restaurantVotes[personsVotes] != nil {
-                    restaurantVotes[personsVotes]! += 1
-                } else {
-                    restaurantVotes[personsVotes] = 1
-                }
+            if restaurantVotes[personsVotes] != nil {
+                restaurantVotes[personsVotes]! += 1
+            } else {
+                restaurantVotes[personsVotes] = 1
+            }
         }
         print("VOTE DICTIONARY: \(restaurantVotes)")
     }
