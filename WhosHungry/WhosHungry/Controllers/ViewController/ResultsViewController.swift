@@ -17,6 +17,7 @@ class ResultsViewController: UIViewController {
     var result: Int?
     var playerCount = Firebase.shared.playerCount!
     var voteCount = Firebase.shared.voteCount!
+    var restaurantVotes: [String : Int] = [:]
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -45,7 +46,6 @@ class ResultsViewController: UIViewController {
     }
     
     func findMatches() {
-        var restaurantVotes: [String : Int] = [:]
         let voteValues = self.likes
         
         for personsVotes in voteValues {
@@ -57,4 +57,21 @@ class ResultsViewController: UIViewController {
         }
         print("VOTE DICTIONARY: \(restaurantVotes)")
     }
+    
+    func findHighestVotes() {
+        let halfVotes = playerCount % 2
+        for (key, value) in restaurantVotes {
+            if value == playerCount {
+                print("Everyone voted for this restaurant: \(key)")
+                
+            }
+            if value == halfVotes {
+                print("Half of the players voted for these places: \(key)")
+            }
+            if value < playerCount {
+                print("Need to revote!")
+            }
+        }
+    }
+    
 }// End of class
