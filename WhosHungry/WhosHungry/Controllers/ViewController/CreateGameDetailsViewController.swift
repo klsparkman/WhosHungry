@@ -192,7 +192,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let radius = Double("\(radiusLabel.text!)")
         else {return}
         let user = "\(currentUser.firstName + " " + currentUser.lastName): Game Creator"
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], creatorID: "\(user) creator")
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user])
+//            , creatorID: "\(user) creator"
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {

@@ -42,8 +42,10 @@ class UserListTableViewController: UITableViewController {
             }
             self.tableView.reloadData()
             for player in self.players {
-                if player.contains(": Game Creator") {
+                if player.contains(": Game Creator") == true {
                     self.letsBeginButton.isEnabled = true
+                } else {
+                    self.letsBeginButton.isEnabled = false
                 }
             }
         }

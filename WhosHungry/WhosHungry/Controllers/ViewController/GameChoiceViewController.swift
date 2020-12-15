@@ -79,7 +79,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     func fixInviteCode(){
         let inviteCode = pasteCodeTextField.text!
         if pasteCodeTextField.text!.count > 10 {
-            let trimmedInviteCode = inviteCode.replacingOccurrences(of: "Your Who's Hungry invite code is: ", with: "")
+            let trimmedInviteCode = inviteCode.replacingOccurrences(of: "Your Who's Hungry invite code is:", with: "")
             self.trimmedInviteCode = trimmedInviteCode
         } else {
             self.trimmedInviteCode = inviteCode
