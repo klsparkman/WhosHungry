@@ -83,6 +83,7 @@ class UserListTableViewController: UITableViewController {
             destinationVC.radius = self.radius
             destinationVC.city = self.city
             destinationVC.category = self.category
+            self.delegate?.gameHasBegun(true)
         }
     }
 }

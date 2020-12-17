@@ -116,7 +116,6 @@ extension UserController: ASAuthorizationControllerDelegate {
                     self.defaults.setValue(authUser.uid, forKey: "uid")
                     // Fetch a user in Firebase using the authenticated uid
                     Firebase.shared.fetchUser(withID: authUser.uid) { (result) in
-
                         switch result {
                         //First success is there was already a user in Firebase, and we are adding to currentUser
                         case .success(let user):
