@@ -37,6 +37,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         self.pasteCodeTextField.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
+        UserListTableViewController.shared.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,5 +106,20 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
+    }
+}
+
+extension GameChoiceViewController: UserListTableViewControllerDelegate {
+    func gameHasBegun(_ sender: Bool) {
+        if sender == true {
+            gameHasAlreadyBegun()
+        }
+    }
+    
+    func gameHasAlreadyBegun() {
+        let alert = UIAlertController(title: "You were too slow!", message: "So sorry, the game has already begun and is too late to join.", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Guess I'm eating alone tonight", style: .cancel, handler: nil)
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
     }
 }

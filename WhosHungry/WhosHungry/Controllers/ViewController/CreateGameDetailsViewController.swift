@@ -264,26 +264,3 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
 }//End of class
-
-
-
-
-//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-//        if (status == CLAuthorizationStatus.denied) {
-//            showLocationDisabledPopup()
-//        }
-//    }
-//
-//    func showLocationDisabledPopup() {
-//        let alertController = UIAlertController(title: "Background location access disabled.", message: "In order to pull restaurants in your area, we need your location.", preferredStyle: .alert)
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        alertController.addAction(cancelAction)
-//
-//        let openAction = UIAlertAction(title: "Open settings", style: .default) { (action) in
-//            if let url = URL(string: UIApplication.openSettingsURLString) {
-//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//            }
-//        }
-//        alertController.addAction(openAction)
-//        self.present(alertController, animated: true, completion: nil)
-//    }
