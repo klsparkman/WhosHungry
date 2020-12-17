@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol UserListTableViewControllerDelegate: class {
+    func gameHasBegun(_ sender: Bool) 
+}
+
 class UserListTableViewController: UITableViewController {
     
     @IBOutlet weak var letsBeginButton: UIBarButtonItem!
@@ -21,6 +25,7 @@ class UserListTableViewController: UITableViewController {
     var currentPlayers: [String] = []
     var creatorID: String?
     var players: [String] = []
+    weak var delegate: UserListTableViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
