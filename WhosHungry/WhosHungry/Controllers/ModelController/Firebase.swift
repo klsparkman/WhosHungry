@@ -166,14 +166,6 @@ class Firebase {
         listener.remove()
         print("Firebase.swift stopped listening")
     }
-    
-//    func addLikeToFirebase(restaurantArr: [String]) {
-//        guard let game = Firebase.shared.currentGame else {return}
-//        let userRef = self.db.collection(Constants.gameContainer).document(game.uid)
-//        userRef.updateData([
-//            Constants.submittedVotes : FieldValue.arrayUnion([restaurantArr])
-//        ])
-//    }
 
     func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
         guard let game = currentGame else {return}

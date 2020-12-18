@@ -47,7 +47,6 @@ class ResultsViewController: UIViewController {
     
     func findMatches() {
         let voteValues = self.likes
-        
         for personsVotes in voteValues {
             if restaurantVotes[personsVotes] != nil {
                 restaurantVotes[personsVotes]! += 1
@@ -56,22 +55,47 @@ class ResultsViewController: UIViewController {
             }
         }
         print("VOTE DICTIONARY: \(restaurantVotes)")
+        findHighestVotes()
     }
     
     func findHighestVotes() {
-        let halfVotes = playerCount % 2
+        var agreedUponPlaces: [String] = []
+        
         for (key, value) in restaurantVotes {
             if value == playerCount {
-                print("Everyone voted for this restaurant: \(key)")
-                
-            }
-            if value == halfVotes {
-                print("Half of the players voted for these places: \(key)")
-            }
-            if value < playerCount {
-                print("Need to revote!")
+                agreedUponPlaces.append(key)
+            } else {
+                continue
             }
         }
+        print("AGREED UPON PLACES: \(agreedUponPlaces)")
+        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
     }
+    
+    
+//    func findHighestVotes() {
+//        var agreedUponPlaces: [String] = []
+//        let halfVotes = playerCount % 2
+//        for (key, value) in restaurantVotes {
+//            //If everyone has at least 1 restaurant in common
+//            if value == playerCount {
+//                agreedUponPlaces.append(key)
+//                if agreedUponPlaces.count > 1 {
+//                    for _ in agreedUponPlaces {
+//                        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+//                    }
+//                } else {
+//                    restaurantRestultLabel.text = key
+//                }
+//            }
+//            if value >= halfVotes {
+////                print("Half of the players voted for these places: \(key.randomElement())")
+//
+//            }
+//            if value < playerCount {
+//                print("Need to revote!")
+//            }
+//        }
+//    }
     
 }// End of class
