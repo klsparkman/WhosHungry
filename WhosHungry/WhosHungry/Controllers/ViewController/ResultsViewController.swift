@@ -60,6 +60,7 @@ class ResultsViewController: UIViewController {
     
     func findHighestVotes() {
         var agreedUponPlaces: [String] = []
+        let halfVotes = playerCount % 2
         
         for (key, value) in restaurantVotes {
             if value == playerCount {
@@ -67,35 +68,11 @@ class ResultsViewController: UIViewController {
             } else {
                 continue
             }
+            if value < halfVotes {
+                print("Need to revote?")
+            }
         }
         print("AGREED UPON PLACES: \(agreedUponPlaces)")
         restaurantRestultLabel.text = agreedUponPlaces.randomElement()
     }
-    
-    
-//    func findHighestVotes() {
-//        var agreedUponPlaces: [String] = []
-//        let halfVotes = playerCount % 2
-//        for (key, value) in restaurantVotes {
-//            //If everyone has at least 1 restaurant in common
-//            if value == playerCount {
-//                agreedUponPlaces.append(key)
-//                if agreedUponPlaces.count > 1 {
-//                    for _ in agreedUponPlaces {
-//                        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-//                    }
-//                } else {
-//                    restaurantRestultLabel.text = key
-//                }
-//            }
-//            if value >= halfVotes {
-////                print("Half of the players voted for these places: \(key.randomElement())")
-//
-//            }
-//            if value < playerCount {
-//                print("Need to revote!")
-//            }
-//        }
-//    }
-    
 }// End of class

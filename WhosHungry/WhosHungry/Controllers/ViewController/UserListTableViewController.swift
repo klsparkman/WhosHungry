@@ -9,7 +9,8 @@
 import UIKit
 
 protocol UserListTableViewControllerDelegate: class {
-    func gameHasBegun(_ sender: Bool) 
+    func gameHasBegun(_ sender: Bool)
+//    var gameHasBegun: Bool {get set}
 }
 
 class UserListTableViewController: UITableViewController {
@@ -30,7 +31,6 @@ class UserListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.letsBeginButton.isEnabled = false
-//        self.navigationItem.rightBarButtonItem = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
