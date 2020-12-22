@@ -15,15 +15,17 @@ struct Game {
     let radius: Double
     let mealType: String
     let users: [String]
+    var gameHasBegun: Bool
 //    let creatorID: String
     
-    init(uid: String = UUID().uuidString, inviteCode: String, city: String, radius: Double, mealType: String, users: [String]) {
+    init(uid: String = UUID().uuidString, inviteCode: String, city: String, radius: Double, mealType: String, users: [String], gameHasBegun: Bool = false) {
         self.uid = uid
         self.inviteCode = inviteCode
         self.city = city
         self.radius = radius
         self.mealType = mealType
         self.users = users
+        self.gameHasBegun = gameHasBegun
 //        self.creatorID = creatorID
     }
 }

@@ -8,10 +8,10 @@
 
 import UIKit
 
-protocol UserListTableViewControllerDelegate: class {
-    func gameHasBegun(_ sender: Bool)
+//protocol UserListTableViewControllerDelegate: class {
+////    func gameHasBegun(_ sender: Bool)
 //    var gameHasBegun: Bool {get set}
-}
+//}
 
 class UserListTableViewController: UITableViewController {
     
@@ -26,7 +26,6 @@ class UserListTableViewController: UITableViewController {
     var currentPlayers: [String] = []
     var creatorID: String?
     var players: [String] = []
-    weak var delegate: UserListTableViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +35,9 @@ class UserListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        Firebase.shared.gameHasBegun { (_) in
+            print("Game bool switched again!")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,7 +85,9 @@ class UserListTableViewController: UITableViewController {
             destinationVC.radius = self.radius
             destinationVC.city = self.city
             destinationVC.category = self.category
-            self.delegate?.gameHasBegun(true)
+            Firebase.shared.gameHasBegun { (_) in
+                print("Bool has been switched!")
+            }
         }
     }
 }
