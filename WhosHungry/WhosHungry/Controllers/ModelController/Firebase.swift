@@ -31,6 +31,7 @@ class Firebase {
                                               Constants.radius : game.radius,
                                               Constants.mealType : game.mealType,
                                               Constants.users : game.users,
+                                              Constants.gameHasBegun : game.gameHasBegun
         ]
         
         db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
@@ -183,4 +184,23 @@ class Firebase {
             }
         }
     }
+    
+    func gameHasBegun(completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("There was an error fetching the current document data: \(error.localizedDescription)")
+            } else {
+                let beginGame = self.db.collection(Constants.gameContainer).document(game.uid)
+                guard let snapshot = documentSnapshot?.data() else {return}
+                let gameBool = snapshot[Constants.gameHasBegun] as! Bool
+                if gameBool == false {
+                    beginGame.updateData([Constants.gameHasBegun : true])
+                } else if gameBool == true {
+                    beginGame.updateData([Constants.gameHasBegun : false])
+                }
+            }
+        }
+    }
+    
 }//End of Class

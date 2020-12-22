@@ -23,7 +23,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     let db = Firestore.firestore()
     let remoteConfig = RemoteConfig.remoteConfig()
     var trimmedInviteCode: String?
-//    var gameHasBegun: Bool
     
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -38,7 +37,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         self.pasteCodeTextField.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
-        UserListTableViewController.shared.delegate = self
+//        UserListTableViewController.shared.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -74,22 +73,26 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
     }
-    
+
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         joinThePartyButton.isHidden = false
-        fixInviteCode()
-       
-        guard let inviteCode = self.trimmedInviteCode else {return false}
-        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
-            switch result {
-            case .failure(let error):
-                print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
-            case.success(_):
-                Firebase.shared.updateUserList(inviteCode: inviteCode)
+
+            fixInviteCode()
+            guard let inviteCode = self.trimmedInviteCode else {return false}
+            Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+                switch result {
+                case .failure(let error):
+                    print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
+                case.success(let game):
+                    if game?.gameHasBegun == false {
+                        Firebase.shared.updateUserList(inviteCode: inviteCode)
+                    } else {
+                        self.gameHasAlreadyBegun()
+                    }
             }
         }
         return false
@@ -105,16 +108,16 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        super.prepare(for: segue, sender: sender)
-//        if segue.identifier == "toUserListVC" {
-//            guard let game = Firebase.shared.currentGame else {return}
-//            guard let destinationVC = segue.destination as? UserListTableViewController else {return}
-//            destinationVC.category = game.mealType
-//            destinationVC.city = game.city
-//            destinationVC.radius = game.radius * 1600
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "toUserListVC" {
+            guard let game = Firebase.shared.currentGame else {return}
+            guard let destinationVC = segue.destination as? UserListTableViewController else {return}
+            destinationVC.category = game.mealType
+            destinationVC.city = game.city
+            destinationVC.radius = game.radius * 1600
+        }
+    }
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
         let firebaseAuth = Auth.auth()
@@ -125,29 +128,31 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
             print("Error signing out: %@", signOutError)
         }
     }
+    
+    func gameHasAlreadyBegun() {
+        let alert = UIAlertController(title: "You were too slow!", message: "So sorry, the game has already begun and is too late to join.", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Guess I'm eating alone tonight", style: .cancel, handler: nil)
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
+    }
 }
     
-    extension GameChoiceViewController: UserListTableViewControllerDelegate {
-        func gameHasBegun(_ sender: Bool) {
-            if sender == true {
-                gameHasAlreadyBegun()
-            } else {
-                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "toUserListVC") as? UserListTableViewController {
-                    guard let game = Firebase.shared.currentGame else {return}
-                    viewController.category = game.mealType
-                    viewController.city = game.city
-                    viewController.radius = game.radius * 1600
-                    if let navigator = navigationController {
-                        navigator.pushViewController(viewController, animated: true)
-                    }
-                }
-            }
-        }
+//    extension GameChoiceViewController: UserListTableViewControllerDelegate {
+//        func gameHasBegun(_ sender: Bool) {
+//            if sender == true {
+//                gameHasAlreadyBegun()
+//            } else {
+//                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "toUserListVC") as? UserListTableViewController {
+//                    guard let game = Firebase.shared.currentGame else {return}
+//                    viewController.category = game.mealType
+//                    viewController.city = game.city
+//                    viewController.radius = game.radius * 1600
+//                    if let navigator = navigationController {
+//                        navigator.pushViewController(viewController, animated: true)
+//                    }
+//                }
+//            }
+//        }
 
-        func gameHasAlreadyBegun() {
-            let alert = UIAlertController(title: "You were too slow!", message: "So sorry, the game has already begun and is too late to join.", preferredStyle: .alert)
-            let okButton = UIAlertAction(title: "Guess I'm eating alone tonight", style: .cancel, handler: nil)
-            alert.addAction(okButton)
-            present(alert, animated: true, completion: nil)
-        }
-    }
+       
+//    }

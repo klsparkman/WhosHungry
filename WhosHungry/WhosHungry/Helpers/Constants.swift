@@ -28,4 +28,5 @@ struct Constants {
     static let googleAPIKey = "googleAPIKey"
     static let submittedVotes = "submittedVotes"
     static let usersVotes = "usersVotes"
+    static let gameHasBegun = "gameHasBegun"
 }
