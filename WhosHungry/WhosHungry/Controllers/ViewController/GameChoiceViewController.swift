@@ -37,7 +37,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         self.pasteCodeTextField.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
-//        UserListTableViewController.shared.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -79,20 +78,24 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        joinThePartyButton.isHidden = false
-
-            fixInviteCode()
-            guard let inviteCode = self.trimmedInviteCode else {return false}
-            Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
-                switch result {
-                case .failure(let error):
-                    print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
-                case.success(let game):
-                    if game?.gameHasBegun == false {
-                        Firebase.shared.updateUserList(inviteCode: inviteCode)
-                    } else {
+        fixInviteCode()
+        guard let inviteCode = self.trimmedInviteCode else {return false}
+        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+            switch result {
+            case .failure(let error):
+                print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
+            case.success(_):
+                Firebase.shared.checkGameStatus { (result) in
+                    switch result {
+                    case .success(true):
                         self.gameHasAlreadyBegun()
+                    case .success(false):
+                        Firebase.shared.updateUserList(inviteCode: inviteCode)
+                        self.joinThePartyButton.isHidden = false
+                    case .failure(let error):
+                        print("Error reading data in Firestore: \(error.localizedDescription)")
                     }
+                }
             }
         }
         return false
@@ -136,23 +139,3 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true, completion: nil)
     }
 }
-    
-//    extension GameChoiceViewController: UserListTableViewControllerDelegate {
-//        func gameHasBegun(_ sender: Bool) {
-//            if sender == true {
-//                gameHasAlreadyBegun()
-//            } else {
-//                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "toUserListVC") as? UserListTableViewController {
-//                    guard let game = Firebase.shared.currentGame else {return}
-//                    viewController.category = game.mealType
-//                    viewController.city = game.city
-//                    viewController.radius = game.radius * 1600
-//                    if let navigator = navigationController {
-//                        navigator.pushViewController(viewController, animated: true)
-//                    }
-//                }
-//            }
-//        }
-
-       
-//    }

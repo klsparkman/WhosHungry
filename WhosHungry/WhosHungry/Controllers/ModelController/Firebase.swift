@@ -172,7 +172,6 @@ class Firebase {
         guard let game = currentGame else {return}
         let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote]
         guard let user = UserController.shared.currentUser else {return}
-        
         db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").setData(voteDictionary) { (error) in
             if let error = error {
                 print("There was an error saving users votes to Firestore: \(error.localizedDescription)")
@@ -185,7 +184,24 @@ class Firebase {
         }
     }
     
-    func gameHasBegun(completion: @escaping (Result<Bool, Error>) -> Void) {
+    func checkGameStatus(completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("Error fetching the document data: \(error.localizedDescription)")
+            } else {
+                guard let snapshot = documentSnapshot?.data() else {return}
+                let gameStatus = snapshot[Constants.gameHasBegun] as! Bool
+                if gameStatus == true {
+                    completion(.success(true))
+                } else {
+                    completion(.success(false))
+                }
+            }
+        }
+    }
+    
+    func startGame() {
         guard let game = currentGame else {return}
         db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -196,11 +212,24 @@ class Firebase {
                 let gameBool = snapshot[Constants.gameHasBegun] as! Bool
                 if gameBool == false {
                     beginGame.updateData([Constants.gameHasBegun : true])
-                } else if gameBool == true {
-                    beginGame.updateData([Constants.gameHasBegun : false])
                 }
             }
         }
     }
     
+    func stopGame() {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("There was an error fetching the current document data: \(error.localizedDescription)")
+            } else {
+                let beginGame = self.db.collection(Constants.gameContainer).document(game.uid)
+                guard let snapshot = documentSnapshot?.data() else {return}
+                let gameBool = snapshot[Constants.gameHasBegun] as! Bool
+                if gameBool == true {
+                    beginGame.updateData([Constants.gameHasBegun : false])
+                }
+            }
+        }
+    }
 }//End of Class
