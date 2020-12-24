@@ -23,7 +23,7 @@ class UserListTableViewController: UITableViewController {
     var radius: Double?
     var category: String?
     var inviteCode: String?
-    var currentPlayers: [String] = []
+//    var currentPlayers: [String] = []
     var creatorID: String?
     var players: [String] = []
     
@@ -35,8 +35,19 @@ class UserListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        Firebase.shared.gameHasBegun { (_) in
-            print("Game bool switched again!")
+        for player in players {
+            if player.contains(": Game Creator") {
+                Firebase.shared.checkGameStatus { (result) in
+                    switch result {
+                    case .success(true):
+                    Firebase.shared.stopGame()
+                    case .success(false):
+                        print("Something went wrong, this should have been true...")
+                    case .failure(let error):
+                        print("There was an error checking game status: \(error.localizedDescription)")
+                    }
+                }
+            }
         }
     }
     
@@ -85,9 +96,7 @@ class UserListTableViewController: UITableViewController {
             destinationVC.radius = self.radius
             destinationVC.city = self.city
             destinationVC.category = self.category
-            Firebase.shared.gameHasBegun { (_) in
-                print("Bool has been switched!")
-            }
+            Firebase.shared.startGame()
         }
     }
 }
