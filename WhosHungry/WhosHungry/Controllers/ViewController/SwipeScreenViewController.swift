@@ -58,22 +58,13 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         let city = game.city
         let radius = game.radius * 1600
         let category = game.mealType
-//        guard let cityZ = self.city,
-//              let radiusZ = self.radius,
-//              let categoryZ = self.category else {return}
-//        
-//        print(cityZ, radiusZ, categoryZ)
-//                city else {return}
-//        guard let radius = radius else {return}
-//        guard let category = category else {return}
-
         RestaurantController.shared.fetchRestaurants(searchTerm: city, radius: Int(radius), category: category) { (result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):
                     // Start showing cards
                     guard let firstRestaurant = RestaurantController.shared.restaurants.first
-                        else {return}
+                    else {return}
                     self.populateCard(with: firstRestaurant)
                 case .failure(let error):
                     print(error, error.localizedDescription)
@@ -92,7 +83,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         yelpURL = restaurant.restaurantYelpLink
         let ratingString = RestaurantController.shared.setStarRating(rating: restaurant.rating ?? 0)
         ratingImageView.image = UIImage(named: ratingString)
-//        print(restaurantName)
     }
     
     @IBAction func yelpButtonTapped(_ sender: Any) {
@@ -106,20 +96,19 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func showNextCard() {
         if RestaurantController.shared.restaurants.count == currentCardIndex + 1 {
             if likedRestaurants.isEmpty {
-            noRestaurantVote()
+                noRestaurantVote()
             } else {
                 compareArray()
-            Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
-                switch result {
-                case .success(let userVote):
-                    guard let game = Firebase.shared.currentGame else {return}
-                    guard let user = UserController.shared.currentUser else {return}
-                    self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user)").updateData([Constants.submittedVotes : userVote])
-                case .failure(let error):
-                print("Error updating user vote collection: \(error)")
+                Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
+                    switch result {
+                    case .success(let userVote):
+                        guard let game = Firebase.shared.currentGame else {return}
+                        guard let user = UserController.shared.currentUser else {return}
+                        self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user)").updateData([Constants.submittedVotes : userVote])
+                    case .failure(let error):
+                        print("Error updating user vote collection: \(error)")
+                    }
                 }
-            }
-                
                 let seconds = 2.0
                 DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                     if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
@@ -128,7 +117,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                         }
                     }
                 }
-        }
+            }
         } else {
             resetCard()
             currentCardIndex += 1
@@ -144,7 +133,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         card.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
         let scale = min(100/abs(xFromCenter), 1)
         card.transform = CGAffineTransform(rotationAngle: xFromCenter/divisor).scaledBy(x: scale, y: scale)
-        
         if xFromCenter > 0 {
             thumbImageView.image = #imageLiteral(resourceName: "Untitled")
             thumbImageView.tintColor = .green
@@ -156,11 +144,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         
         if sender.state == UIGestureRecognizer.State.ended {
             if card.center.x < 75 {
-//                (view.frame.width - 75) {
+                // (view.frame.width - 75) {
                 // Move off to the left side of the screen
                 restaurantVote.append(false)
                 UIView.animate(withDuration: 0.3, animations: {
-//                    card.center = self.view.center
+                    //                    card.center = self.view.center
                     card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                     card.alpha = 0
                 }) { (success) in
@@ -173,7 +161,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 //Move off to the right side of the screen
                 restaurantVote.append(true)
                 UIView.animate(withDuration: 0.3, animations:  {
-//                    card.center = self.view.center
+                    //                    card.center = self.view.center
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
                 }) { (success) in
@@ -217,13 +205,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                     voteDictionary[name] = 1
                 }
             }
-//            print("Votes: \(voteDictionary)")
         }
     }
     
     private func noRestaurantVote() {
         let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least one restaurant", preferredStyle: .alert)
-        
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
@@ -232,7 +218,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             viewcontrollers.append(vc)
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
         }))
-        
         self.present(alert, animated: true, completion: nil)
     }
     

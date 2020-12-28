@@ -614,7 +614,7 @@
                                                 <rect key="frame" x="20" y="225" width="275" height="345"/>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2jO-AM-Qqk">
-                                                <rect key="frame" x="93" y="324" width="128" height="147"/>
+                                                <rect key="frame" x="0.0" y="185" width="315" height="415"/>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mHE-ku-FPP">
                                                 <rect key="frame" x="20" y="195" width="275" height="35"/>
@@ -645,20 +645,20 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="2jO-AM-Qqk" secondAttribute="trailing" constant="94" id="15e-8X-7Rz"/>
+                                            <constraint firstAttribute="trailing" secondItem="2jO-AM-Qqk" secondAttribute="trailing" id="15e-8X-7Rz"/>
                                             <constraint firstItem="pyu-09-Iam" firstAttribute="leading" secondItem="VLa-Yn-2Jd" secondAttribute="leading" constant="20" id="1qn-Kt-tGd"/>
-                                            <constraint firstItem="2jO-AM-Qqk" firstAttribute="leading" secondItem="VLa-Yn-2Jd" secondAttribute="leading" constant="93" id="32N-Ld-VW8"/>
+                                            <constraint firstItem="2jO-AM-Qqk" firstAttribute="leading" secondItem="VLa-Yn-2Jd" secondAttribute="leading" id="32N-Ld-VW8"/>
                                             <constraint firstAttribute="height" constant="600" id="4ZH-Rk-p3m"/>
                                             <constraint firstAttribute="trailing" secondItem="pyu-09-Iam" secondAttribute="trailing" constant="20" id="6gc-vF-gV1"/>
                                             <constraint firstItem="ynw-TA-8S0" firstAttribute="top" secondItem="pyu-09-Iam" secondAttribute="bottom" constant="10" id="80G-ry-EbK"/>
                                             <constraint firstAttribute="trailing" secondItem="mHE-ku-FPP" secondAttribute="trailing" constant="20" id="Ctb-ZH-y1b"/>
                                             <constraint firstItem="iQY-f1-0sv" firstAttribute="top" secondItem="ynw-TA-8S0" secondAttribute="bottom" constant="40" id="FPe-pJ-itQ"/>
-                                            <constraint firstItem="2jO-AM-Qqk" firstAttribute="top" secondItem="ynw-TA-8S0" secondAttribute="bottom" constant="139" id="GWu-z0-4Ye"/>
+                                            <constraint firstItem="2jO-AM-Qqk" firstAttribute="top" secondItem="ynw-TA-8S0" secondAttribute="bottom" id="GWu-z0-4Ye"/>
                                             <constraint firstAttribute="trailing" secondItem="ynw-TA-8S0" secondAttribute="trailing" constant="20" id="L2G-1Z-bi6"/>
                                             <constraint firstItem="ynw-TA-8S0" firstAttribute="leading" secondItem="VLa-Yn-2Jd" secondAttribute="leading" constant="20" id="QV4-hs-UHE"/>
                                             <constraint firstItem="mHE-ku-FPP" firstAttribute="top" secondItem="ynw-TA-8S0" secondAttribute="bottom" constant="10" id="bAi-XH-V06"/>
                                             <constraint firstItem="mHE-ku-FPP" firstAttribute="leading" secondItem="VLa-Yn-2Jd" secondAttribute="leading" constant="20" id="dQX-ch-QUN"/>
-                                            <constraint firstAttribute="bottom" secondItem="2jO-AM-Qqk" secondAttribute="bottom" constant="129" id="fx0-n7-O7i"/>
+                                            <constraint firstAttribute="bottom" secondItem="2jO-AM-Qqk" secondAttribute="bottom" id="fx0-n7-O7i"/>
                                             <constraint firstItem="Prz-ef-dLP" firstAttribute="top" secondItem="VLa-Yn-2Jd" secondAttribute="top" constant="10" id="gEb-LO-9Oj"/>
                                             <constraint firstItem="pyu-09-Iam" firstAttribute="top" secondItem="Prz-ef-dLP" secondAttribute="bottom" constant="10" id="h0w-Ar-pnD"/>
                                             <constraint firstAttribute="bottom" secondItem="iQY-f1-0sv" secondAttribute="bottom" constant="30" id="m48-8y-EOo"/>
