@@ -54,9 +54,18 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func fetchRestaurants() {
-        guard let city = city else {return}
-        guard let radius = radius else {return}
-        guard let category = category else {return}
+        guard let game = Firebase.shared.currentGame else {return}
+        let city = game.city
+        let radius = game.radius * 1600
+        let category = game.mealType
+//        guard let cityZ = self.city,
+//              let radiusZ = self.radius,
+//              let categoryZ = self.category else {return}
+//        
+//        print(cityZ, radiusZ, categoryZ)
+//                city else {return}
+//        guard let radius = radius else {return}
+//        guard let category = category else {return}
 
         RestaurantController.shared.fetchRestaurants(searchTerm: city, radius: Int(radius), category: category) { (result) in
             DispatchQueue.main.async {
@@ -96,7 +105,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
     private func showNextCard() {
         if RestaurantController.shared.restaurants.count == currentCardIndex + 1 {
-            compareArray()
+            if likedRestaurants.isEmpty {
+            noRestaurantVote()
+            } else {
+                compareArray()
             Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
                 switch result {
                 case .success(let userVote):
@@ -107,14 +119,16 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 print("Error updating user vote collection: \(error)")
                 }
             }
-            let seconds = 2.0
-            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
-                    if let navigator = self.navigationController {
-                        navigator.pushViewController(viewController, animated: true)
+                
+                let seconds = 2.0
+                DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                    if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
+                        if let navigator = self.navigationController {
+                            navigator.pushViewController(viewController, animated: true)
+                        }
                     }
                 }
-            }
+        }
         } else {
             resetCard()
             currentCardIndex += 1
@@ -208,9 +222,17 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func noRestaurantVote() {
-        let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least 1 restaurant", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Nevery mind", style: .cancel, handler: nil))
+        let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least one restaurant", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
+            var viewcontrollers = self.navigationController!.viewControllers
+            viewcontrollers.removeLast()
+            viewcontrollers.append(vc)
+            self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+        }))
+        
         self.present(alert, animated: true, completion: nil)
     }
     
