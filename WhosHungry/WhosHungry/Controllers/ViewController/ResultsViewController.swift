@@ -16,7 +16,7 @@ class ResultsViewController: UIViewController {
     var likes: [String] = []
     var result: Int?
     var playerCount = Firebase.shared.playerCount!
-    var voteCount = Firebase.shared.voteCount!
+    var voteCount = Firebase.shared.voteCount
     var restaurantVotes: [String : Int] = [:]
     
     // Mark: - Outlets
@@ -31,6 +31,7 @@ class ResultsViewController: UIViewController {
                 self.likes.append(restaurant)
             }
             if self.playerCount == self.voteCount {
+                Firebase.shared.stopListener()
                 self.findMatches()
             }
         }
