@@ -140,7 +140,7 @@ class Firebase {
     
     func listenForUsers(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
-        db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
+        listener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return

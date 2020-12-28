@@ -40,7 +40,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     var gameInviteCode: String?
     let db = Firestore.firestore()
     var currentUser = UserController.shared.currentUser
-    var gameCreator: String?
+//    var gameCreator: String?
 //    let submittedVotes: [Dictionary<String, Int>] = Array()
 //    var users: [User] = []
     
@@ -200,7 +200,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             switch result {
             case .success(_):
                 print("Success!")
-                self.gameCreator = user
+//                self.gameCreator = user
             case .failure(let error):
                 print("Error saving game: \(error.localizedDescription)")
             }
