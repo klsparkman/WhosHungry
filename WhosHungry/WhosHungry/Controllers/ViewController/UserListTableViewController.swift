@@ -8,11 +8,6 @@
 
 import UIKit
 
-//protocol UserListTableViewControllerDelegate: class {
-////    func gameHasBegun(_ sender: Bool)
-//    var gameHasBegun: Bool {get set}
-//}
-
 class UserListTableViewController: UITableViewController {
     
     @IBOutlet weak var letsBeginButton: UIBarButtonItem!
@@ -23,7 +18,6 @@ class UserListTableViewController: UITableViewController {
     var radius: Double?
     var category: String?
     var inviteCode: String?
-//    var currentPlayers: [String] = []
     var creatorID: String?
     var players: [String] = []
     
@@ -69,6 +63,10 @@ class UserListTableViewController: UITableViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count
@@ -86,12 +84,11 @@ class UserListTableViewController: UITableViewController {
     }
     
     //     MARK: - Navigation
-    
     //****Need to deactivate your listener when you segue to SwipeScreenVC!!!
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "toSwipeScreenVC" {
+            Firebase.shared.stopListener()
             guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
             destinationVC.radius = self.radius
             destinationVC.city = self.city

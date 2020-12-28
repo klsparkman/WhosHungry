@@ -134,13 +134,13 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     func gameHasAlreadyBegun() {
         
-        let attributedString = NSAttributedString(string: "Title", attributes: [
-            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15),
-            NSAttributedString.Key.foregroundColor : UIColor.red.cgColor
-        ])
+//        let attributedString = NSAttributedString(string: "Title", attributes: [
+//            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15),
+//            NSAttributedString.Key.foregroundColor : UIColor.red.cgColor
+//        ])
         let alert = UIAlertController(title: "You were too slow!", message: "So sorry, the game has already begun and is too late to join.", preferredStyle: .alert)
         
-        alert.setValue(attributedString, forKey: "attributedTitle")
+//        alert.setValue(attributedString, forKey: "attributedTitle")
         let okButton = UIAlertAction(title: "Guess I'm eating alone tonight", style: .cancel, handler: nil)
         alert.addAction(okButton)
         present(alert, animated: true, completion: nil)

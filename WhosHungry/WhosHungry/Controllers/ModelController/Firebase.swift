@@ -115,7 +115,7 @@ class Firebase {
     func listenForLikes(completion: @escaping ([String]) -> Void) {
         guard let currentGame = currentGame else {return}
         guard let user = UserController.shared.currentUser else {return}
-        db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).document(user.firstName + " " + user.lastName).addSnapshotListener { (documentSnapshot, error) in
+        listener = db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).document(user.firstName + " " + user.lastName).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
@@ -140,7 +140,7 @@ class Firebase {
     
     func listenForUsers(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
-        db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
+        listener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
@@ -179,7 +179,6 @@ class Firebase {
             } else {
                 print("Successfully saved users votes!")
                 completion(.success(userVote))
-                self.voteCount = 1
             }
         }
     }
