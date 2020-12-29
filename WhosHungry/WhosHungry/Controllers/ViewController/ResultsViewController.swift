@@ -73,7 +73,7 @@ class ResultsViewController: UIViewController {
                 print("Need to revote?")
             }
         }
-        print("AGREED UPON PLACES: \(agreedUponPlaces)")
         restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+        print("AGREED UPON PLACES: \(agreedUponPlaces)")
     }
 }// End of class
