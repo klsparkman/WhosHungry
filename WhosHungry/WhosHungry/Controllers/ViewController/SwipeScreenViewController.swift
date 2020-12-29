@@ -46,6 +46,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         card.layer.borderWidth = 1
         card.layer.borderColor = UIColor.white.cgColor
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         restaurantImageView.layer.cornerRadius = 20
@@ -95,10 +96,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
     private func showNextCard() {
         if RestaurantController.shared.restaurants.count == currentCardIndex + 1 {
+            compareArray()
             if likedRestaurants.isEmpty {
                 noRestaurantVote()
             } else {
-                compareArray()
                 Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
                     switch result {
                     case .success(let userVote):
@@ -209,7 +210,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func noRestaurantVote() {
-        let alert = UIAlertController(title: "You didn't like any of these options?", message: "You must swipe right on at least one restaurant", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Don't be so picky...", message: "You must swipe right on at least one restaurant", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
@@ -219,6 +220,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
         }))
         self.present(alert, animated: true, completion: nil)
+        RestaurantController.shared.restaurants = []
     }
     
     @IBAction func backButton(_ sender: Any) {
