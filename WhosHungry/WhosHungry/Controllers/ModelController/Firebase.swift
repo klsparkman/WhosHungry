@@ -127,7 +127,6 @@ class Firebase {
                         
             let voteValues = data[Constants.submittedVotes]
             let votes = voteValues as? [String] ?? []
-            completion(votes)
             
             if self.voteCount != nil {
                 self.voteCount! += 1
@@ -135,6 +134,8 @@ class Firebase {
                 self.voteCount = 1
             }
             print("Vote Count: \(self.voteCount!)")
+            
+            completion(votes)
         }
     }
     
