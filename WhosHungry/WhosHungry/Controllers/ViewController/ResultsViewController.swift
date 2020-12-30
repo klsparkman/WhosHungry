@@ -60,21 +60,84 @@ class ResultsViewController: UIViewController {
         findHighestVotes()
     }
     
+//    func findHighestVotes() {
+//        var agreedUponPlaces: [String] = []
+//        let halfVotes = playerCount % 2
+//
+//        for (key, value) in restaurantVotes {
+//            if value == playerCount {
+//                agreedUponPlaces.append(key)
+//            } else {
+//                continue
+//            }
+//            if value < halfVotes {
+//                print("Need to revote?")
+//            }
+//        }
+//        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+//        print("AGREED UPON PLACES: \(agreedUponPlaces)")
+//    }
+    
+//    func findHighestVotes() {
+//        var agreedUponPlaces: [String] = []
+//
+//        if playerCount == 1 {
+//            for (key, value) in restaurantVotes {
+//                if value == 1 {
+//                    agreedUponPlaces.append(key)
+//                }
+//                restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+//            }
+//        } else {
+//            if playerCount == 2 {
+//                for (key, value) in restaurantVotes {
+//                    if value < 2 {
+//                        noMatchPopup()
+//                    } else {
+//                        if value == 2 {
+//                            agreedUponPlaces.append(key)
+//                        }
+//                        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     func findHighestVotes() {
         var agreedUponPlaces: [String] = []
-        let halfVotes = playerCount % 2
         
-        for (key, value) in restaurantVotes {
-            if value == playerCount {
-                agreedUponPlaces.append(key)
-            } else {
-                continue
+        switch playerCount {
+        case 1:
+            if playerCount == 1 {
+                for (key, value) in restaurantVotes {
+                    if value == 1 {
+                        agreedUponPlaces.append(key)
+                    }
+                }
+                restaurantRestultLabel.text = agreedUponPlaces.randomElement()
             }
-            if value < halfVotes {
-                print("Need to revote?")
+        case 2:
+            if playerCount == 2 {
+                for (key, value) in restaurantVotes {
+                    if value == 2 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value == 1 {
+                            noMatchPopup()
+                        }
+                    }
+                }
+                restaurantRestultLabel.text = agreedUponPlaces.randomElement()
             }
+        default:
+            <#code#>
         }
-        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-        print("AGREED UPON PLACES: \(agreedUponPlaces)")
+        
     }
+    
+    func noMatchPopup() {
+        
+    }
+    
 }// End of class
