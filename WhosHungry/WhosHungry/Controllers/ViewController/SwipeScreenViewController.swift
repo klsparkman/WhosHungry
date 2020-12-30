@@ -52,6 +52,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         restaurantImageView.layer.cornerRadius = 20
         restaurantImageView.clipsToBounds = true
         navigationController?.setNavigationBarHidden(true, animated: false)
+        RestaurantController.shared.restaurants = []
     }
     
     func fetchRestaurants() {
@@ -220,7 +221,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
         }))
         self.present(alert, animated: true, completion: nil)
-        RestaurantController.shared.restaurants = []
     }
     
     @IBAction func backButton(_ sender: Any) {
