@@ -14,6 +14,7 @@ struct User: Decodable {
     let lastName: String
     let email: String
     let uid: String
+    var isGameCreator: Bool = false
     
     init(firstName: String, lastName: String, email: String, uid: String) {
         self.firstName = firstName

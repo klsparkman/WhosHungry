@@ -34,7 +34,7 @@ class UserListTableViewController: UITableViewController {
                 Firebase.shared.checkGameStatus { (result) in
                     switch result {
                     case .success(true):
-                    Firebase.shared.stopGame()
+                        Firebase.shared.stopGame()
                     case .success(false):
                         print("Something went wrong, this should have been true...")
                     case .failure(let error):
@@ -51,20 +51,17 @@ class UserListTableViewController: UITableViewController {
             self.players = []
             for player in result {
                 self.players.append(player)
+                self.tableView.reloadData()
             }
-            self.tableView.reloadData()
-            for player in self.players {
-                if player.contains(": Game Creator") == true {
-                    self.letsBeginButton.isEnabled = true
-                } else {
-                    self.letsBeginButton.isEnabled = false
-                }
+            
+            let currentUser = UserController.shared.currentUser
+            
+            if currentUser!.isGameCreator == true {
+                self.letsBeginButton.isEnabled = true
+            } else {
+                self.letsBeginButton.isEnabled = false
             }
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
     
     // MARK: - Table view data source
