@@ -16,7 +16,7 @@ class ResultsViewController: UIViewController {
     var likes: [String] = []
     var result: Int?
     var playerCount = Firebase.shared.playerCount!
-//    var voteCount = Firebase.shared.voteCount?
+    //    var voteCount = Firebase.shared.voteCount?
     var restaurantVotes: [String : Int] = [:]
     
     // Mark: - Outlets
@@ -59,54 +59,9 @@ class ResultsViewController: UIViewController {
         print("VOTE DICTIONARY: \(restaurantVotes)")
         findHighestVotes()
     }
-    
-//    func findHighestVotes() {
-//        var agreedUponPlaces: [String] = []
-//        let halfVotes = playerCount % 2
-//
-//        for (key, value) in restaurantVotes {
-//            if value == playerCount {
-//                agreedUponPlaces.append(key)
-//            } else {
-//                continue
-//            }
-//            if value < halfVotes {
-//                print("Need to revote?")
-//            }
-//        }
-//        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-//        print("AGREED UPON PLACES: \(agreedUponPlaces)")
-//    }
-    
-//    func findHighestVotes() {
-//        var agreedUponPlaces: [String] = []
-//
-//        if playerCount == 1 {
-//            for (key, value) in restaurantVotes {
-//                if value == 1 {
-//                    agreedUponPlaces.append(key)
-//                }
-//                restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-//            }
-//        } else {
-//            if playerCount == 2 {
-//                for (key, value) in restaurantVotes {
-//                    if value < 2 {
-//                        noMatchPopup()
-//                    } else {
-//                        if value == 2 {
-//                            agreedUponPlaces.append(key)
-//                        }
-//                        restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
+
     func findHighestVotes() {
         var agreedUponPlaces: [String] = []
-        
         switch playerCount {
         case 1:
             if playerCount == 1 {
@@ -115,7 +70,9 @@ class ResultsViewController: UIViewController {
                         agreedUponPlaces.append(key)
                     }
                 }
-                restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
             }
         case 2:
             if playerCount == 2 {
@@ -128,16 +85,147 @@ class ResultsViewController: UIViewController {
                         }
                     }
                 }
-                restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 3:
+            if playerCount == 3 {
+                for (key, value) in restaurantVotes {
+                    if value >= 2 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value == 1 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 4:
+            if playerCount == 4 {
+                for (key, value) in restaurantVotes {
+                    if value >= 2 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value < 2 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 5:
+            if playerCount == 5 {
+                for (key, value) in restaurantVotes {
+                    if value >= 3 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value <= 2 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 6:
+            if playerCount == 6 {
+                for (key, value) in restaurantVotes {
+                    if value >= 3 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value <= 2 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 7:
+            if playerCount == 7 {
+                for (key, value) in restaurantVotes {
+                    if value >= 4 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value <= 3 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 8:
+            if playerCount == 8 {
+                for (key, value) in restaurantVotes {
+                    if value >= 4 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value <= 3 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 9:
+            if playerCount == 9 {
+                for (key, value) in restaurantVotes {
+                    if value >= 5 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value <= 4 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
+            }
+        case 10:
+            if playerCount == 10 {
+                for (key, value) in restaurantVotes {
+                    if value >= 5 {
+                        agreedUponPlaces.append(key)
+                    } else {
+                        if value <= 4 {
+                            self.noMatchPopup()
+                        }
+                    }
+                }
+                if agreedUponPlaces != [] {
+                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                }
             }
         default:
-            <#code#>
+            print("You should not have reached this part...? ")
         }
         
     }
     
     func noMatchPopup() {
-        
+        let alert = UIAlertController(title: "WHOOPSIE", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
+            var viewcontrollers = self.navigationController!.viewControllers
+            viewcontrollers.removeLast()
+            viewcontrollers.append(vc)
+            self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }// End of class
