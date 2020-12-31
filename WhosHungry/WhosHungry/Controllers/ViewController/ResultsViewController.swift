@@ -18,6 +18,7 @@ class ResultsViewController: UIViewController {
     var playerCount = Firebase.shared.playerCount!
     //    var voteCount = Firebase.shared.voteCount?
     var restaurantVotes: [String : Int] = [:]
+    let generator = UINotificationFeedbackGenerator()
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -72,6 +73,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 2:
@@ -87,6 +89,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 3:
@@ -102,6 +105,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 4:
@@ -117,6 +121,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 5:
@@ -132,6 +137,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 6:
@@ -147,6 +153,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 7:
@@ -162,6 +169,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 8:
@@ -177,6 +185,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 9:
@@ -192,6 +201,7 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         case 10:
@@ -207,12 +217,12 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    generator.notificationOccurred(.success)
                 }
             }
         default:
             print("You should not have reached this part...? ")
         }
-        
     }
     
     func noMatchPopup() {
