@@ -16,7 +16,6 @@ struct Game {
     let mealType: String
     let users: [String]
     var gameHasBegun: Bool
-//    let creatorID: String
     
     init(uid: String = UUID().uuidString, inviteCode: String, city: String, radius: Double, mealType: String, users: [String], gameHasBegun: Bool = false) {
         self.uid = uid
@@ -26,7 +25,6 @@ struct Game {
         self.mealType = mealType
         self.users = users
         self.gameHasBegun = gameHasBegun
-//        self.creatorID = creatorID
     }
 }
 

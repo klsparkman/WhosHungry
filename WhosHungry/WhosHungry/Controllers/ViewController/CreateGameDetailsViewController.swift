@@ -27,8 +27,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     @IBOutlet weak var generateCodeButton: UIButton!
     @IBOutlet weak var createGameButton: UIButton!
     @IBOutlet weak var yourInviteCodeIsLabel: UILabel!
-    @IBOutlet weak var whatCityLabel: UILabel!
-    @IBOutlet weak var typeOfFoodLabel: UILabel!
+//    @IBOutlet weak var whatCityLabel: UILabel!
+//    @IBOutlet weak var typeOfFoodLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
     // Mark: - Properties
@@ -48,9 +48,9 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         StyleConstants.setTextFieldStyle(textField: citySearchTextField)
-        StyleConstants.setLabelWhiteBorderStyle(label: whatCityLabel)
+//        StyleConstants.setLabelWhiteBorderStyle(label: whatCityLabel)
         StyleConstants.setLabelWhiteBorderStyle(label: radiusLabel)
-        StyleConstants.setLabelWhiteBorderStyle(label: typeOfFoodLabel)
+//        StyleConstants.setLabelWhiteBorderStyle(label: typeOfFoodLabel)
         StyleConstants.setLabelWhiteBorderStyle(label: distanceLabel)
         StyleConstants.setLabelBlackBorderStyle(label: codeLabel)
         StyleConstants.setLabelBlackBorderStyle(label: yourInviteCodeIsLabel)
@@ -194,13 +194,11 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         let gameHasBegun = false
         let user = "\(currentUser.firstName + " " + currentUser.lastName): Game Creator"
         let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], gameHasBegun: gameHasBegun)
-//            , creatorID: "\(user) creator"
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
             case .success(_):
-                print("Success!")
-//                self.gameCreator = user
+                print(self.currentUser!.isGameCreator) 
             case .failure(let error):
                 print("Error saving game: \(error.localizedDescription)")
             }

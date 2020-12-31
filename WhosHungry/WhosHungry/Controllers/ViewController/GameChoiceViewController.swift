@@ -62,6 +62,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     
     //     Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
+        UserController.shared.currentUser!.isGameCreator = true
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
