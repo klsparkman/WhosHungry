@@ -20,11 +20,52 @@ class UserListTableViewController: UITableViewController {
     var inviteCode: String?
     var creatorID: String?
     var players: [String] = []
+    let currentUser = UserController.shared.currentUser
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.letsBeginButton.isEnabled = false
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Lets Begin", style: .plain, target: self, action: #selector(buttonTapped))
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
+    
+    @objc func buttonTapped() {
+        
+        if currentUser?.isGameCreator == true {
+            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
+                if let navigator = navigationController {
+                    navigator.pushViewController(viewController, animated: true)
+                    Firebase.shared.stopListener()
+                    let destinationVC = SwipeScreenViewController()
+                    destinationVC.radius = self.radius
+                    destinationVC.city = self.city
+                    destinationVC.category = self.category
+                    Firebase.shared.startGame()
+                }
+            }
+        } else if currentUser?.isGameCreator == false {
+            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
+                if let navigator = navigationController {
+                    navigator.pushViewController(viewController, animated: true)
+                    let destinationVC = SwipeScreenViewController()
+                    destinationVC.radius = self.radius
+                    destinationVC.city = self.city
+                    destinationVC.category = self.category
+                }
+            }
+        }
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        super.prepare(for: segue, sender: sender)
+//        if segue.identifier == "toSwipeScreenVC" {
+//            Firebase.shared.stopListener()
+//            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
+//            destinationVC.radius = self.radius
+//            destinationVC.city = self.city
+//            destinationVC.category = self.category
+//            Firebase.shared.startGame()
+//        }
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,13 +94,10 @@ class UserListTableViewController: UITableViewController {
                 self.players.append(player)
                 self.tableView.reloadData()
             }
-            
-            let currentUser = UserController.shared.currentUser
-            
-            if currentUser!.isGameCreator == true {
-                self.letsBeginButton.isEnabled = true
+            if self.currentUser!.isGameCreator == true {
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
             } else {
-                self.letsBeginButton.isEnabled = false
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
             }
         }
     }
@@ -80,17 +118,5 @@ class UserListTableViewController: UITableViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    //     MARK: - Navigation
-    //****Need to deactivate your listener when you segue to SwipeScreenVC!!!
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        if segue.identifier == "toSwipeScreenVC" {
-            Firebase.shared.stopListener()
-            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
-            destinationVC.radius = self.radius
-            destinationVC.city = self.city
-            destinationVC.category = self.category
-            Firebase.shared.startGame()
-        }
-    }
+    // MARK: - Navigation
 }

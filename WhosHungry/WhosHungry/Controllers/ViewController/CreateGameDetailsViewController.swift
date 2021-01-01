@@ -125,7 +125,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
-        radiusLabel.text = "\(Int(radiusSlider.value))"
+        radiusLabel.text = "\(Int(radiusSlider.value)) miles"
     }
     
     @IBAction func breakfastButtonTapped(_ sender: Any) {
