@@ -16,7 +16,6 @@ class ResultsViewController: UIViewController {
     var likes: [String] = []
     var result: Int?
     var playerCount = Firebase.shared.playerCount!
-    //    var voteCount = Firebase.shared.voteCount?
     var restaurantVotes: [String : Int] = [:]
     let generator = UINotificationFeedbackGenerator()
     
@@ -37,10 +36,6 @@ class ResultsViewController: UIViewController {
                 self.findMatches()
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -237,5 +232,4 @@ class ResultsViewController: UIViewController {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
 }// End of class
