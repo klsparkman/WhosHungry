@@ -55,17 +55,6 @@ class UserListTableViewController: UITableViewController {
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        super.prepare(for: segue, sender: sender)
-//        if segue.identifier == "toSwipeScreenVC" {
-//            Firebase.shared.stopListener()
-//            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
-//            destinationVC.radius = self.radius
-//            destinationVC.city = self.city
-//            destinationVC.category = self.category
-//            Firebase.shared.startGame()
-//        }
-//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -119,4 +108,15 @@ class UserListTableViewController: UITableViewController {
     }
     
     // MARK: - Navigation
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        super.prepare(for: segue, sender: sender)
+    //        if segue.identifier == "toSwipeScreenVC" {
+    //            Firebase.shared.stopListener()
+    //            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
+    //            destinationVC.radius = self.radius
+    //            destinationVC.city = self.city
+    //            destinationVC.category = self.category
+    //            Firebase.shared.startGame()
+    //        }
+    //    }
 }
