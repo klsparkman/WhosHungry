@@ -80,7 +80,11 @@ class UserListTableViewController: UITableViewController {
         Firebase.shared.listenForUsers { (result) in
             self.players = []
             for player in result {
-                self.players.append(player)
+                if self.players.count <= 10 {
+                    self.players.append(player)
+                } else {
+                    self.maxPlayersJoined()
+                }
                 self.tableView.reloadData()
             }
             if self.currentUser!.isGameCreator == true {
@@ -89,6 +93,13 @@ class UserListTableViewController: UITableViewController {
                 self.navigationItem.rightBarButtonItem?.isEnabled = false
             }
         }
+    }
+    
+    func maxPlayersJoined() {
+        let alert = UIAlertController(title: "Sorry my friend!", message: "The game already has the max number of players.", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source
