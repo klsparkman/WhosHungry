@@ -24,6 +24,15 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
+        
+        Auth.auth().addStateDidChangeListener() { (auth, user) in
+            if (user != nil) {
+                print("User is signed in")
+            } else {
+                print("User is not signed in")
+            }
+        }
+        
         if Auth.auth().currentUser != nil {
             guard let userID = Auth.auth().currentUser?.uid else {return}
             Firebase.shared.fetchUser(withID: userID) { (result) in
