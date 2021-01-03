@@ -96,7 +96,7 @@ class UserListTableViewController: UITableViewController {
     }
     
     func maxPlayersJoined() {
-        let alert = UIAlertController(title: "Sorry my friend!", message: "The game already has the max number of players.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Sorry my friend!", message: "The game has already reached the max number of players allowed.", preferredStyle: .alert)
         let okButton = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alert.addAction(okButton)
         present(alert, animated: true, completion: nil)

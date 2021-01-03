@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3523DE012472F57D0035827D /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523DE002472F57D0035827D /* RestaurantService.swift */; };
 		35283B15256849EB002E686A /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35283B14256849EA002E686A /* Errors.swift */; };
 		3549B5A325264B8C00CA4DFF /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549B5A225264B8C00CA4DFF /* GameController.swift */; };
 		3549B65D25310EFB00CA4DFF /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549B65C25310EFB00CA4DFF /* Rating.swift */; };
@@ -39,7 +38,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3523DE002472F57D0035827D /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		35283B14256849EA002E686A /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		3549B5A225264B8C00CA4DFF /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		3549B65C25310EFB00CA4DFF /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
@@ -157,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				359C403524477083007C2AEF /* RestaurantController.swift */,
-				3523DE002472F57D0035827D /* RestaurantService.swift */,
 				35DCF26724AFE8F300BA3783 /* Firebase.swift */,
 				358CBD1A2510073600B340DF /* UserController.swift */,
 				3549B5A225264B8C00CA4DFF /* GameController.swift */,
@@ -357,7 +354,6 @@
 				35FD875624FECF78004FEA32 /* SignInViewController.swift in Sources */,
 				35283B15256849EB002E686A /* Errors.swift in Sources */,
 				359C40322447702E007C2AEF /* Restaurant.swift in Sources */,
-				3523DE012472F57D0035827D /* RestaurantService.swift in Sources */,
 				35DE90B12548C2C100702606 /* ResultsViewController.swift in Sources */,
 				358CBD19250FF89F00B340DF /* Constants.swift in Sources */,
 				358CBD1B2510073600B340DF /* UserController.swift in Sources */,
