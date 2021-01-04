@@ -18,8 +18,9 @@ class Firebase {
     var navigationController: UINavigationController?
     var users: [User] = []
     var currentGame: Game?
-    private var listener: ListenerRegistration?
+    private var likeListener: ListenerRegistration?
     private var userListener: ListenerRegistration?
+    private var gameStartListener: ListenerRegistration?
     var votes: [String] = []
     var playerCount: Int?
     var voteCount: Int?
@@ -60,6 +61,21 @@ class Firebase {
             } else {
                 let user = User(dictionary: userDictionary)
                 completion(.success(user))
+            }
+        }
+    }
+    
+    func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
+        guard let game = currentGame else {return}
+        let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote]
+        guard let user = UserController.shared.currentUser else {return}
+        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").setData(voteDictionary) { (error) in
+            if let error = error {
+                print("There was an error saving users votes to Firestore: \(error.localizedDescription)")
+                completion(.failure(.fbError(error)))
+            } else {
+                print("Successfully saved users votes!")
+                completion(.success(userVote))
             }
         }
     }
@@ -112,11 +128,11 @@ class Firebase {
         }
     }
     
-    // Mark: - Listener
+    // Mark: - Listeners
     func listenForLikes(completion: @escaping ([String]) -> Void) {
         guard let currentGame = currentGame else {return}
         guard let user = UserController.shared.currentUser else {return}
-        listener = db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).document(user.firstName + " " + user.lastName).addSnapshotListener { (documentSnapshot, error) in
+        likeListener = db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).document(user.firstName + " " + user.lastName).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
@@ -125,7 +141,6 @@ class Firebase {
                 print("Document was empty")
                 return
             }
-                        
             let voteValues = data[Constants.submittedVotes]
             let votes = voteValues as? [String] ?? []
             
@@ -134,8 +149,6 @@ class Firebase {
             } else {
                 self.voteCount = 1
             }
-            print("Vote Count: \(self.voteCount!)")
-            
             completion(votes)
         }
     }
@@ -160,12 +173,29 @@ class Firebase {
                 self.playerCount = 1
             }
             completion(players)
-//            print("Player count: \(self.playerCount!)")
         }
     }
     
-    func stopListener() {
-        guard let listener = listener else {return}
+    func listenForStartGame(completion: @escaping (Bool) -> Void) {
+        guard let game = currentGame else {return}
+        gameStartListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty")
+                return
+            }
+            let result = data[Constants.gameHasBegun]
+            let startGame = result as! Bool
+            completion(startGame)
+        }
+    }
+    
+    
+    func stopLikeListener() {
+        guard let listener = likeListener else {return}
         listener.remove()
         print("Firebase.swift stopped listening")
     }
@@ -175,20 +205,11 @@ class Firebase {
         listener.remove()
         print("UserListener stopped listening")
     }
-
-    func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
-        guard let game = currentGame else {return}
-        let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote]
-        guard let user = UserController.shared.currentUser else {return}
-        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").setData(voteDictionary) { (error) in
-            if let error = error {
-                print("There was an error saving users votes to Firestore: \(error.localizedDescription)")
-                completion(.failure(.fbError(error)))
-            } else {
-                print("Successfully saved users votes!")
-                completion(.success(userVote))
-            }
-        }
+    
+    func stopGameListener() {
+        guard let listener = gameStartListener else {return}
+        listener.remove()
+        print("Firebase.swift stopped listening")
     }
     
     func checkGameStatus(completion: @escaping (Result<Bool, Error>) -> Void) {
@@ -224,22 +245,6 @@ class Firebase {
         }
     }
     
-    func listenForStartGame(completion: @escaping (Bool) -> Void) {
-        guard let game = currentGame else {return}
-        listener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document data was empty")
-                return
-            }
-            let result = data[Constants.gameHasBegun]
-            let startGame = result as! Bool
-            completion(startGame)
-        }
-    }
     
     func stopGame() {
         guard let game = currentGame else {return}

@@ -61,7 +61,6 @@ class UserListTableViewController: UITableViewController {
         Firebase.shared.stopUserListener()
         if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
             if let navigator = navigationController {
-                Firebase.shared.stopListener()
                 navigator.pushViewController(viewController, animated: true)
                 let destinationVC = SwipeScreenViewController()
                 destinationVC.radius = self.radius
@@ -87,17 +86,19 @@ class UserListTableViewController: UITableViewController {
     }
     
     func listenForGameStart() {
-        Firebase.shared.listenForStartGame { (result) in
-            if result == true {
-                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
-                    if let navigator = self.navigationController {
-                        navigator.pushViewController(viewController, animated: true)
-                        Firebase.shared.stopListener()
-                        let destinationVC = SwipeScreenViewController()
-                        destinationVC.radius = self.radius
-                        destinationVC.city = self.city
-                        destinationVC.category = self.category
-                        Firebase.shared.startGame()
+        if currentUser?.isGameCreator == false {
+            Firebase.shared.listenForStartGame { (result) in
+                if result == true {
+                    if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
+                        if let navigator = self.navigationController {
+                            navigator.pushViewController(viewController, animated: true)
+                            let destinationVC = SwipeScreenViewController()
+                            destinationVC.radius = self.radius
+                            destinationVC.city = self.city
+                            destinationVC.category = self.category
+                            Firebase.shared.startGame()
+                            Firebase.shared.stopGameListener()
+                        }
                     }
                 }
             }

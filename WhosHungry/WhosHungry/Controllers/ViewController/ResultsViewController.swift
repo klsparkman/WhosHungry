@@ -25,22 +25,26 @@ class ResultsViewController: UIViewController {
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        Firebase.shared.listenForLikes { (arrOfLikes) in
-            self.likes = []
-            for restaurant in arrOfLikes {
-                self.likes.append(restaurant)
-            }
-            let voteCount = Firebase.shared.voteCount
-            if self.playerCount == voteCount {
-                Firebase.shared.stopListener()
-                self.findMatches()
-            }
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
+        listenForLikes()
+    }
+    
+    func listenForLikes() {
+        Firebase.shared.listenForLikes { (arrOfLikes) in
+            self.likes = []
+            for restaurant in arrOfLikes {
+                self.likes.append(restaurant)
+            }
+            let voteCount = Firebase.shared.voteCount!
+            if self.playerCount == voteCount {
+                Firebase.shared.stopLikeListener()
+                self.findMatches()
+            }
+        }
     }
     
     func findMatches() {

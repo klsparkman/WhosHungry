@@ -37,7 +37,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var likedRestaurants: [String] = []
     var gameUID: String?
     let db = Firestore.firestore()
-    
+
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +104,9 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
                     switch result {
                     case .success(let userVote):
+                        Firebase.shared.listenForLikes { (result) in
+                            print("another vote was submitted")
+                        }
                         guard let game = Firebase.shared.currentGame else {return}
                         guard let user = UserController.shared.currentUser else {return}
                         self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user)").updateData([Constants.submittedVotes : userVote])
@@ -127,6 +130,8 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             populateCard(with: restaurant)
         }
     }
+    
+    
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
         let card = sender.view!
