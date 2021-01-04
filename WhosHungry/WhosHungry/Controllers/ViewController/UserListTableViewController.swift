@@ -10,8 +10,6 @@ import UIKit
 
 class UserListTableViewController: UITableViewController {
     
-    @IBOutlet weak var letsBeginButton: UIBarButtonItem!
-    
     // Mark: - Properties
     static var shared = UserListTableViewController()
     var city: String?
@@ -22,39 +20,17 @@ class UserListTableViewController: UITableViewController {
     var players: [String] = []
     let currentUser = UserController.shared.currentUser
     
+    // Mark: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Lets Begin", style: .plain, target: self, action: #selector(buttonTapped))
-        navigationItem.rightBarButtonItem?.isEnabled = false
-    }
-    
-    @objc func buttonTapped() {
         
-        if currentUser?.isGameCreator == true {
-            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
-                if let navigator = navigationController {
-                    navigator.pushViewController(viewController, animated: true)
-                    Firebase.shared.stopListener()
-                    let destinationVC = SwipeScreenViewController()
-                    destinationVC.radius = self.radius
-                    destinationVC.city = self.city
-                    destinationVC.category = self.category
-                    Firebase.shared.startGame()
-                }
-            }
-        } else if currentUser?.isGameCreator == false {
-            if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
-                if let navigator = navigationController {
-                    navigator.pushViewController(viewController, animated: true)
-                    let destinationVC = SwipeScreenViewController()
-                    destinationVC.radius = self.radius
-                    destinationVC.city = self.city
-                    destinationVC.category = self.category
-                }
-            }
+        if self.currentUser!.isGameCreator == true {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
         }
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -77,6 +53,25 @@ class UserListTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        listenForUsers()
+        listenForGameStart()
+    }
+    
+    @objc func buttonTapped() {
+        Firebase.shared.stopListener()
+        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
+            if let navigator = navigationController {
+                navigator.pushViewController(viewController, animated: true)
+                let destinationVC = SwipeScreenViewController()
+                destinationVC.radius = self.radius
+                destinationVC.city = self.city
+                destinationVC.category = self.category
+                Firebase.shared.startGame()
+            }
+        }
+    }
+    
+    func listenForUsers() {
         Firebase.shared.listenForUsers { (result) in
             self.players = []
             for player in result {
@@ -87,10 +82,23 @@ class UserListTableViewController: UITableViewController {
                 }
                 self.tableView.reloadData()
             }
-            if self.currentUser!.isGameCreator == true {
-                self.navigationItem.rightBarButtonItem?.isEnabled = true
-            } else {
-                self.navigationItem.rightBarButtonItem?.isEnabled = false
+        }
+    }
+    
+    func listenForGameStart() {
+        Firebase.shared.listenForStartGame { (result) in
+            if result == true {
+                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
+                    if let navigator = self.navigationController {
+                        navigator.pushViewController(viewController, animated: true)
+                        Firebase.shared.stopListener()
+                        let destinationVC = SwipeScreenViewController()
+                        destinationVC.radius = self.radius
+                        destinationVC.city = self.city
+                        destinationVC.category = self.category
+                        Firebase.shared.startGame()
+                    }
+                }
             }
         }
     }
@@ -117,17 +125,4 @@ class UserListTableViewController: UITableViewController {
     @IBAction func backButtonPressed(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
-    // MARK: - Navigation
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        super.prepare(for: segue, sender: sender)
-    //        if segue.identifier == "toSwipeScreenVC" {
-    //            Firebase.shared.stopListener()
-    //            guard let destinationVC = segue.destination as? SwipeScreenViewController else {return}
-    //            destinationVC.radius = self.radius
-    //            destinationVC.city = self.city
-    //            destinationVC.category = self.category
-    //            Firebase.shared.startGame()
-    //        }
-    //    }
-}
+}//End of Class

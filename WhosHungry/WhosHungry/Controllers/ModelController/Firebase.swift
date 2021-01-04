@@ -159,7 +159,7 @@ class Firebase {
                 self.playerCount = 1
             }
             completion(players)
-            print("Player count: \(self.playerCount!)")
+//            print("Player count: \(self.playerCount!)")
         }
     }
     
@@ -214,6 +214,23 @@ class Firebase {
                     beginGame.updateData([Constants.gameHasBegun : true])
                 }
             }
+        }
+    }
+    
+    func listenForStartGame(completion: @escaping (Bool) -> Void) {
+        guard let game = currentGame else {return}
+        listener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = document.data() else {
+                print("Document data was empty")
+                return
+            }
+            let result = data[Constants.gameHasBegun]
+            let startGame = result as! Bool
+            completion(startGame)
         }
     }
     

@@ -500,17 +500,8 @@
                                 <action selector="backButtonPressed:" destination="uuz-9i-6e9" id="lIV-kx-6hg"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Let's Begin!" id="Upr-19-p7B">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <segue destination="HEx-x6-OYD" kind="show" identifier="toSwipeScreenVC" id="g4f-oE-xsA"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="letsBeginButton" destination="Upr-19-p7B" id="uoJ-q0-YuU"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="25U-Gu-Doi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -521,14 +512,14 @@
             <objects>
                 <viewController storyboardIdentifier="swipeScreenVC" id="HEx-x6-OYD" customClass="SwipeScreenViewController" customModule="WhosHungry" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EVG-Pc-5PO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bvu-lH-BQ0">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.1" translatesAutoresizingMaskIntoConstraints="NO" id="ug7-pb-8vv">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="734"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4y-et-Sqc">
                                         <rect key="frame" x="10" y="10" width="46" height="30"/>
@@ -549,7 +540,7 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLa-Yn-2Jd" userLabel="Card">
-                                        <rect key="frame" x="30" y="-59" width="315" height="600"/>
+                                        <rect key="frame" x="30" y="34" width="315" height="600"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Prz-ef-dLP">
                                                 <rect key="frame" x="20" y="10" width="275" height="75"/>

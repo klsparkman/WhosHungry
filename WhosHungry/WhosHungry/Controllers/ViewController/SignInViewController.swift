@@ -24,20 +24,6 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UserController.shared.delegate = self
-        
-//        Auth.auth().addStateDidChangeListener() { (auth, user) in
-//            if (user != nil) {
-//                print("User is signed in")
-//            } else {
-//                print("User is not signed in")
-//            }
-//        }
-        
-       
-    }// End of ViewDidLoad
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         if Auth.auth().currentUser != nil {
             guard let userID = Auth.auth().currentUser?.uid else {return}
             Firebase.shared.fetchUser(withID: userID) { (result) in
@@ -60,7 +46,7 @@ class SignInViewController: UIViewController {
             self.animateTitle()
             self.setupView()
         }
-    }
+    }// End of ViewDidLoad
     
     func animateTitle() {
         self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
