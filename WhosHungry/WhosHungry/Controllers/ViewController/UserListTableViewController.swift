@@ -58,9 +58,10 @@ class UserListTableViewController: UITableViewController {
     }
     
     @objc func buttonTapped() {
-        Firebase.shared.stopListener()
+        Firebase.shared.stopUserListener()
         if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
             if let navigator = navigationController {
+                Firebase.shared.stopListener()
                 navigator.pushViewController(viewController, animated: true)
                 let destinationVC = SwipeScreenViewController()
                 destinationVC.radius = self.radius

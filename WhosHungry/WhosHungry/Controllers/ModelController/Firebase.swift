@@ -19,6 +19,7 @@ class Firebase {
     var users: [User] = []
     var currentGame: Game?
     private var listener: ListenerRegistration?
+    private var userListener: ListenerRegistration?
     var votes: [String] = []
     var playerCount: Int?
     var voteCount: Int?
@@ -141,7 +142,7 @@ class Firebase {
     
     func listenForUsers(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
-        listener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
+        userListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
@@ -167,6 +168,12 @@ class Firebase {
         guard let listener = listener else {return}
         listener.remove()
         print("Firebase.swift stopped listening")
+    }
+    
+    func stopUserListener() {
+        guard let listener = userListener else {return}
+        listener.remove()
+        print("UserListener stopped listening")
     }
 
     func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
