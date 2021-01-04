@@ -117,7 +117,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
-        radiusLabel.text = "\(Int(radiusSlider.value)) miles"
+        radiusLabel.text = "\(Int(radiusSlider.value))"
     }
     
     @IBAction func breakfastButtonTapped(_ sender: Any) {
@@ -162,7 +162,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     @IBAction func copyCodePressed(_ sender: Any) {
         UIPasteboard.general.string = "Your Who's Hungry invite code is: \(codeLabel.text!)"
         if citySearchTextField.text != "" {
-            if radiusLabel.text != nil {
+            if radiusLabel.text != "" {
                 if self.mealType != nil  {
                     createGameButton.isHidden = false
                 } else {

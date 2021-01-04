@@ -216,7 +216,7 @@ class ResultsViewController: UIViewController {
                 }
             }
         default:
-            print("You should not have reached this part...? ")
+            print("How did this happen? Only 10 players were allowed in the game!")
         }
     }
     
