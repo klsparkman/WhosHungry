@@ -13,37 +13,55 @@ class ResultsViewController: UIViewController {
     // Mark: - Properties
     static let shared = ResultsViewController()
     var likedRestDict: [String : Int] = [:]
-    var likes: [String] = []
     var result: Int?
-    var playerCount = Firebase.shared.playerCount!
+    var playerCount = Firebase.shared.playerCount
+    let voteCount = Firebase.shared.voteCount
     var restaurantVotes: [String : Int] = [:]
     let generator = UINotificationFeedbackGenerator()
+    var likes: [String] = []
+    var swipeLikes = SwipeScreenViewController.shared.likes
+    var yelpURL: String?
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
+    @IBOutlet weak var winningRestaurantYelpLabel: UILabel!
+    @IBOutlet weak var winningRestaurantYelpButton: UIButton!
     
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        winningRestaurantYelpLabel.isHidden = true
+        winningRestaurantYelpButton.isHidden = true
+        for restaurant in RestaurantController.shared.restaurants {
+            yelpURL?.append(restaurant.restaurantYelpLink)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.becomeFirstResponder()
-        listenForLikes()
+        if self.playerCount == self.voteCount {
+            Firebase.shared.stopLikeListener()
+            self.findMatches()
+        }
     }
     
-    func listenForLikes() {
-        Firebase.shared.listenForLikes { (arrOfLikes) in
-            self.likes = []
-            for restaurant in arrOfLikes {
-                self.likes.append(restaurant)
-            }
-            let voteCount = Firebase.shared.voteCount!
-            if self.playerCount == voteCount {
-                Firebase.shared.stopLikeListener()
-                self.findMatches()
-            }
+//    func listenForLikes() {
+//        Firebase.shared.listenForLikes { (arrOfLikes) in
+//            self.likes = []
+//            for restaurant in arrOfLikes {
+//                self.likes.append(restaurant)
+//            }
+//            if self.playerCount == self.voteCount {
+//                Firebase.shared.stopLikeListener()
+//                self.findMatches()
+//            }
+//        }
+//    }
+    @IBAction func yelpButtonTapped(_ sender: Any) {
+        if let url = URL(string: yelpURL!) {
+            UIApplication.shared.canOpenURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
@@ -62,6 +80,8 @@ class ResultsViewController: UIViewController {
 
     func findHighestVotes() {
         var agreedUponPlaces: [String] = []
+        let displayedRestaurants = RestaurantController.shared.restaurants
+        print(displayedRestaurants)
         switch playerCount {
         case 1:
             if playerCount == 1 {
@@ -71,8 +91,21 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
+                    let winner = agreedUponPlaces.randomElement()
+                        for restaurant in displayedRestaurants {
+                            if winner == restaurant.name {
+                                winningRestaurantYelpButton.isHidden = false
+                                winningRestaurantYelpLabel.isHidden = false
+                                restaurantRestultLabel.text = restaurant.name
+                                yelpURL = restaurant.restaurantYelpLink
+                                
+                            }
+                        }
+                    
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
                     generator.notificationOccurred(.success)
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 2:
@@ -80,15 +113,13 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value == 2 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value == 1 {
-                            noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
                     restaurantRestultLabel.text = agreedUponPlaces.randomElement()
                     generator.notificationOccurred(.success)
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 3:

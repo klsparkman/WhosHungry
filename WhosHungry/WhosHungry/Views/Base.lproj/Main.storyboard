@@ -712,17 +712,42 @@
                                 <color key="textColor" systemColor="systemTealColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hb9-na-o0k">
+                                <rect key="frame" x="16" y="608" width="343" height="35"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap yelp button for more info!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snZ-Oh-aY1">
+                                        <rect key="frame" x="0.0" y="0.0" width="308" height="35"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="to0-ea-XpX">
+                                        <rect key="frame" x="308" y="0.0" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="tF3-6d-IRs"/>
+                                            <constraint firstAttribute="height" constant="35" id="uKp-zL-uVc"/>
+                                        </constraints>
+                                        <state key="normal" image="216x300_icons"/>
+                                        <connections>
+                                            <action selector="yelpButtonTapped:" destination="Jsk-So-OPZ" eventType="touchUpInside" id="4wB-Tw-YHj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tyr-tx-Te3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="hb9-na-o0k" secondAttribute="trailing" constant="16" id="27A-Cf-3vT"/>
                             <constraint firstItem="QWr-8D-rIC" firstAttribute="top" secondItem="Tyr-tx-Te3" secondAttribute="top" constant="21" id="7kD-Vc-Qin"/>
                             <constraint firstAttribute="bottom" secondItem="RqL-a7-G9K" secondAttribute="bottom" id="D3Q-XH-V1O"/>
+                            <constraint firstItem="hb9-na-o0k" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="DBg-Ri-V7b"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="top" secondItem="GDH-3G-9tx" secondAttribute="top" id="J3h-TH-nKR"/>
                             <constraint firstItem="QWr-8D-rIC" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="JXj-hM-TZv"/>
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="QWr-8D-rIC" secondAttribute="trailing" constant="16" id="JpJ-vS-6tp"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" id="LuH-oj-sHM"/>
                             <constraint firstItem="1pT-OO-1Pf" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="M9H-ew-FI2"/>
+                            <constraint firstItem="hb9-na-o0k" firstAttribute="top" secondItem="1pT-OO-1Pf" secondAttribute="bottom" constant="80" id="Vub-mm-VkQ"/>
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="bottom" secondItem="1pT-OO-1Pf" secondAttribute="bottom" constant="250" id="dgx-NX-wuG"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="trailing" secondItem="Tyr-tx-Te3" secondAttribute="trailing" id="j7c-QD-Zw2"/>
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="1pT-OO-1Pf" secondAttribute="trailing" constant="16" id="nJI-UE-KIt"/>
@@ -730,6 +755,8 @@
                     </view>
                     <connections>
                         <outlet property="restaurantRestultLabel" destination="1pT-OO-1Pf" id="F2T-9y-PUi"/>
+                        <outlet property="winningRestaurantYelpButton" destination="to0-ea-XpX" id="12J-Bw-t56"/>
+                        <outlet property="winningRestaurantYelpLabel" destination="snZ-Oh-aY1" id="Vfm-aD-8xR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gV8-ek-MNw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
