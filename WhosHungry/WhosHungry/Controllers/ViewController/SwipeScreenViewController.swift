@@ -37,6 +37,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var likedRestaurants: [String] = []
     var gameUID: String?
     let db = Firestore.firestore()
+    var likes: [String] = []
 
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -102,9 +103,15 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 noRestaurantVote()
             } else {
                 Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
+//                    let group = DispatchGroup()
                     switch result {
                     case .success(let userVote):
                         Firebase.shared.listenForLikes { (result) in
+//                            group.enter()
+                            for restaurant in result {
+                                self.likes.append(restaurant)
+                            }
+//                            group.leave()
                             print("another vote was submitted")
                         }
                         guard let game = Firebase.shared.currentGame else {return}
@@ -119,6 +126,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                     if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
                         if let navigator = self.navigationController {
                             navigator.pushViewController(viewController, animated: true)
+                            viewController.likes = self.likes
                         }
                     }
                 }
