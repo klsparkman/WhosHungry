@@ -46,18 +46,18 @@ class ResultsViewController: UIViewController {
         }
     }
     
-//    func listenForLikes() {
-//        Firebase.shared.listenForLikes { (arrOfLikes) in
-//            self.likes = []
-//            for restaurant in arrOfLikes {
-//                self.likes.append(restaurant)
-//            }
-//            if self.playerCount == self.voteCount {
-//                Firebase.shared.stopLikeListener()
-//                self.findMatches()
-//            }
-//        }
-//    }
+    //    func listenForLikes() {
+    //        Firebase.shared.listenForLikes { (arrOfLikes) in
+    //            self.likes = []
+    //            for restaurant in arrOfLikes {
+    //                self.likes.append(restaurant)
+    //            }
+    //            if self.playerCount == self.voteCount {
+    //                Firebase.shared.stopLikeListener()
+    //                self.findMatches()
+    //            }
+    //        }
+    //    }
     @IBAction func yelpButtonTapped(_ sender: Any) {
         if let url = URL(string: yelpURL!) {
             UIApplication.shared.canOpenURL(url)
@@ -77,7 +77,7 @@ class ResultsViewController: UIViewController {
         print("VOTE DICTIONARY: \(restaurantVotes)")
         findHighestVotes()
     }
-
+    
     func findHighestVotes() {
         var agreedUponPlaces: [String] = []
         let displayedRestaurants = RestaurantController.shared.restaurants
@@ -92,20 +92,15 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     let winner = agreedUponPlaces.randomElement()
-                        for restaurant in displayedRestaurants {
-                            if winner == restaurant.name {
-                                winningRestaurantYelpButton.isHidden = false
-                                winningRestaurantYelpLabel.isHidden = false
-                                restaurantRestultLabel.text = restaurant.name
-                                yelpURL = restaurant.restaurantYelpLink
-                                
-                            }
+                    for restaurant in displayedRestaurants {
+                        if winner == restaurant.name {
+                            winningRestaurantYelpButton.isHidden = false
+                            winningRestaurantYelpLabel.isHidden = false
+                            restaurantRestultLabel.text = restaurant.name
+                            yelpURL = restaurant.restaurantYelpLink
                         }
-                    
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    }
                     generator.notificationOccurred(.success)
-                } else {
-                    self.noMatchPopup()
                 }
             }
         case 2:
@@ -116,7 +111,15 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    let winner = agreedUponPlaces.randomElement()
+                    for restaurant in displayedRestaurants {
+                        if winner == restaurant.name {
+                            winningRestaurantYelpButton.isHidden = false
+                            winningRestaurantYelpLabel.isHidden = false
+                            restaurantRestultLabel.text = restaurant.name
+                            yelpURL = restaurant.restaurantYelpLink
+                        }
+                    }
                     generator.notificationOccurred(.success)
                 } else {
                     self.noMatchPopup()
@@ -127,15 +130,21 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 2 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value == 1 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    let winner = agreedUponPlaces.randomElement()
+                    for restaurant in displayedRestaurants {
+                        if winner == restaurant.name {
+                            winningRestaurantYelpButton.isHidden = false
+                            winningRestaurantYelpLabel.isHidden = false
+                            restaurantRestultLabel.text = restaurant.name
+                            yelpURL = restaurant.restaurantYelpLink
+                        }
+                    }
                     generator.notificationOccurred(.success)
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 4:
@@ -143,15 +152,21 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 2 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value < 2 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    let winner = agreedUponPlaces.randomElement()
+                    for restaurant in displayedRestaurants {
+                        if winner == restaurant.name {
+                            winningRestaurantYelpButton.isHidden = false
+                            winningRestaurantYelpLabel.isHidden = false
+                            restaurantRestultLabel.text = restaurant.name
+                            yelpURL = restaurant.restaurantYelpLink
+                        }
+                    }
                     generator.notificationOccurred(.success)
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 5:
@@ -159,15 +174,21 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 3 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value <= 2 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
+                    let winner = agreedUponPlaces.randomElement()
+                    for restaurant in displayedRestaurants {
+                        if winner == restaurant.name {
+                            winningRestaurantYelpButton.isHidden = false
+                            winningRestaurantYelpLabel.isHidden = false
+                            restaurantRestultLabel.text = restaurant.name
+                            yelpURL = restaurant.restaurantYelpLink
+                        }
+                    }
                     generator.notificationOccurred(.success)
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 6:
