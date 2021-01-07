@@ -15,11 +15,11 @@ class ResultsViewController: UIViewController {
     var likedRestDict: [String : Int] = [:]
     var result: Int?
     var playerCount = Firebase.shared.playerCount
-    let voteCount = Firebase.shared.voteCount
+    var voteCount = Firebase.shared.voteCount
+    let currentGame = Firebase.shared.currentGame
     var restaurantVotes: [String : Int] = [:]
     let generator = UINotificationFeedbackGenerator()
     var likes: [String] = []
-    var swipeLikes = SwipeScreenViewController.shared.likes
     var yelpURL: String?
     
     // Mark: - Outlets
@@ -37,27 +37,35 @@ class ResultsViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.becomeFirstResponder()
-        if self.playerCount == self.voteCount {
-            Firebase.shared.stopLikeListener()
-            self.findMatches()
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Firebase.shared.listenForLikes()
+        if self.playerCount! == self.voteCount {
+                Firebase.shared.stopLikeListener()
+                guard let game = self.currentGame else {return}
+                Firebase.shared.fetchLikedRestaurants(currentGame: game) { (result) in
+                    switch result {
+                    case .success(let arrOfLikes):
+                            self.likes = arrOfLikes
+                            self.findMatches()
+                        
+                    case .failure(let error):
+                        print("There was an error getting likes from Firebase: \(error)")
+                    }
+                }
+            }
+        
     }
     
-    //    func listenForLikes() {
-    //        Firebase.shared.listenForLikes { (arrOfLikes) in
-    //            self.likes = []
-    //            for restaurant in arrOfLikes {
-    //                self.likes.append(restaurant)
-    //            }
-    //            if self.playerCount == self.voteCount {
-    //                Firebase.shared.stopLikeListener()
-    //                self.findMatches()
-    //            }
-    //        }
-    //    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        self.becomeFirstResponder()
+//        if self.playerCount == self.voteCount {
+//            Firebase.shared.stopLikeListener()
+//            self.findMatches()
+//        }
+//    }
+
     @IBAction func yelpButtonTapped(_ sender: Any) {
         if let url = URL(string: yelpURL!) {
             UIApplication.shared.canOpenURL(url)
@@ -81,7 +89,6 @@ class ResultsViewController: UIViewController {
     func findHighestVotes() {
         var agreedUponPlaces: [String] = []
         let displayedRestaurants = RestaurantController.shared.restaurants
-        print(displayedRestaurants)
         switch playerCount {
         case 1:
             if playerCount == 1 {
@@ -285,6 +292,7 @@ class ResultsViewController: UIViewController {
             viewcontrollers.removeLast()
             viewcontrollers.append(vc)
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+//            self.voteCount = self.voteCount - self.playerCount!
         }))
         self.present(alert, animated: true, completion: nil)
     }

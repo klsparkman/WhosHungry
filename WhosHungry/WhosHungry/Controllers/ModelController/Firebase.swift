@@ -21,8 +21,9 @@ class Firebase {
     private var likeListener: ListenerRegistration?
     private var userListener: ListenerRegistration?
     private var gameStartListener: ListenerRegistration?
-    var votes: [String] = []
+    var votes: [String]?
     var playerCount: Int?
+//    var voteCount: [Int] = []
     var voteCount: Int?
     
     // Mark: - CRUD
@@ -128,31 +129,42 @@ class Firebase {
         }
     }
     
-    // Mark: - Listeners
-    func listenForLikes(completion: @escaping ([String]) -> Void) {
-        guard let currentGame = currentGame else {return}
-        guard let user = UserController.shared.currentUser else {return}
-        likeListener = db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).document(user.firstName + " " + user.lastName).addSnapshotListener { (documentSnapshot, error) in
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-            }
-            guard let data = document.data() else {
-                print("Document was empty")
-                return
-            }
-            let voteValues = data[Constants.submittedVotes]
-            let votes = voteValues as? [String] ?? []
-            
-            if self.voteCount != nil {
-                self.voteCount! += 1
+    func fetchLikedRestaurants(currentGame: Game, completion: @escaping (Result<[String], Error>) -> Void) {
+        db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error fetching submittedVotes documents: \(error)")
+                completion(.failure(error))
             } else {
-                self.voteCount = 1
+                if let snapshot = snapshot?.documents {
+                    snapshot.forEach { (doc) in
+                        let likeArray = doc.data()[Constants.submittedVotes] as? [String] ?? []
+                        print("LIKES: \(likeArray)")
+                        completion(.success(likeArray))
+                    }
+                }
             }
-            completion(votes)
         }
     }
     
+    // Mark: - Listeners
+    func listenForLikes() {
+        guard let game = self.currentGame else {return}
+        likeListener = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).addSnapshotListener({ (snapshot, error) in
+            if let error = error {
+                print("Error listening to the userVotes collection: \(error.localizedDescription)")
+            }
+            snapshot?.documentChanges.forEach({ (diff) in
+                if (diff.type == .added) {
+                    if self.voteCount != nil {
+                        self.voteCount! += 1
+                    } else {
+                        self.voteCount = 1
+                    }
+                }
+            })
+        })
+    }
+           
     func listenForUsers(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
         userListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
