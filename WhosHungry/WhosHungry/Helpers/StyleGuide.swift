@@ -64,5 +64,6 @@ struct StyleConstants {
         slider.layer.borderColor = UIColor.white.cgColor
         slider.layer.borderWidth = 1
         slider.layer.masksToBounds = true
+        slider.value = 15
     }
 }
