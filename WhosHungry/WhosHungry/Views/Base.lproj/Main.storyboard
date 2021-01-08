@@ -757,6 +757,7 @@
                     </view>
                     <connections>
                         <outlet property="restaurantRestultLabel" destination="1pT-OO-1Pf" id="F2T-9y-PUi"/>
+                        <outlet property="waitForFriendsLabel" destination="QWr-8D-rIC" id="As4-kj-ryM"/>
                         <outlet property="winningRestaurantYelpButton" destination="fhk-on-cyC" id="xKD-7E-pV2"/>
                         <outlet property="winningRestaurantYelpLabel" destination="HkV-5u-ntw" id="Dvs-ob-qzt"/>
                     </connections>
