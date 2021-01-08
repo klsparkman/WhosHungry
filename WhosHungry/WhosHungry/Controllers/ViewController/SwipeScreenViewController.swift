@@ -118,6 +118,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                     if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "resultsVC") as? ResultsViewController {
                         if let navigator = self.navigationController {
                             navigator.pushViewController(viewController, animated: true)
+                            viewController.likes.append(contentsOf: self.likedRestaurants)
                         }
                     }
                 }

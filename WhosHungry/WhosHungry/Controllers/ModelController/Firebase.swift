@@ -21,9 +21,9 @@ class Firebase {
     private var likeListener: ListenerRegistration?
     private var userListener: ListenerRegistration?
     private var gameStartListener: ListenerRegistration?
+    private var allVotesSubmittedListener: ListenerRegistration?
     var votes: [String]?
     var playerCount: Int?
-//    var voteCount: [Int] = []
     var voteCount: Int?
     
     // Mark: - CRUD
@@ -34,7 +34,8 @@ class Firebase {
                                               Constants.radius : game.radius,
                                               Constants.mealType : game.mealType,
                                               Constants.users : game.users,
-                                              Constants.gameHasBegun : game.gameHasBegun
+                                              Constants.gameHasBegun : game.gameHasBegun,
+                                              Constants.allVotesSubmitted : game.allVotesSubmitted
         ]
         
         db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
@@ -129,46 +130,20 @@ class Firebase {
         }
     }
     
-    func fetchLikedRestaurants(currentGame: Game, completion: @escaping (Result<[String], Error>) -> Void) {
+    func fetchNumberOfUsersVotes(currentGame: Game, completion: @escaping (Int) -> Void) {
         db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).getDocuments { (snapshot, error) in
             if let error = error {
                 print("Error fetching submittedVotes documents: \(error)")
-                completion(.failure(error))
             } else {
-                if let snapshot = snapshot?.documents {
-                    snapshot.forEach { (doc) in
-                        let likeArray = doc.data()[Constants.submittedVotes] as? [String] ?? []
-                        print("LIKES: \(likeArray)")
-                        completion(.success(likeArray))
-                    }
+                if let snapshot = snapshot?.documents.count {
+                    print("Snapshot count: \(snapshot)")
+                    completion(snapshot)
                 }
             }
         }
     }
     
     // Mark: - Listeners
-    func listenForLikes(completion: @escaping ([String]) -> Void) {
-        var arrOfLikes: [String] = []
-        guard let game = self.currentGame else {return}
-        likeListener = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).addSnapshotListener({ (snapshot, error) in
-            if let error = error {
-                print("Error listening to the userVotes collection: \(error.localizedDescription)")
-            }
-            snapshot?.documentChanges.forEach({ (diff) in
-                if (diff.type == .added) {
-                    let data = diff.document.data()[Constants.submittedVotes] as? [String] ?? []
-                    arrOfLikes.append(contentsOf: data)
-                    if self.voteCount != nil {
-                        self.voteCount! += 1
-                    } else {
-                        self.voteCount = 1
-                    }
-                }
-            })
-            completion(arrOfLikes)
-        })
-    }
-           
     func listenForUsers(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
         userListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener { (documentSnapshot, error) in
@@ -209,23 +184,45 @@ class Firebase {
         }
     }
     
+    func listenForAllVotesSubmitted(completion: @escaping (Bool) -> Void) {
+        guard let game = currentGame else {return}
+        allVotesSubmittedListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener({ (snapshot, error) in
+            guard let snapshot = snapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = snapshot.data() else {
+                print("Document data was empty")
+                return
+            }
+            let result = data[Constants.allVotesSubmitted]
+            let votesAreSubmitted = result as! Bool
+            completion(votesAreSubmitted)
+        })
+    }
     
     func stopLikeListener() {
         guard let listener = likeListener else {return}
         listener.remove()
-        print("Firebase.swift stopped listening")
+        print("Stopped like listener")
     }
     
     func stopUserListener() {
         guard let listener = userListener else {return}
         listener.remove()
-        print("UserListener stopped listening")
+        print("Stopped user listener")
     }
     
     func stopGameListener() {
         guard let listener = gameStartListener else {return}
         listener.remove()
-        print("Firebase.swift stopped listening")
+        print("Stopped game listener")
+    }
+    
+    func stopSubmittedVotesListener() {
+        guard let listener = allVotesSubmittedListener else {return}
+        listener.remove()
+        print("Stopped submitted votes listener")
     }
     
     func checkGameStatus(completion: @escaping (Result<Bool, Error>) -> Void) {
@@ -273,6 +270,22 @@ class Firebase {
                 let gameBool = snapshot[Constants.gameHasBegun] as! Bool
                 if gameBool == true {
                     beginGame.updateData([Constants.gameHasBegun : false])
+                }
+            }
+        }
+    }
+    
+    func allVotesSubmitted() {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("There was an error fetching the current document data: \(error.localizedDescription)")
+            } else {
+                let votesSubmitted = self.db.collection(Constants.gameContainer).document(game.uid)
+                guard let snapshot = documentSnapshot?.data() else {return}
+                let voteBool = snapshot[Constants.allVotesSubmitted] as! Bool
+                if voteBool == false {
+                    votesSubmitted.updateData([Constants.allVotesSubmitted : true])
                 }
             }
         }
