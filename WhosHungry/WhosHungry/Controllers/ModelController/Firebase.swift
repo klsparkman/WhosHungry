@@ -147,7 +147,8 @@ class Firebase {
     }
     
     // Mark: - Listeners
-    func listenForLikes() {
+    func listenForLikes(completion: @escaping ([String]) -> Void) {
+        var arrOfLikes: [String] = []
         guard let game = self.currentGame else {return}
         likeListener = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).addSnapshotListener({ (snapshot, error) in
             if let error = error {
@@ -155,6 +156,8 @@ class Firebase {
             }
             snapshot?.documentChanges.forEach({ (diff) in
                 if (diff.type == .added) {
+                    let data = diff.document.data()[Constants.submittedVotes] as? [String] ?? []
+                    arrOfLikes.append(contentsOf: data)
                     if self.voteCount != nil {
                         self.voteCount! += 1
                     } else {
@@ -162,6 +165,7 @@ class Firebase {
                     }
                 }
             })
+            completion(arrOfLikes)
         })
     }
            

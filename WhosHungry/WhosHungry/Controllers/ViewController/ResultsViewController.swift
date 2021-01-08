@@ -26,10 +26,14 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var restaurantRestultLabel: UILabel!
     @IBOutlet weak var winningRestaurantYelpLabel: UILabel!
     @IBOutlet weak var winningRestaurantYelpButton: UIButton!
+    @IBOutlet weak var waitForFriendsLabel: UITextView!
     
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        if self.playerCount == 1 {
+            waitForFriendsLabel.isHidden = true
+        }
         winningRestaurantYelpLabel.isHidden = true
         winningRestaurantYelpButton.isHidden = true
         for restaurant in RestaurantController.shared.restaurants {
@@ -39,8 +43,9 @@ class ResultsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Firebase.shared.listenForLikes()
-        if self.playerCount! == self.voteCount {
+        Firebase.shared.listenForLikes { (_) in
+        let voteCount = Firebase.shared.voteCount
+        if self.playerCount! == voteCount {
                 Firebase.shared.stopLikeListener()
                 guard let game = self.currentGame else {return}
                 Firebase.shared.fetchLikedRestaurants(currentGame: game) { (result) in
@@ -54,7 +59,7 @@ class ResultsViewController: UIViewController {
                     }
                 }
             }
-        
+        }
     }
     
 //    override func viewDidAppear(_ animated: Bool) {
@@ -101,10 +106,14 @@ class ResultsViewController: UIViewController {
                     let winner = agreedUponPlaces.randomElement()
                     for restaurant in displayedRestaurants {
                         if winner == restaurant.name {
+                            waitForFriendsLabel.isHidden = true
                             winningRestaurantYelpButton.isHidden = false
                             winningRestaurantYelpLabel.isHidden = false
                             restaurantRestultLabel.text = restaurant.name
                             yelpURL = restaurant.restaurantYelpLink
+                            UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+                                self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
+                            }, completion: nil)
                         }
                     }
                     generator.notificationOccurred(.success)
