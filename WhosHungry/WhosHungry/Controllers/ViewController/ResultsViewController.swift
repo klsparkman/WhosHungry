@@ -52,7 +52,12 @@ class ResultsViewController: UIViewController {
         super.viewWillAppear(animated)
         Firebase.shared.listenForAllVotesSubmitted { (result) in
             if result == true {
-                self.findMatches()
+                Firebase.shared.stopSubmittedVotesListener()
+                guard let game = Firebase.shared.currentGame else {return}
+                Firebase.shared.fetchAllSubmittedVotes(currentGame: game) { (result) in
+                    self.likes = result
+                    self.findMatches()
+                }
             }
         }
     }
