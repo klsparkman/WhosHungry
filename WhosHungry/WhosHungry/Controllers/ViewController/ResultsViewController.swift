@@ -21,6 +21,9 @@ class ResultsViewController: UIViewController {
     let generator = UINotificationFeedbackGenerator()
     var likes: [String] = []
     var yelpURL: String?
+    var winner: String?
+    let displayedRestaurants = RestaurantController.shared.restaurants
+    let currentUser = UserController.shared.currentUser
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -61,8 +64,7 @@ class ResultsViewController: UIViewController {
             }
         }
     }
-
-
+    
     @IBAction func yelpButtonTapped(_ sender: Any) {
         if let url = URL(string: yelpURL!) {
             UIApplication.shared.canOpenURL(url)
@@ -85,7 +87,6 @@ class ResultsViewController: UIViewController {
     
     func findHighestVotes() {
         var agreedUponPlaces: [String] = []
-        let displayedRestaurants = RestaurantController.shared.restaurants
         switch playerCount {
         case 1:
             if playerCount == 1 {
@@ -96,18 +97,8 @@ class ResultsViewController: UIViewController {
                 }
                 if agreedUponPlaces != [] {
                     let winner = agreedUponPlaces.randomElement()
-                    for restaurant in displayedRestaurants {
-                        if winner == restaurant.name {
-                            waitForFriendsLabel.isHidden = true
-                            winningRestaurantYelpButton.isHidden = false
-                            winningRestaurantYelpLabel.isHidden = false
-                            restaurantRestultLabel.text = restaurant.name
-                            yelpURL = restaurant.restaurantYelpLink
-                            UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-                                self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-                            }, completion: nil)
-                        }
-                    }
+                    Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                    self.displayWinner(winner: winner!)
                     generator.notificationOccurred(.success)
                 }
             }
@@ -119,20 +110,17 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
-                    let winner = agreedUponPlaces.randomElement()
-                    for restaurant in displayedRestaurants {
-                        if winner == restaurant.name {
-                            waitForFriendsLabel.isHidden = true
-                            winningRestaurantYelpButton.isHidden = false
-                            winningRestaurantYelpLabel.isHidden = false
-                            restaurantRestultLabel.text = restaurant.name
-                            yelpURL = restaurant.restaurantYelpLink
-                            UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-                                self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-                            }, completion: nil)
-                        }
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
                     }
-                    generator.notificationOccurred(.success)
+                    Firebase.shared.listenForWinningRest { (result) in
+                            if result != "" {
+                                self.displayWinner(winner: result)
+                            }
+                        }
+                    
                 } else {
                     self.noMatchPopup()
                 }
@@ -297,6 +285,22 @@ class ResultsViewController: UIViewController {
         }
     }
     
+    func displayWinner(winner: String) {
+        for restaurant in displayedRestaurants {
+            if winner == restaurant.name {
+                waitForFriendsLabel.isHidden = true
+                winningRestaurantYelpButton.isHidden = false
+                winningRestaurantYelpLabel.isHidden = false
+                restaurantRestultLabel.text = restaurant.name
+                yelpURL = restaurant.restaurantYelpLink
+                UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+                    self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
+                }, completion: nil)
+                generator.notificationOccurred(.success)
+            }
+        }
+    }
+    
     func noMatchPopup() {
         let alert = UIAlertController(title: "WHOOPSIE", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
@@ -307,7 +311,7 @@ class ResultsViewController: UIViewController {
             viewcontrollers.append(vc)
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
             
-//            self.voteCount = self.voteCount - self.playerCount!
+            //            self.voteCount = self.voteCount - self.playerCount!
         }))
         self.present(alert, animated: true, completion: nil)
     }
