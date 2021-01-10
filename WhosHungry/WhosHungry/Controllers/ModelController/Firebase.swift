@@ -22,6 +22,7 @@ class Firebase {
     private var userListener: ListenerRegistration?
     private var gameStartListener: ListenerRegistration?
     private var allVotesSubmittedListener: ListenerRegistration?
+    private var winningRestListener: ListenerRegistration?
     var votes: [String]?
     var playerCount: Int?
     var voteCount: Int?
@@ -35,7 +36,8 @@ class Firebase {
                                               Constants.mealType : game.mealType,
                                               Constants.users : game.users,
                                               Constants.gameHasBegun : game.gameHasBegun,
-                                              Constants.allVotesSubmitted : game.allVotesSubmitted
+                                              Constants.allVotesSubmitted : game.allVotesSubmitted,
+                                              Constants.winningRestaurant : game.winningRestaurant
         ]
         
         db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
@@ -139,7 +141,6 @@ class Firebase {
                 for document in snapshot!.documents {
                     let submittedVotes = document.data()[Constants.submittedVotes] as? [String] ?? []
                     finalVotes.append(contentsOf: submittedVotes)
-//                    print("Submitted votes: \(submittedVotes)")
                 }
                 completion(finalVotes)
             }
@@ -214,6 +215,23 @@ class Firebase {
             let result = data[Constants.allVotesSubmitted]
             let votesAreSubmitted = result as! Bool
             completion(votesAreSubmitted)
+        })
+    }
+    
+    func listenForWinningRest(completion: @escaping (String) -> Void) {
+        guard let game = currentGame else {return}
+        winningRestListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener({ (snapshot, error) in
+            guard let snapshot = snapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard let data = snapshot.data() else {
+                print("Document data was empty")
+                return
+            }
+            let result = data[Constants.winningRestaurant]
+            let winningRest = result as! String
+            completion(winningRest)
         })
     }
     
@@ -296,11 +314,27 @@ class Firebase {
             if let error = error {
                 print("There was an error fetching the current document data: \(error.localizedDescription)")
             } else {
-                let votesSubmitted = self.db.collection(Constants.gameContainer).document(game.uid)
+                let gameDoc = self.db.collection(Constants.gameContainer).document(game.uid)
                 guard let snapshot = documentSnapshot?.data() else {return}
                 let voteBool = snapshot[Constants.allVotesSubmitted] as! Bool
                 if voteBool == false {
-                    votesSubmitted.updateData([Constants.allVotesSubmitted : true])
+                    gameDoc.updateData([Constants.allVotesSubmitted : true])
+                }
+            }
+        }
+    }
+    
+    func winningRestaurantFound(winningRest: String) {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).getDocument { (snapshot, error) in
+            if let error = error {
+                print("There was an error fetching the current document data: \(error.localizedDescription)")
+            } else {
+                let gameDoc = self.db.collection(Constants.gameContainer).document(game.uid)
+                guard let snapshot = snapshot?.data() else {return}
+                let winner = snapshot[Constants.winningRestaurant] as! String
+                if winner == "" {
+                    gameDoc.updateData([Constants.winningRestaurant : winningRest])
                 }
             }
         }

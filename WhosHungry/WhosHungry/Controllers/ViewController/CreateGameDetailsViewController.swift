@@ -185,8 +185,9 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         else {return}
         let gameHasBegun = false
         let allVotesSubmitted = false
+        let winningRestaurant = ""
         let user = "\(currentUser.firstName + " " + currentUser.lastName): Game Creator"
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], gameHasBegun: gameHasBegun, allVotesSubmitted: allVotesSubmitted)
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], gameHasBegun: gameHasBegun, allVotesSubmitted: allVotesSubmitted, winningRestaurant: winningRestaurant)
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
