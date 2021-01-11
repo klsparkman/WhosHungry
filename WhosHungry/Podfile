@@ -10,5 +10,6 @@ target 'WhosHungry' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Analytics'
   pod 'Firebase/RemoteConfig'
+  pod 'SAConfettiView'
 
 end

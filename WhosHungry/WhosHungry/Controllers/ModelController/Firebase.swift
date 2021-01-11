@@ -229,9 +229,17 @@ class Firebase {
                 print("Document data was empty")
                 return
             }
-            let result = data[Constants.winningRestaurant]
-            let winningRest = result as! String
-            completion(winningRest)
+            let result = data[Constants.winningRestaurant] as! String
+            if result != "" {
+                completion(result)
+            } else {
+                print("Winning restaurant has not been updated yet")
+                return
+            }
+//            let winningRest = result as! String
+            
+            
+//            guard winningRest == "" else {return}
         })
     }
     
