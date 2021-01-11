@@ -705,16 +705,16 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-OO-1Pf">
-                                <rect key="frame" x="16" y="345" width="343" height="150"/>
+                                <rect key="frame" x="16" y="345" width="343" height="200"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="f8Q-Rm-Hjl"/>
+                                    <constraint firstAttribute="height" constant="200" id="f8Q-Rm-Hjl"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="40"/>
+                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
                                 <color key="textColor" systemColor="systemTealColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap the yelp button for restaurant info and directions!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HkV-5u-ntw">
-                                <rect key="frame" x="16" y="545" width="343" height="60"/>
+                                <rect key="frame" x="16" y="595" width="343" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="tyZ-7f-4nO"/>
                                 </constraints>
@@ -723,7 +723,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhk-on-cyC">
-                                <rect key="frame" x="172.66666666666666" y="605" width="30" height="30"/>
+                                <rect key="frame" x="172.66666666666666" y="655" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="SxG-l9-mJ8"/>
                                     <constraint firstAttribute="width" constant="30" id="por-gE-riw"/>
@@ -742,7 +742,6 @@
                             <constraint firstItem="QWr-8D-rIC" firstAttribute="top" secondItem="Tyr-tx-Te3" secondAttribute="top" constant="21" id="7kD-Vc-Qin"/>
                             <constraint firstItem="HkV-5u-ntw" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="8Aj-R5-x0j"/>
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="HkV-5u-ntw" secondAttribute="trailing" constant="16" id="BbO-Gt-Y0u"/>
-                            <constraint firstItem="1pT-OO-1Pf" firstAttribute="top" secondItem="QWr-8D-rIC" secondAttribute="bottom" constant="80" id="CPw-nG-HHr"/>
                             <constraint firstAttribute="bottom" secondItem="RqL-a7-G9K" secondAttribute="bottom" id="D3Q-XH-V1O"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="top" secondItem="GDH-3G-9tx" secondAttribute="top" id="J3h-TH-nKR"/>
                             <constraint firstItem="QWr-8D-rIC" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="JXj-hM-TZv"/>
@@ -752,6 +751,7 @@
                             <constraint firstItem="fhk-on-cyC" firstAttribute="centerX" secondItem="HkV-5u-ntw" secondAttribute="centerX" id="Piw-wD-Yhe"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="trailing" secondItem="Tyr-tx-Te3" secondAttribute="trailing" id="j7c-QD-Zw2"/>
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="1pT-OO-1Pf" secondAttribute="trailing" constant="16" id="nJI-UE-KIt"/>
+                            <constraint firstItem="1pT-OO-1Pf" firstAttribute="top" secondItem="QWr-8D-rIC" secondAttribute="bottom" constant="80" id="wc7-x8-R0V"/>
                             <constraint firstItem="fhk-on-cyC" firstAttribute="top" secondItem="HkV-5u-ntw" secondAttribute="bottom" id="yaU-9L-H4z"/>
                         </constraints>
                     </view>

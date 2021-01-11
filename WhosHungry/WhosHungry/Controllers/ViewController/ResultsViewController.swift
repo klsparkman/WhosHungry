@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SAConfettiView
 
 class ResultsViewController: UIViewController {
     
@@ -21,9 +22,9 @@ class ResultsViewController: UIViewController {
     let generator = UINotificationFeedbackGenerator()
     var likes: [String] = []
     var yelpURL: String?
-    var winner: String?
     let displayedRestaurants = RestaurantController.shared.restaurants
     let currentUser = UserController.shared.currentUser
+    var winner: String?
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -38,7 +39,6 @@ class ResultsViewController: UIViewController {
             waitForFriendsLabel.isHidden = true
         }
         winningRestaurantYelpLabel.isHidden = true
-        winningRestaurantYelpLabel.alpha = 0
         winningRestaurantYelpButton.isHidden = true
         for restaurant in RestaurantController.shared.restaurants {
             yelpURL?.append(restaurant.restaurantYelpLink)
@@ -113,14 +113,16 @@ class ResultsViewController: UIViewController {
                     guard let user = self.currentUser else {return}
                     if user.isGameCreator == true {
                         let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
                         Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                    }
-                    Firebase.shared.listenForWinningRest { (result) in
-                            if result != "" {
+                        self.displayWinner(winner: winner!)
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                            Firebase.shared.listenForWinningRest { (result) in
                                 self.displayWinner(winner: result)
                             }
-                        }
-                    
+                        })
+                    }
                 } else {
                     self.noMatchPopup()
                 }
@@ -288,12 +290,17 @@ class ResultsViewController: UIViewController {
     func displayWinner(winner: String) {
         for restaurant in displayedRestaurants {
             if winner == restaurant.name {
+                let confettiView = SAConfettiView(frame: self.view.bounds)
+                confettiView.type = .Star
+                view.addSubview(confettiView)
+                confettiView.startConfetti()
+                view.bringSubviewToFront(winningRestaurantYelpButton)
                 waitForFriendsLabel.isHidden = true
                 winningRestaurantYelpButton.isHidden = false
                 winningRestaurantYelpLabel.isHidden = false
                 restaurantRestultLabel.text = restaurant.name
                 yelpURL = restaurant.restaurantYelpLink
-                UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+                UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
                     self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
                 }, completion: nil)
                 generator.notificationOccurred(.success)
@@ -310,8 +317,6 @@ class ResultsViewController: UIViewController {
             viewcontrollers.removeLast()
             viewcontrollers.append(vc)
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
-            
-            //            self.voteCount = self.voteCount - self.playerCount!
         }))
         self.present(alert, animated: true, completion: nil)
     }
