@@ -99,7 +99,6 @@ class ResultsViewController: UIViewController {
                     let winner = agreedUponPlaces.randomElement()
                     Firebase.shared.winningRestaurantFound(winningRest: winner!)
                     self.displayWinner(winner: winner!)
-//                    generator.notificationOccurred(.success)
                 }
             }
         case 2:
@@ -345,7 +344,7 @@ class ResultsViewController: UIViewController {
         for restaurant in displayedRestaurants {
             if winner == restaurant.name {
                 let confettiView = SAConfettiView(frame: self.view.bounds)
-                confettiView.type = .Star
+                confettiView.type = .Confetti
                 view.addSubview(confettiView)
                 confettiView.startConfetti()
                 view.bringSubviewToFront(winningRestaurantYelpButton)
@@ -371,6 +370,8 @@ class ResultsViewController: UIViewController {
             viewcontrollers.removeLast()
             viewcontrollers.append(vc)
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+            self.likes = []
+            Firebase.shared.allVotesSubmitted()
         }))
         self.present(alert, animated: true, completion: nil)
     }
