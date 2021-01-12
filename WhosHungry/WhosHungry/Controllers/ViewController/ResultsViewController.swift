@@ -370,6 +370,8 @@ class ResultsViewController: UIViewController {
             viewcontrollers.removeLast()
             viewcontrollers.append(vc)
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+            self.likes = []
+            Firebase.shared.allVotesSubmitted()
         }))
         self.present(alert, animated: true, completion: nil)
     }

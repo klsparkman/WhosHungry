@@ -323,6 +323,8 @@ class Firebase {
                 let voteBool = snapshot[Constants.allVotesSubmitted] as! Bool
                 if voteBool == false {
                     gameDoc.updateData([Constants.allVotesSubmitted : true])
+                } else {
+                    gameDoc.updateData([Constants.allVotesSubmitted : false])
                 }
             }
         }
