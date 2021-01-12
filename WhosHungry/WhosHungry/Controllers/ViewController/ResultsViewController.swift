@@ -74,11 +74,11 @@ class ResultsViewController: UIViewController {
     
     func findMatches() {
         let voteValues = self.likes
-        for personsVotes in voteValues {
-            if restaurantVotes[personsVotes] != nil {
-                restaurantVotes[personsVotes]! += 1
+        for personsVote in voteValues {
+            if restaurantVotes[personsVote] != nil {
+                restaurantVotes[personsVote]! += 1
             } else {
-                restaurantVotes[personsVotes] = 1
+                restaurantVotes[personsVote] = 1
             }
         }
         print("VOTE DICTIONARY: \(restaurantVotes)")
@@ -99,29 +99,30 @@ class ResultsViewController: UIViewController {
                     let winner = agreedUponPlaces.randomElement()
                     Firebase.shared.winningRestaurantFound(winningRest: winner!)
                     self.displayWinner(winner: winner!)
-                    generator.notificationOccurred(.success)
+//                    generator.notificationOccurred(.success)
                 }
             }
         case 2:
             if playerCount == 2 {
                 for (key, value) in restaurantVotes {
-                    if value == 2 {
+                    if value >= 2 {
                         agreedUponPlaces.append(key)
                     }
                 }
                 if agreedUponPlaces != [] {
+                    let group = DispatchGroup()
+                    group.enter()
                     guard let user = self.currentUser else {return}
                     if user.isGameCreator == true {
                         let winner = agreedUponPlaces.randomElement()
                         self.winner = winner
                         Firebase.shared.winningRestaurantFound(winningRest: winner!)
                         self.displayWinner(winner: winner!)
+                        group.leave()
                     } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                            Firebase.shared.listenForWinningRest { (result) in
-                                self.displayWinner(winner: result)
-                            }
-                        })
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
+                        }
                     }
                 } else {
                     self.noMatchPopup()
@@ -135,19 +136,20 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
-                    let winner = agreedUponPlaces.randomElement()
-                    for restaurant in displayedRestaurants {
-                        if winner == restaurant.name {
-                            winningRestaurantYelpButton.isHidden = false
-                            winningRestaurantYelpLabel.isHidden = false
-                            restaurantRestultLabel.text = restaurant.name
-                            yelpURL = restaurant.restaurantYelpLink
-                            UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-                                self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-                            }, completion: nil)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
                         }
                     }
-                    generator.notificationOccurred(.success)
                 } else {
                     self.noMatchPopup()
                 }
@@ -160,19 +162,20 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
-                    let winner = agreedUponPlaces.randomElement()
-                    for restaurant in displayedRestaurants {
-                        if winner == restaurant.name {
-                            winningRestaurantYelpButton.isHidden = false
-                            winningRestaurantYelpLabel.isHidden = false
-                            restaurantRestultLabel.text = restaurant.name
-                            yelpURL = restaurant.restaurantYelpLink
-                            UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-                                self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-                            }, completion: nil)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
                         }
                     }
-                    generator.notificationOccurred(.success)
                 } else {
                     self.noMatchPopup()
                 }
@@ -185,19 +188,20 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
-                    let winner = agreedUponPlaces.randomElement()
-                    for restaurant in displayedRestaurants {
-                        if winner == restaurant.name {
-                            winningRestaurantYelpButton.isHidden = false
-                            winningRestaurantYelpLabel.isHidden = false
-                            restaurantRestultLabel.text = restaurant.name
-                            yelpURL = restaurant.restaurantYelpLink
-                            UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-                                self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-                            }, completion: nil)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
                         }
                     }
-                    generator.notificationOccurred(.success)
                 } else {
                     self.noMatchPopup()
                 }
@@ -207,15 +211,25 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 3 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value <= 2 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-                    generator.notificationOccurred(.success)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
+                        }
+                    }
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 7:
@@ -223,15 +237,25 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 4 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value <= 3 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-                    generator.notificationOccurred(.success)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
+                        }
+                    }
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 8:
@@ -239,15 +263,25 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 4 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value <= 3 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-                    generator.notificationOccurred(.success)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
+                        }
+                    }
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 9:
@@ -255,15 +289,25 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 5 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value <= 4 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-                    generator.notificationOccurred(.success)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
+                        }
+                    }
+                } else {
+                    self.noMatchPopup()
                 }
             }
         case 10:
@@ -271,15 +315,25 @@ class ResultsViewController: UIViewController {
                 for (key, value) in restaurantVotes {
                     if value >= 5 {
                         agreedUponPlaces.append(key)
-                    } else {
-                        if value <= 4 {
-                            self.noMatchPopup()
-                        }
                     }
                 }
                 if agreedUponPlaces != [] {
-                    restaurantRestultLabel.text = agreedUponPlaces.randomElement()
-                    generator.notificationOccurred(.success)
+                    let group = DispatchGroup()
+                    group.enter()
+                    guard let user = self.currentUser else {return}
+                    if user.isGameCreator == true {
+                        let winner = agreedUponPlaces.randomElement()
+                        self.winner = winner
+                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
+                        self.displayWinner(winner: winner!)
+                        group.leave()
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
+                        }
+                    }
+                } else {
+                    self.noMatchPopup()
                 }
             }
         default:

@@ -14,13 +14,12 @@ struct TopLevelObject: Codable {
 
 struct Restaurant: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, location, rating
+        case name, location, rating, id
         case cuisines = "categories"
         case imageEndpoint = "image_url"
         case reviewCount = "review_count"
         case restaurantYelpLink = "url"
     }
-    
     let name: String?
     let imageEndpoint: String?
     let location: ResLocation?
@@ -30,7 +29,7 @@ struct Restaurant: Codable {
     var isLiked: Bool?
     let cuisines: [Category]
     var restaurantYelpLink: String
-    
+    let id: String
     var cuisineList: String {
         cuisines.compactMap { $0.title }.joined(separator: ", ")
     }
@@ -50,4 +49,8 @@ extension Restaurant: Equatable {
     static func == (lhs: Restaurant, rhs: Restaurant) -> Bool {
         return lhs.name == rhs.name
     }
+    
+//    func hash(into hasher: inout Hasher) {
+//        <#code#>
+//    }
 }
