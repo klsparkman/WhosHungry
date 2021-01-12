@@ -61,7 +61,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="BaQ-7E-5f6">
-                                <rect key="frame" x="71" y="200" width="233" height="180"/>
+                                <rect key="frame" x="71" y="125" width="233" height="180"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Tdz-DM-7vq">
                                         <rect key="frame" x="0.0" y="0.0" width="233" height="79"/>
@@ -92,7 +92,7 @@
                                 </constraints>
                             </stackView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste Invite Code Here!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sjG-dm-KPM">
-                                <rect key="frame" x="23.333333333333343" y="450" width="328.33333333333326" height="50"/>
+                                <rect key="frame" x="23.333333333333343" y="375" width="328.33333333333326" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9ix-Gr-QyU"/>
@@ -119,14 +119,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtX-8v-a71">
-                                <rect key="frame" x="23" y="520" width="329" height="40"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="23" y="445" width="329" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="dQF-Kp-ee6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
                                 <state key="normal" title="Let's join the party">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" systemColor="systemRedColor"/>
                                 </state>
                                 <connections>
                                     <action selector="joinThePartyButtonTapped:" destination="bS9-tj-mLh" eventType="touchUpInside" id="KMZ-cB-FUe"/>
@@ -149,7 +149,7 @@
                             <constraint firstAttribute="bottom" secondItem="jKe-wI-2Ig" secondAttribute="bottom" id="ZAQ-YR-GG5"/>
                             <constraint firstItem="sjG-dm-KPM" firstAttribute="leading" secondItem="wtv-r9-1xy" secondAttribute="trailing" multiplier="20/320" id="jG3-vX-zbi"/>
                             <constraint firstItem="492-5q-Ugi" firstAttribute="trailing" secondItem="wtv-r9-1xy" secondAttribute="trailing" constant="-1" id="jwR-Wg-peN"/>
-                            <constraint firstItem="BaQ-7E-5f6" firstAttribute="top" secondItem="wtv-r9-1xy" secondAttribute="top" constant="200" id="upf-ul-rjW"/>
+                            <constraint firstItem="BaQ-7E-5f6" firstAttribute="top" secondItem="wtv-r9-1xy" secondAttribute="top" constant="125" id="upf-ul-rjW"/>
                             <constraint firstItem="rtX-8v-a71" firstAttribute="top" secondItem="sjG-dm-KPM" secondAttribute="bottom" constant="20" id="v71-0j-IAb"/>
                             <constraint firstItem="492-5q-Ugi" firstAttribute="bottom" secondItem="wtv-r9-1xy" secondAttribute="bottom" constant="10" id="xcu-ZH-Z3O"/>
                             <constraint firstItem="wtv-r9-1xy" firstAttribute="trailing" secondItem="sjG-dm-KPM" secondAttribute="trailing" multiplier="320/300" id="zKl-GV-2iB"/>
@@ -224,6 +224,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="lMu-AG-QGn"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Copy Code">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>

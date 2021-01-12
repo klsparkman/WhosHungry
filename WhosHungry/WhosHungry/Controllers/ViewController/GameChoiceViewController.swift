@@ -37,8 +37,8 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         self.pasteCodeTextField.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,19 +46,19 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
+//    @objc func keyboardWillShow(notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+//            if self.view.frame.origin.y == 0 {
+//                self.view.frame.origin.y -= keyboardSize.height
+//            }
+//        }
+//    }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
+//    @objc func keyboardWillHide(notification: NSNotification) {
+//        if self.view.frame.origin.y != 0 {
+//            self.view.frame.origin.y = 0
+//        }
+//    }
     
     //     Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
@@ -66,7 +66,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
-        
         pasteCodeTextField.isHidden = false
         if pasteCodeTextField != nil {
         }
@@ -135,14 +134,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     func gameHasAlreadyBegun() {
-        
-//        let attributedString = NSAttributedString(string: "Title", attributes: [
-//            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15),
-//            NSAttributedString.Key.foregroundColor : UIColor.red.cgColor
-//        ])
         let alert = UIAlertController(title: "You were too slow!", message: "So sorry, the game has already begun and is too late to join.", preferredStyle: .alert)
-        
-//        alert.setValue(attributedString, forKey: "attributedTitle")
         let okButton = UIAlertAction(title: "Guess I'm eating alone tonight", style: .cancel, handler: nil)
         alert.addAction(okButton)
         present(alert, animated: true, completion: nil)
