@@ -37,7 +37,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var likedRestaurants: [String] = []
     var gameUID: String?
     let db = Firestore.firestore()
-//    var likes: [String] = []
     var voteCount: Int?
 
     // Mark: - Lifecycle

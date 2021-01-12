@@ -236,10 +236,6 @@ class Firebase {
                 print("Winning restaurant has not been updated yet")
                 return
             }
-//            let winningRest = result as! String
-            
-            
-//            guard winningRest == "" else {return}
         })
     }
     

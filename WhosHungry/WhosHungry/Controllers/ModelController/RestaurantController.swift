@@ -55,8 +55,8 @@ class RestaurantController {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).businesses
 
                 let restaurants = restaurantContainers.compactMap({$0})
+//                let thing = Set(restaurants)
                 
-                // ****This is where my code is breaking when a user joins a game
                 guard !restaurants.isEmpty else {return completion(.failure(.noData))}
                 
                 let group = DispatchGroup()
@@ -72,8 +72,6 @@ class RestaurantController {
                             print("Couldn't get image for restaurant \(error)")
                         }
                         self.restaurants.append(restaurantCopy)
-//                        self.restaurantsWithImages.append(restaurantCopy)
-//                        self.restaurants.append(contentsOf: self.restaurantsWithImages)
                         group.leave()
                     }
                 }
