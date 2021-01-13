@@ -146,13 +146,13 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     @IBAction func generateCodeButtonPressed(_ sender: Any) {
-        let inviteCode = GameController.shared.randomAlphaNumericString(length: 10)
-        self.inviteCode = inviteCode
-        UIPasteboard.general.string = "Your Who's Hungry invite code is: \(inviteCode)"
-        inviteCodeCreatedPopup()
-        if citySearchTextField.text != "" {
             if radiusLabel.text != "" {
                 if self.mealType != nil  {
+                    if citySearchTextField.text != "" {
+                    inviteCodeCreatedPopup()
+                    let inviteCode = GameController.shared.randomAlphaNumericString(length: 10)
+                    self.inviteCode = inviteCode
+                    UIPasteboard.general.string = "Your Who's Hungry invite code is: \(inviteCode)"
                     createGameButton.isHidden = false
                 } else {
                     fillInAllFields()
@@ -239,15 +239,15 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     func fillInAllFields() {
-        let alert = UIAlertController(title: "HOLD UP!", message: "You forgot something? Check all fields to continue!", preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "Okie Dokie", style: .cancel, handler: nil)
+        let alert = UIAlertController(title: "HOLD UP!", message: "Make sure all fields are filled out to continue!", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Roger that", style: .cancel, handler: nil)
         alert.addAction(okButton)
         present(alert, animated: true, completion: nil)
     }
     
     func inviteCodeCreatedPopup() {
         guard let inviteCode = inviteCode else {return}
-        let alert = UIAlertController(title: "Success!", message: "Your invite code: \(inviteCode) has been saved on clipboard", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Success!", message: "Your invite code: \(inviteCode) has been saved to your clipboard", preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             alert.dismiss(animated: true, completion: nil)
