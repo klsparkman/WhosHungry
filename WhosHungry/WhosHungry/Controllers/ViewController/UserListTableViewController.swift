@@ -124,17 +124,6 @@ class UserListTableViewController: UITableViewController {
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
-//        let label = UILabel()
-//        label.frame = CGRect(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
-//        label.text = "Wait here for your friends to join"
-//        label.textColor = .black
-//        label.textAlignment = .center
-//        headerView.addSubview(label)
-//        return headerView
-//    }
-    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
