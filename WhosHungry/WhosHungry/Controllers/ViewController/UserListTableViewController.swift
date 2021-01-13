@@ -23,6 +23,7 @@ class UserListTableViewController: UITableViewController {
     // Mark: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.tableView.sectionHeaderHeight = 30
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Lets Begin", style: .plain, target: self, action: #selector(buttonTapped))
         
         if self.currentUser!.isGameCreator == true {
@@ -121,6 +122,34 @@ class UserListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath)
         cell.textLabel?.text = players[indexPath.row]
         return cell
+    }
+    
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
+//        let label = UILabel()
+//        label.frame = CGRect(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
+//        label.text = "Wait here for your friends to join"
+//        label.textColor = .black
+//        label.textAlignment = .center
+//        headerView.addSubview(label)
+//        return headerView
+//    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 50))
+        headerView.backgroundColor = UIColor.gray
+        let label = UILabel()
+        label.frame = CGRect.init(x: 5, y: 5, width: headerView.frame.width - 5, height: headerView.frame.height - 5)
+        label.text = "Wait for your friends here"
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        label.font = UIFont(name: "Chalkboard SE", size: 20)
+        headerView.addSubview(label)
+        return headerView
     }
     
     // Mark: - Actions

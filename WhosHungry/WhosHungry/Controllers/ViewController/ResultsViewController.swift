@@ -40,10 +40,11 @@ class ResultsViewController: UIViewController {
         }
         winningRestaurantYelpLabel.isHidden = true
         winningRestaurantYelpButton.isHidden = true
-        for restaurant in RestaurantController.shared.restaurants {
+        let restaurants = RestaurantController.shared.restaurants
+        for restaurant in restaurants {
             yelpURL?.append(restaurant.restaurantYelpLink)
         }
-        guard let game = Firebase.shared.currentGame else {return}
+        guard let game = self.currentGame else {return}
         Firebase.shared.fetchNumberOfUsersVotes(currentGame: game) { (result) in
             if self.playerCount! == result {
                 Firebase.shared.allVotesSubmitted()
@@ -109,18 +110,18 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
                     guard let user = self.currentUser else {return}
                     if user.isGameCreator == true {
                         let winner = agreedUponPlaces.randomElement()
                         self.winner = winner
                         Firebase.shared.winningRestaurantFound(winningRest: winner!)
                         self.displayWinner(winner: winner!)
-                        group.leave()
+                        
                     } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            Firebase.shared.listenForWinningRest { (result) in
+                                self.displayWinner(winner: result)
+                        }
                         }
                     }
                 } else {
