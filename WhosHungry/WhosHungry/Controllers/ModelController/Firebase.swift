@@ -201,22 +201,45 @@ class Firebase {
         }
     }
     
-    func listenForAllVotesSubmitted(completion: @escaping (Bool) -> Void) {
+    func listenForAllVotesSubmitted(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
-        allVotesSubmittedListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener({ (snapshot, error) in
-            guard let snapshot = snapshot else {
-                print("Error fetching document: \(error!)")
-                return
+        let votesDocument = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes)
+        allVotesSubmittedListener = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).addSnapshotListener({ (snapshot, error) in
+            switch (snapshot, error) {
+            case (.none, .none):
+                print("No data")
+            case (.none, .some(let error)):
+                print("There was an error: \(error.localizedDescription)")
+            case (.some(let snapshot), _):
+                print("Collection updated, now it contains \(snapshot.documents.count)")
+                if snapshot.documents.count == ResultsViewController.shared.playerCount {
+                    votesDocument.getDocuments { (snapshot, error) in
+                        if let error = error {
+                            print("There was an error getting submitted votes data: \(error.localizedDescription)")
+                        } else {
+                            for document in snapshot!.documents {
+                                let submittedVotes = document.data()[Constants.submittedVotes] as? [String] ?? []
+                                completion(submittedVotes)
+                            }
+                        }
+                    }
+                }
             }
-            guard let data = snapshot.data() else {
-                print("Document data was empty")
-                return
-            }
-            let result = data[Constants.allVotesSubmitted]
-            let votesAreSubmitted = result as! Bool
-            completion(votesAreSubmitted)
         })
     }
+//            guard let snapshot = snapshot else {
+//                print("Error fetching document: \(error!)")
+//                return
+//            }
+//            //What does the snapshot contain
+//            let data = snapshot.documents
+//            let submittedVoteCount = data.count
+//
+//            let votes = data as? [String] ?? []
+//            print(data)
+//            print(submittedVoteCount)
+//            //complete with the votes
+//            completion(votes)
     
     func listenForWinningRest(completion: @escaping (String) -> Void) {
         guard let game = currentGame else {return}

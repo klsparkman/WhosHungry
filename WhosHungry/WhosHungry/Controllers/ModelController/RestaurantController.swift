@@ -131,4 +131,8 @@ class RestaurantController {
             return ""
         }
     }
+    
+    func restaurant(withName name: String) -> Restaurant? {
+        restaurants.first(where: {$0.name == name})
+    }
 }

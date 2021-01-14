@@ -22,9 +22,10 @@ class ResultsViewController: UIViewController {
     let generator = UINotificationFeedbackGenerator()
     var likes: [String] = []
     var yelpURL: String?
-    let displayedRestaurants = RestaurantController.shared.restaurants
+    //    let displayedRestaurants = RestaurantController.shared.restaurants
     let currentUser = UserController.shared.currentUser
     var winner: String?
+    var currentVoteCount = 0
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -35,19 +36,18 @@ class ResultsViewController: UIViewController {
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        winningRestaurantYelpLabel.isHidden = true
+        winningRestaurantYelpButton.isHidden = true
         if self.playerCount == 1 {
             waitForFriendsLabel.isHidden = true
         }
-        winningRestaurantYelpLabel.isHidden = true
-        winningRestaurantYelpButton.isHidden = true
-        let restaurants = RestaurantController.shared.restaurants
-        for restaurant in restaurants {
-            yelpURL?.append(restaurant.restaurantYelpLink)
-        }
-        guard let game = self.currentGame else {return}
-        Firebase.shared.fetchNumberOfUsersVotes(currentGame: game) { (result) in
-            if self.playerCount! == result {
-                Firebase.shared.allVotesSubmitted()
+        guard let game = currentGame else {return}
+        Firebase.shared.fetchNumberOfUsersVotes(currentGame: game) { (voteCount) in
+            if self.playerCount! == voteCount {
+                self.showMatchResults()
+                // Firebase.shared.allVotesSubmitted()
+            } else {
+                self.currentVoteCount = voteCount
             }
         }
     }
@@ -55,14 +55,18 @@ class ResultsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Firebase.shared.listenForAllVotesSubmitted { (result) in
-            if result == true {
-                Firebase.shared.stopSubmittedVotesListener()
-                guard let game = Firebase.shared.currentGame else {return}
-                Firebase.shared.fetchAllSubmittedVotes(currentGame: game) { (result) in
-                    self.likes = result
-                    self.findMatches()
-                }
-            }
+        print(result)
+            self.likes = result
+            self.findMatches()
+//            self.currentVoteCount += 1
+//            if self.playerCount == self.currentVoteCount {
+            
+//                self.showMatchResults()
+//            }
+//            if result == true {
+//                self.likes = []
+//                self.showMatchResults()
+//            }
         }
     }
     
@@ -70,6 +74,14 @@ class ResultsViewController: UIViewController {
         if let url = URL(string: yelpURL!) {
             UIApplication.shared.canOpenURL(url)
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    private func showMatchResults() {
+        guard let game = self.currentGame else {return}
+        Firebase.shared.fetchAllSubmittedVotes(currentGame: game) { (result) in
+            self.likes = result
+            self.findMatches()
         }
     }
     
@@ -116,12 +128,11 @@ class ResultsViewController: UIViewController {
                         self.winner = winner
                         Firebase.shared.winningRestaurantFound(winningRest: winner!)
                         self.displayWinner(winner: winner!)
-                        
                     } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             Firebase.shared.listenForWinningRest { (result) in
                                 self.displayWinner(winner: result)
-                        }
+                            }
                         }
                     }
                 } else {
@@ -342,24 +353,21 @@ class ResultsViewController: UIViewController {
     }
     
     func displayWinner(winner: String) {
-        for restaurant in displayedRestaurants {
-            if winner == restaurant.name {
-                let confettiView = SAConfettiView(frame: self.view.bounds)
-                confettiView.type = .Confetti
-                view.addSubview(confettiView)
-                confettiView.startConfetti()
-                view.bringSubviewToFront(winningRestaurantYelpButton)
-                waitForFriendsLabel.isHidden = true
-                winningRestaurantYelpButton.isHidden = false
-                winningRestaurantYelpLabel.isHidden = false
-                restaurantRestultLabel.text = restaurant.name
-                yelpURL = restaurant.restaurantYelpLink
-                UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-                    self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-                }, completion: nil)
-                generator.notificationOccurred(.success)
-            }
-        }
+        guard let restaurant = RestaurantController.shared.restaurant(withName: winner) else {return}
+        let confettiView = SAConfettiView(frame: self.view.bounds)
+        confettiView.type = .Confetti
+        view.addSubview(confettiView)
+        confettiView.startConfetti()
+        view.bringSubviewToFront(winningRestaurantYelpButton)
+        waitForFriendsLabel.isHidden = true
+        winningRestaurantYelpButton.isHidden = false
+        winningRestaurantYelpLabel.isHidden = false
+        restaurantRestultLabel.text = restaurant.name
+        yelpURL = restaurant.restaurantYelpLink
+        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+            self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
+        }, completion: nil)
+        generator.notificationOccurred(.success)
     }
     
     func noMatchPopup() {
