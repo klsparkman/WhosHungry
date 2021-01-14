@@ -53,7 +53,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         restaurantImageView.layer.cornerRadius = 20
         restaurantImageView.clipsToBounds = true
         navigationController?.setNavigationBarHidden(true, animated: false)
-        RestaurantController.shared.restaurants = []
     }
     
     func fetchRestaurants() {
@@ -86,6 +85,17 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         yelpURL = restaurant.restaurantYelpLink
         let ratingString = RestaurantController.shared.setStarRating(rating: restaurant.rating ?? 0)
         ratingImageView.image = UIImage(named: ratingString)
+    }
+    
+    private func resetVoting() {
+        restaurantVote = []
+        displayedRestaurants = []
+        likedRestaurants = []
+        voteDictionary = [:]
+        resetCard()
+        currentCardIndex = 0
+        guard let firstRestaurant = RestaurantController.shared.restaurants.first else {return}
+        self.populateCard(with: firstRestaurant)
     }
     
     @IBAction func yelpButtonTapped(_ sender: Any) {
@@ -217,12 +227,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     private func noRestaurantVote() {
         let alert = UIAlertController(title: "Don't be so picky...", message: "You must swipe right on at least one restaurant", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
-            var viewcontrollers = self.navigationController!.viewControllers
-            viewcontrollers.removeLast()
-            viewcontrollers.append(vc)
-            self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+            self.resetVoting()
         }))
         self.present(alert, animated: true, completion: nil)
     }
