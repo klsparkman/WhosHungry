@@ -132,34 +132,6 @@ class Firebase {
         }
     }
     
-//    func fetchAllSubmittedVotes(currentGame: Game, completion: @escaping ([String]) -> Void) {
-//        var finalVotes: [String] = []
-//        db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).getDocuments { (snapshot, error) in
-//            if let error = error {
-//                print("Error fetching all submitted votes: \(error)")
-//            } else {
-//                for document in snapshot!.documents {
-//                    let submittedVotes = document.data()[Constants.submittedVotes] as? [String] ?? []
-//                    finalVotes.append(contentsOf: submittedVotes)
-//                }
-//                completion(finalVotes)
-//            }
-//        }
-//    }
-    
-//    func fetchNumberOfUsersVotes(currentGame: Game, completion: @escaping (Int) -> Void) {
-//        db.collection(Constants.gameContainer).document(currentGame.uid).collection(Constants.usersVotes).getDocuments { (snapshot, error) in
-//            if let error = error {
-//                print("Error fetching submittedVotes documents: \(error)")
-//            } else {
-//                if let snapshot = snapshot?.documents.count {
-//                    print("Snapshot count: \(snapshot)")
-//                    completion(snapshot)
-//                }
-//            }
-//        }
-//    }
-    
     // Mark: - Listeners
     func listenForUsers(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
