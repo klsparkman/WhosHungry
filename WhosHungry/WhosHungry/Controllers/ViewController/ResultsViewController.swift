@@ -41,32 +41,9 @@ class ResultsViewController: UIViewController {
         if self.playerCount == 1 {
             waitForFriendsLabel.isHidden = true
         }
-        guard let game = currentGame else {return}
-        Firebase.shared.fetchNumberOfUsersVotes(currentGame: game) { (voteCount) in
-            if self.playerCount! == voteCount {
-                self.showMatchResults()
-                // Firebase.shared.allVotesSubmitted()
-            } else {
-                self.currentVoteCount = voteCount
-            }
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         Firebase.shared.listenForAllVotesSubmitted { (result) in
-        print(result)
             self.likes = result
             self.findMatches()
-//            self.currentVoteCount += 1
-//            if self.playerCount == self.currentVoteCount {
-            
-//                self.showMatchResults()
-//            }
-//            if result == true {
-//                self.likes = []
-//                self.showMatchResults()
-//            }
         }
     }
     
@@ -74,14 +51,6 @@ class ResultsViewController: UIViewController {
         if let url = URL(string: yelpURL!) {
             UIApplication.shared.canOpenURL(url)
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    private func showMatchResults() {
-        guard let game = self.currentGame else {return}
-        Firebase.shared.fetchAllSubmittedVotes(currentGame: game) { (result) in
-            self.likes = result
-            self.findMatches()
         }
     }
     
@@ -122,17 +91,18 @@ class ResultsViewController: UIViewController {
                     }
                 }
                 if agreedUponPlaces != [] {
+                    let group = DispatchGroup()
+                    group.enter()
                     guard let user = self.currentUser else {return}
                     if user.isGameCreator == true {
                         let winner = agreedUponPlaces.randomElement()
                         self.winner = winner
                         Firebase.shared.winningRestaurantFound(winningRest: winner!)
                         self.displayWinner(winner: winner!)
+                        group.leave()
                     } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            Firebase.shared.listenForWinningRest { (result) in
-                                self.displayWinner(winner: result)
-                            }
+                        Firebase.shared.listenForWinningRest { (result) in
+                            self.displayWinner(winner: result)
                         }
                     }
                 } else {

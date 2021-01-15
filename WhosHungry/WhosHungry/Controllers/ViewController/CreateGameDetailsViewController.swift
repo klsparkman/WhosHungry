@@ -44,11 +44,11 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         StyleConstants.setLabelWhiteBorderStyle(label: radiusLabel)
         StyleConstants.setLabelWhiteBorderStyle(label: distanceLabel)
         StyleConstants.setRadiusSliderStyle(slider: radiusSlider)
-        StyleConstants.setButtonWhiteBorderStyle(button: generateCodeButton)
         StyleConstants.setButtonStyle(button: breakfastButton)
         StyleConstants.setButtonStyle(button: lunchButton)
         StyleConstants.setButtonStyle(button: dinnerButton)
         StyleConstants.setButtonStyle(button: dessertButton)
+        StyleConstants.setButtonStyle(button: generateCodeButton)
         placesTableView.isHidden = true
         createGameButton.isHidden = true
         citySearchTextField.delegate = self
@@ -149,11 +149,10 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             if radiusLabel.text != "" {
                 if self.mealType != nil  {
                     if citySearchTextField.text != "" {
-                    inviteCodeCreatedPopup()
-                    let inviteCode = GameController.shared.randomAlphaNumericString(length: 10)
+                        let inviteCode = GameController.shared.randomAlphaNumericString(length: 10)
+                    inviteCodeCreatedPopup(inviteCode: inviteCode)
                     self.inviteCode = inviteCode
                     UIPasteboard.general.string = "Your Who's Hungry invite code is: \(inviteCode)"
-                    createGameButton.isHidden = false
                 } else {
                     fillInAllFields()
                 }
@@ -245,12 +244,13 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         present(alert, animated: true, completion: nil)
     }
     
-    func inviteCodeCreatedPopup() {
-        guard let inviteCode = inviteCode else {return}
+    func inviteCodeCreatedPopup(inviteCode : String) {
+//        guard let inviteCode = inviteCode else {return}
         let alert = UIAlertController(title: "Success!", message: "Your invite code: \(inviteCode) has been saved to your clipboard", preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             alert.dismiss(animated: true, completion: nil)
+            self.createGameButton.isHidden = false
         }
     }
 }//End of class
