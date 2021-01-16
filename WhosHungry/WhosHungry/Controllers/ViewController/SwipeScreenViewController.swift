@@ -118,7 +118,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                     case .success(let userVote):
                         guard let game = Firebase.shared.currentGame else {return}
                         guard let user = UserController.shared.currentUser else {return}
-                        self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user)").updateData([Constants.submittedVotes : userVote])
+                        self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").updateData([Constants.submittedVotes : userVote])
                     case .failure(let error):
                         print("Error updating user vote collection: \(error)")
                     }

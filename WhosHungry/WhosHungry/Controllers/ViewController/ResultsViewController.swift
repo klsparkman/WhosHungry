@@ -22,10 +22,10 @@ class ResultsViewController: UIViewController {
     let generator = UINotificationFeedbackGenerator()
     var likes: [String] = []
     var yelpURL: String?
-    //    let displayedRestaurants = RestaurantController.shared.restaurants
     let currentUser = UserController.shared.currentUser
     var winner: String?
     var currentVoteCount = 0
+    let group = DispatchGroup()
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -41,9 +41,23 @@ class ResultsViewController: UIViewController {
         if self.playerCount == 1 {
             waitForFriendsLabel.isHidden = true
         }
-        Firebase.shared.listenForAllVotesSubmitted { (result) in
-            self.likes = result
-            self.findMatches()
+        if currentUser?.isGameCreator == false {
+            Firebase.shared.listenForWinningRest { (result) in
+                self.displayWinner(winner: result)
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let user = currentUser else {return}
+        if user.isGameCreator {
+            Firebase.shared.listenForAllVotesSubmitted { (result) in
+                //Both users are hit this point at the same time
+                //LABLE.TEXT = RESULT.COUNT
+                self.likes = result
+                self.findMatches()
+            }
         }
     }
     
@@ -84,238 +98,122 @@ class ResultsViewController: UIViewController {
                 }
             }
         case 2:
-            if playerCount == 2 {
-                for (key, value) in restaurantVotes {
-                    if value >= 2 {
-                        agreedUponPlaces.append(key)
-                    }
+            for (key, value) in restaurantVotes {
+                if value >= 2 {
+                    agreedUponPlaces.append(key)
                 }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
-                }
+            }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
             }
         case 3:
-            if playerCount == 3 {
-                for (key, value) in restaurantVotes {
-                    if value >= 2 {
-                        agreedUponPlaces.append(key)
-                    }
-                }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
+            for (key, value) in restaurantVotes {
+                if value >= 2 {
+                    agreedUponPlaces.append(key)
                 }
             }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
+            }
+            
         case 4:
-            if playerCount == 4 {
-                for (key, value) in restaurantVotes {
-                    if value >= 2 {
-                        agreedUponPlaces.append(key)
-                    }
+            for (key, value) in restaurantVotes {
+                if value >= 2 {
+                    agreedUponPlaces.append(key)
                 }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
-                }
+            }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
             }
         case 5:
-            if playerCount == 5 {
-                for (key, value) in restaurantVotes {
-                    if value >= 3 {
-                        agreedUponPlaces.append(key)
-                    }
+            for (key, value) in restaurantVotes {
+                if value >= 3 {
+                    agreedUponPlaces.append(key)
                 }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
-                }
+            }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
             }
         case 6:
-            if playerCount == 6 {
-                for (key, value) in restaurantVotes {
-                    if value >= 3 {
-                        agreedUponPlaces.append(key)
-                    }
+            for (key, value) in restaurantVotes {
+                if value >= 3 {
+                    agreedUponPlaces.append(key)
                 }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
-                }
+            }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
             }
         case 7:
-            if playerCount == 7 {
-                for (key, value) in restaurantVotes {
-                    if value >= 4 {
-                        agreedUponPlaces.append(key)
-                    }
+            for (key, value) in restaurantVotes {
+                if value >= 4 {
+                    agreedUponPlaces.append(key)
                 }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
-                }
+            }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
             }
         case 8:
-            if playerCount == 8 {
-                for (key, value) in restaurantVotes {
-                    if value >= 4 {
-                        agreedUponPlaces.append(key)
-                    }
+            for (key, value) in restaurantVotes {
+                if value >= 4 {
+                    agreedUponPlaces.append(key)
                 }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
-                }
+            }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
             }
         case 9:
-            if playerCount == 9 {
-                for (key, value) in restaurantVotes {
-                    if value >= 5 {
-                        agreedUponPlaces.append(key)
-                    }
-                }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
+            for (key, value) in restaurantVotes {
+                if value >= 5 {
+                    agreedUponPlaces.append(key)
                 }
             }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
+            }
         case 10:
-            if playerCount == 10 {
-                for (key, value) in restaurantVotes {
-                    if value >= 5 {
-                        agreedUponPlaces.append(key)
-                    }
+            for (key, value) in restaurantVotes {
+                if value >= 5 {
+                    agreedUponPlaces.append(key)
                 }
-                if agreedUponPlaces != [] {
-                    let group = DispatchGroup()
-                    group.enter()
-                    guard let user = self.currentUser else {return}
-                    if user.isGameCreator == true {
-                        let winner = agreedUponPlaces.randomElement()
-                        self.winner = winner
-                        Firebase.shared.winningRestaurantFound(winningRest: winner!)
-                        self.displayWinner(winner: winner!)
-                        group.leave()
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            self.displayWinner(winner: result)
-                        }
-                    }
-                } else {
-                    self.noMatchPopup()
-                }
+            }
+            if agreedUponPlaces != [] {
+                guard let winner = agreedUponPlaces.randomElement() else {return}
+                Firebase.shared.winningRestaurantFound(winningRest: winner)
+                self.displayWinner(winner: winner)
+            } else {
+                self.noMatchPopup()
             }
         default:
             print("How did this happen? Only 10 players were allowed in the game!")
