@@ -52,3 +52,9 @@ extension User {
         self.init(firstName: firstName, lastName: lastName, email: email, uid: uid)
     }
 }
+
+extension User: Equatable {
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.isGameCreator == rhs.isGameCreator
+    }
+}

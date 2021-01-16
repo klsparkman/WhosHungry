@@ -206,7 +206,9 @@ class Firebase {
                 return
             }
             let result = data[Constants.winningRestaurant] as! String
+            print("Winning restaurant is: \(result) KS")
             if result != "" {
+                
                 completion(result)
             } else {
                 print("Winning restaurant has not been updated yet")

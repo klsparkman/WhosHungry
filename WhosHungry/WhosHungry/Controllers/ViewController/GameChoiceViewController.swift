@@ -37,28 +37,12 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         self.pasteCodeTextField.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
-    
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.view.frame.origin.y == 0 {
-//                self.view.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-//    }
-    
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        if self.view.frame.origin.y != 0 {
-//            self.view.frame.origin.y = 0
-//        }
-//    }
     
     //     Mark: - Actions
     @IBAction func createGameButtonTapped(_ sender: Any) {
@@ -72,6 +56,8 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinThePartyButtonTapped(_ sender: Any) {
+        guard let inviteCode = self.trimmedInviteCode else {return}
+        Firebase.shared.updateUserList(inviteCode: inviteCode)
     }
 
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
@@ -91,7 +77,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
                     case .success(true):
                         self.gameHasAlreadyBegun()
                     case .success(false):
-                        Firebase.shared.updateUserList(inviteCode: inviteCode)
                         self.joinThePartyButton.isHidden = false
                     case .failure(let error):
                         print("Error reading data in Firestore: \(error.localizedDescription)")
@@ -105,7 +90,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     func fixInviteCode(){
         let inviteCode = pasteCodeTextField.text!
         if pasteCodeTextField.text!.count > 10 {
-            let trimmedInviteCode = inviteCode.replacingOccurrences(of: "Your Who's Hungry invite code is:", with: "")
+            let trimmedInviteCode = inviteCode.replacingOccurrences(of: "Your Who's Hungry invite code is: ", with: "")
             self.trimmedInviteCode = trimmedInviteCode
         } else {
             self.trimmedInviteCode = inviteCode
