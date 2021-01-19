@@ -17,19 +17,12 @@ class ResultsViewController: UIViewController {
     
     // Mark: - Properties
     static let shared = ResultsViewController()
-    var likedRestDict: [String : Int] = [:]
-    var result: Int?
     var playerCount = Firebase.shared.playerCount
-    var voteCount = Firebase.shared.voteCount
-    let currentGame = Firebase.shared.currentGame
     var restaurantVotes: [String : Int] = [:]
     let generator = UINotificationFeedbackGenerator()
     var likes: [String] = []
     var yelpURL: String?
     let currentUser = UserController.shared.currentUser
-    var winner: String?
-    var currentVoteCount = 0
-    let group = DispatchGroup()
     weak var delegate: ResultsViewControllerDelegate?
     
     // Mark: - Outlets
@@ -87,7 +80,6 @@ class ResultsViewController: UIViewController {
                 restaurantVotes[personsVote] = 1
             }
         }
-        print("VOTE DICTIONARY: \(restaurantVotes)")
         findHighestVotes()
     }
     
@@ -98,22 +90,20 @@ class ResultsViewController: UIViewController {
             Firebase.shared.winningRestaurantFound(winningRest: winner)
             displayWinner(winner: winner)
         case 2:
-            let unanymousWinner = restaurantVotes.filter { $1 == playerCount }
-            if !unanymousWinner.isEmpty {
-                let winner = unanymousWinner.keys.randomElement()!
+            let unanimousWinner = restaurantVotes.filter { $1 == playerCount }
+            if !unanimousWinner.isEmpty {
+                let winner = unanimousWinner.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
                 displayWinner(winner: winner)
-                print("WINNER: \(winner)")
             } else {
                 Firebase.shared.startRevote()
                 noMatchPopup()
             }
-            
         case 3, 4, 5, 6, 7, 8, 9, 10:
-            let unanymousVote = restaurantVotes.filter { $1 == playerCount }
+            let unanimousVote = restaurantVotes.filter { $1 == playerCount }
             let majorityVote = restaurantVotes.filter { $1 >= playerCount!/2 + 1 }
-            if !unanymousVote.isEmpty {
-                let winner = unanymousVote.keys.randomElement()!
+            if !unanimousVote.isEmpty {
+                let winner = unanimousVote.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
                 displayWinner(winner: winner)
             } else if !majorityVote.isEmpty {
