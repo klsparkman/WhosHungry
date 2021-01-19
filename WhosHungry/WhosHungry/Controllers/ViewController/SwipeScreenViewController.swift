@@ -56,6 +56,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         RestaurantController.shared.restaurants = []
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        ResultsViewController.shared.delegate = self
+    }
+    
     func fetchRestaurants() {
         guard let game = Firebase.shared.currentGame else {return}
         let city = game.city
@@ -235,5 +240,13 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension SwipeScreenViewController: ResultsViewControllerDelegate {
+    func isRevoteHappening(_ sender: Bool) {
+        if sender == true {
+            resetVoting()
+        }
     }
 }

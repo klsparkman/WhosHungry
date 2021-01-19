@@ -208,7 +208,7 @@ class Firebase {
                 return
             }
             let result = data[Constants.winningRestaurant] as! String
-            print("Winning restaurant is: \(result) KS")
+//            print("Winning restaurant is: \(result) KS")
             if result != "" {
                 
                 completion(result)
@@ -219,19 +219,20 @@ class Firebase {
         })
     }
     
-    func listenForRevote(completion: @escaping () -> Void) {
+    func listenForRevote(completion: @escaping (Int) -> Void) {
         guard let game = currentGame else {return}
         revoteListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener({ (snapshot, error) in
             guard let document = snapshot else {
                 print("Error fetching document: \(error!)")
                 return
             }
-            guard document.data() != nil else {
+            guard let data = document.data() else {
                 print("Document data was empty")
                 return
             }
-//            let result = data[Constants.numberOfRevotes]
-            completion()
+            
+            let result = data[Constants.numberOfRevotes] as! Int
+            completion(result)
         })
     }
     
@@ -257,6 +258,12 @@ class Firebase {
         guard let listener = allVotesSubmittedListener else {return}
         listener.remove()
         print("Stopped submitted votes listener")
+    }
+    
+    func stopRevoteListener() {
+        guard let listener = revoteListener else {return}
+        listener.remove()
+        print("Stopped revote listener")
     }
     
     func checkGameStatus(completion: @escaping (Result<Bool, Error>) -> Void) {
@@ -308,40 +315,21 @@ class Firebase {
         }
     }
     
-    func areAllVotesSubmitted() {
-        guard let game = currentGame else {return}
-        db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
-            if let error = error {
-                print("There was an error fetching the current document data: \(error.localizedDescription)")
-            } else {
-                let gameDoc = self.db.collection(Constants.gameContainer).document(game.uid)
-                guard let snapshot = documentSnapshot?.data() else {return}
-                let voteBool = snapshot[Constants.allVotesSubmitted] as! Bool
-                if voteBool == false {
-                    gameDoc.updateData([Constants.allVotesSubmitted : true])
-                } else {
-                    gameDoc.updateData([Constants.allVotesSubmitted : false])
-                }
-            }
-        }
-    }
-    
     func startRevote() {
         guard let game = currentGame else {return}
-        var revoteCount: Int?
         db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
             if let error = error {
                 print("There was an error fetching the current document data: \(error.localizedDescription)")
             } else {
                 let gameRevoteNumber = self.db.collection(Constants.gameContainer).document(game.uid)
                 guard let snapshot = documentSnapshot?.data() else {return}
-                let voteCount = snapshot[Constants.numberOfRevotes] as! Int
-                if voteCount != 0 {
-                    revoteCount! += 1
+                var voteCount = snapshot[Constants.numberOfRevotes] as! Int
+                if voteCount == 0 {
+                    voteCount = 1
                 } else {
-                    revoteCount = 1
+                    voteCount += 1
                 }
-                gameRevoteNumber.updateData([Constants.numberOfRevotes : revoteCount!])
+                gameRevoteNumber.updateData([Constants.numberOfRevotes : voteCount])
             }
         }
     }
