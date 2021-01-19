@@ -174,8 +174,9 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         let gameHasBegun = false
         let allVotesSubmitted = false
         let winningRestaurant = ""
+        let numberOfRevotes = 0
         let user = "\(currentUser.firstName + " " + currentUser.lastName): Game Creator"
-        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], gameHasBegun: gameHasBegun, allVotesSubmitted: allVotesSubmitted, winningRestaurant: winningRestaurant)
+        let game = Game(inviteCode: inviteCode, city: city, radius: radius, mealType: mealType, users: [user], gameHasBegun: gameHasBegun, allVotesSubmitted: allVotesSubmitted, winningRestaurant: winningRestaurant, numberOfRevotes: numberOfRevotes)
         Firebase.shared.createGame(game: game) { (result) in
             // MORE TO DO HERE!!!
             switch result {
@@ -245,7 +246,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     func inviteCodeCreatedPopup(inviteCode : String) {
-//        guard let inviteCode = inviteCode else {return}
         let alert = UIAlertController(title: "Success!", message: "Your invite code: \(inviteCode) has been saved to your clipboard", preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {

@@ -98,8 +98,9 @@ class ResultsViewController: UIViewController {
                 }
             }
         case 2:
+
             for (key, value) in restaurantVotes {
-                if value >= 2 {
+                if value == 2 {
                     agreedUponPlaces.append(key)
                 }
             }
@@ -111,18 +112,23 @@ class ResultsViewController: UIViewController {
                 self.noMatchPopup()
             }
         case 3:
-            for (key, value) in restaurantVotes {
-                if value >= 2 {
-                    agreedUponPlaces.append(key)
-                }
-            }
-            if agreedUponPlaces != [] {
-                guard let winner = agreedUponPlaces.randomElement() else {return}
-                Firebase.shared.winningRestaurantFound(winningRest: winner)
-                self.displayWinner(winner: winner)
-            } else {
-                self.noMatchPopup()
-            }
+            let unanymous = restaurantVotes.filter { $0.value == playerCount }
+            guard let randomUnanamyous = unanymous.keys.randomElement() else {return}
+            print(randomUnanamyous)
+            
+            
+//            for (key, value) in restaurantVotes {
+//                if value >= 2 {
+//                    agreedUponPlaces.append(key)
+//                }
+//            }
+//            if agreedUponPlaces != [] {
+//                guard let winner = agreedUponPlaces.randomElement() else {return}
+//                Firebase.shared.winningRestaurantFound(winningRest: winner)
+//                self.displayWinner(winner: winner)
+//            } else {
+//                self.noMatchPopup()
+//            }
             
         case 4:
             for (key, value) in restaurantVotes {
@@ -248,7 +254,7 @@ class ResultsViewController: UIViewController {
             viewcontrollers.append(vc)
             self.navigationController?.setViewControllers(viewcontrollers, animated: true)
             self.likes = []
-            Firebase.shared.allVotesSubmitted()
+            Firebase.shared.areAllVotesSubmitted()
         }))
         self.present(alert, animated: true, completion: nil)
     }
