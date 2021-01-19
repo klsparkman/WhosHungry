@@ -32,4 +32,5 @@ struct Constants {
     static let displayedRestaurantDefaults = "likedRestaurants"
     static let allVotesSubmitted = "allVotesSubmitted"
     static let winningRestaurant = "winningRestaurant"
+    static let numberOfRevotes = "numberOfRevotes"
 }

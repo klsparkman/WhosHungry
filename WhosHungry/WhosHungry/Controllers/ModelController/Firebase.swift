@@ -23,6 +23,7 @@ class Firebase {
     private var gameStartListener: ListenerRegistration?
     private var allVotesSubmittedListener: ListenerRegistration?
     private var winningRestListener: ListenerRegistration?
+    private var revoteListener: ListenerRegistration?
     var votes: [String]?
     var playerCount: Int?
     var voteCount: Int?
@@ -37,7 +38,8 @@ class Firebase {
                                               Constants.users : game.users,
                                               Constants.gameHasBegun : game.gameHasBegun,
                                               Constants.allVotesSubmitted : game.allVotesSubmitted,
-                                              Constants.winningRestaurant : game.winningRestaurant
+                                              Constants.winningRestaurant : game.winningRestaurant,
+                                              Constants.numberOfRevotes : game.numberOfRevotes
         ]
         
         db.collection(Constants.gameContainer).document(game.uid).setData(gameDictionary) { (error) in
@@ -217,6 +219,22 @@ class Firebase {
         })
     }
     
+    func listenForRevote(completion: @escaping () -> Void) {
+        guard let game = currentGame else {return}
+        revoteListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener({ (snapshot, error) in
+            guard let document = snapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+            guard document.data() != nil else {
+                print("Document data was empty")
+                return
+            }
+//            let result = data[Constants.numberOfRevotes]
+            completion()
+        })
+    }
+    
     func stopLikeListener() {
         guard let listener = likeListener else {return}
         listener.remove()
@@ -290,7 +308,7 @@ class Firebase {
         }
     }
     
-    func allVotesSubmitted() {
+    func areAllVotesSubmitted() {
         guard let game = currentGame else {return}
         db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
             if let error = error {
@@ -304,6 +322,26 @@ class Firebase {
                 } else {
                     gameDoc.updateData([Constants.allVotesSubmitted : false])
                 }
+            }
+        }
+    }
+    
+    func startRevote() {
+        guard let game = currentGame else {return}
+        var revoteCount: Int?
+        db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("There was an error fetching the current document data: \(error.localizedDescription)")
+            } else {
+                let gameRevoteNumber = self.db.collection(Constants.gameContainer).document(game.uid)
+                guard let snapshot = documentSnapshot?.data() else {return}
+                let voteCount = snapshot[Constants.numberOfRevotes] as! Int
+                if voteCount != 0 {
+                    revoteCount! += 1
+                } else {
+                    revoteCount = 1
+                }
+                gameRevoteNumber.updateData([Constants.numberOfRevotes : revoteCount!])
             }
         }
     }

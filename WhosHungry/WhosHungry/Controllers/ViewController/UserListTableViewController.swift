@@ -23,8 +23,7 @@ class UserListTableViewController: UITableViewController {
     // Mark: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.tableView.sectionHeaderHeight = 30
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Lets Begin", style: .plain, target: self, action: #selector(buttonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Lets Begin", style: .plain, target: self, action: #selector(letsBeginButtonTapped))
         
         if self.currentUser!.isGameCreator == true {
             self.navigationItem.rightBarButtonItem?.isEnabled = true
@@ -58,7 +57,7 @@ class UserListTableViewController: UITableViewController {
         listenForGameStart()
     }
     
-    @objc func buttonTapped() {
+    @objc func letsBeginButtonTapped() {
         Firebase.shared.stopUserListener()
         if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "swipeScreenVC") as? SwipeScreenViewController {
             if let navigator = navigationController {
