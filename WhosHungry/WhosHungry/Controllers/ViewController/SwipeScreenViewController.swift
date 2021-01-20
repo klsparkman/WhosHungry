@@ -54,10 +54,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         restaurantImageView.clipsToBounds = true
         navigationController?.setNavigationBarHidden(true, animated: false)
         RestaurantController.shared.restaurants = []
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         ResultsViewController.shared.delegate = self
     }
     
@@ -241,12 +237,14 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
+    
+    
 }
 
 extension SwipeScreenViewController: ResultsViewControllerDelegate {
     func isRevoteHappening(_ sender: Bool) {
         if sender == true {
-            resetVoting()
+            self.resetVoting()
         }
     }
 }
