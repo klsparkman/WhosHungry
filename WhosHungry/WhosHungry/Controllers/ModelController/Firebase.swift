@@ -26,7 +26,8 @@ class Firebase {
     private var revoteListener: ListenerRegistration?
     var votes: [String]?
     var playerCount: Int?
-    var voteCount: Int?
+    var revoteCount: Int?
+//    var voteCount: Int?
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
@@ -208,9 +209,7 @@ class Firebase {
                 return
             }
             let result = data[Constants.winningRestaurant] as! String
-//            print("Winning restaurant is: \(result) KS")
             if result != "" {
-                
                 completion(result)
             } else {
                 print("Winning restaurant has not been updated yet")
@@ -233,6 +232,11 @@ class Firebase {
             
             let result = data[Constants.numberOfRevotes] as! Int
             completion(result)
+            if self.revoteCount != nil {
+                self.revoteCount! += 1
+            } else {
+                self.revoteCount = 1
+            }
         })
     }
     

@@ -24,6 +24,7 @@ class ResultsViewController: UIViewController {
     var yelpURL: String?
     let currentUser = UserController.shared.currentUser
     weak var delegate: ResultsViewControllerDelegate?
+    var revoteCount: Int?
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -42,12 +43,13 @@ class ResultsViewController: UIViewController {
         }
         if currentUser?.isGameCreator == false {
             Firebase.shared.listenForWinningRest { (result) in
-                Firebase.shared.stopRevoteListener()
                 self.displayWinner(winner: result)
+                Firebase.shared.stopRevoteListener()
             }
-            Firebase.shared.listenForRevote { (revoteCount) in
-                if revoteCount != 0 {
+            Firebase.shared.listenForRevote { (result) in
+                if result == 1 {
                     self.noMatchPopup()
+                    
                 }
             }
         }
@@ -84,13 +86,14 @@ class ResultsViewController: UIViewController {
     }
     
     func findHighestVotes() {
+//        var finalWinner: String?
         switch playerCount {
         case 1:
             let winner = restaurantVotes.keys.randomElement()!
             Firebase.shared.winningRestaurantFound(winningRest: winner)
             displayWinner(winner: winner)
         case 2:
-            let unanimousWinner = restaurantVotes.filter { $1 == playerCount }
+            let unanimousWinner = restaurantVotes.filter { $0.value == playerCount }
             if !unanimousWinner.isEmpty {
                 let winner = unanimousWinner.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
@@ -141,16 +144,15 @@ class ResultsViewController: UIViewController {
         let alert = UIAlertController(title: "WHOOPSIE", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
             self.likes = []
-            self.delegate?.isRevoteHappening(true)
-            if let navController = self.navigationController {
-                navController.popViewController(animated: true)
-            }
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
-//            var viewcontrollers = self.navigationController!.viewControllers
-//            viewcontrollers.removeLast()
-//            viewcontrollers.append(vc)
-//            self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+//            if let navController = self.navigationController {
+//                navController.popViewController(animated: true)
+//            }
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
+            var viewcontrollers = self.navigationController!.viewControllers
+            viewcontrollers.removeLast()
+            viewcontrollers.append(vc)
+            self.navigationController?.setViewControllers(viewcontrollers, animated: true)
         }))
         self.present(alert, animated: true, completion: nil)
     }
