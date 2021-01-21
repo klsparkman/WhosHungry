@@ -50,7 +50,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         StyleConstants.setButtonStyle(button: dessertButton)
         StyleConstants.setButtonStyle(button: generateCodeButton)
         placesTableView.isHidden = true
-        createGameButton.isHidden = true
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
         placesTableView.delegate = self
@@ -61,6 +60,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        createGameButton.isHidden = true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

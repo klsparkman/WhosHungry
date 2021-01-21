@@ -24,6 +24,7 @@ class Firebase {
     private var allVotesSubmittedListener: ListenerRegistration?
     private var winningRestListener: ListenerRegistration?
     private var revoteListener: ListenerRegistration?
+    private var allUsersOnResultsPageListener: ListenerRegistration?
     var votes: [String]?
     var playerCount: Int?
     
@@ -94,8 +95,6 @@ class Firebase {
             if let error = error {
                 print("Error fetching the document data: \(error.localizedDescription)")
             } else {
-//                guard let snapshot = documentSnapshot?.data() else {return}
-//                let resultPageStatus = snapshot[Constants.onResultsPage] as! Bool
                 if bool == true {
                     usersVotePath.updateData([Constants.onResultsPage : true])
                 } else {
@@ -216,6 +215,26 @@ class Firebase {
         })
     }
     
+    func listenForAllUsersOnResultsPage(completion: @escaping (Bool) -> Void) {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).addSnapshotListener { (snapshot, error) in
+            switch (snapshot, error) {
+            case (.none, .none):
+                print("No data")
+            case (.none, .some(let error)):
+                print("There was an error: \(error.localizedDescription)")
+            case (.some(let snapshot), _):
+                for documents in snapshot.documents {
+                    let statusData = documents.data()[Constants.onResultsPage] as? Bool ?? false
+                    if statusData == false {
+                        completion(false)
+                    }
+                }
+                completion(true)
+            }
+        }
+    }
+    
     func listenForWinningRest(completion: @escaping (String) -> Void) {
         guard let game = currentGame else {return}
         winningRestListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener({ (snapshot, error) in
@@ -281,6 +300,12 @@ class Firebase {
         guard let listener = revoteListener else {return}
         listener.remove()
         print("Stopped revote listener")
+    }
+    
+    func stopAllUsersOnResultsPageListener() {
+        guard let listener = allUsersOnResultsPageListener else {return}
+        listener.remove()
+        print("Stopped listener for all users on results page")
     }
     
     func checkGameStatus(completion: @escaping (Result<Bool, Error>) -> Void) {
@@ -363,6 +388,18 @@ class Firebase {
                 if winner == "" {
                     gameDoc.updateData([Constants.winningRestaurant : winningRest])
                 }
+            }
+        }
+    }
+    
+    func removeGame(completion: @escaping () -> Void) {
+        guard let game = currentGame else {return}
+        db.collection(Constants.gameContainer).document(game.uid).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+                completion()
             }
         }
     }

@@ -59,9 +59,15 @@ class ResultsViewController: UIViewController {
         super.viewDidAppear(animated)
         guard let user = currentUser else {return}
         if user.isGameCreator {
-            Firebase.shared.listenForSubmittedVotes { (result) in
-                self.likes = result
-                self.findMatches()
+            Firebase.shared.listenForAllUsersOnResultsPage { (result) in
+                if result == true {
+                    Firebase.shared.listenForSubmittedVotes { (result) in
+                        self.likes = result
+                        self.findMatches()
+                    }
+                } else {
+                    return
+                }
             }
         }
     }
@@ -100,6 +106,7 @@ class ResultsViewController: UIViewController {
                 }
             } else {
                 Firebase.shared.startRevote()
+                Firebase.shared.userOnResultPage(bool: false)
                 noMatchPopup()
             }
         case 3, 4, 5, 6, 7, 8, 9, 10:
