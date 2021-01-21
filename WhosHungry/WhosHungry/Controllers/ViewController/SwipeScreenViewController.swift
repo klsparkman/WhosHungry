@@ -42,7 +42,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        Firebase.shared.userOnResultPage(bool: false)
         divisor = (view.frame.width / 2) / 0.61
         fetchRestaurants()
         card.layer.borderWidth = 1

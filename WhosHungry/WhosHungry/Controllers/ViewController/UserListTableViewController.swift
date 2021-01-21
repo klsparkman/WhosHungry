@@ -143,5 +143,8 @@ class UserListTableViewController: UITableViewController {
     // Mark: - Actions
     @IBAction func backButtonPressed(_ sender: Any) {
         navigationController?.popViewController(animated: true)
+        Firebase.shared.removeGame {
+            print("Game Removed!")
+        }
     }
 }//End of Class
