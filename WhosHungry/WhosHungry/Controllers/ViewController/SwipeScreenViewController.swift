@@ -42,6 +42,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        Firebase.shared.userOnResultPage(bool: false)
         divisor = (view.frame.width / 2) / 0.61
         fetchRestaurants()
         card.layer.borderWidth = 1
@@ -120,6 +121,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                         guard let game = Firebase.shared.currentGame else {return}
                         guard let user = UserController.shared.currentUser else {return}
                         self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").updateData([Constants.submittedVotes : userVote])
+                        if self.voteCount != nil {
+                            self.voteCount! += 1
+                        } else {
+                            self.voteCount = 1
+                        }
                     case .failure(let error):
                         print("Error updating user vote collection: \(error)")
                     }

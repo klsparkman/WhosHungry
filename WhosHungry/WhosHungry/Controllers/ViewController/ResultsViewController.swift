@@ -24,7 +24,7 @@ class ResultsViewController: UIViewController {
     var yelpURL: String?
     let currentUser = UserController.shared.currentUser
     weak var delegate: ResultsViewControllerDelegate?
-    var revoteCount: Int?
+    var revoteCount = 0
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
@@ -35,6 +35,7 @@ class ResultsViewController: UIViewController {
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        Firebase.shared.userOnResultPage(bool: true)
         delegate?.isRevoteHappening(false)
         winningRestaurantYelpLabel.isHidden = true
         winningRestaurantYelpButton.isHidden = true
@@ -47,9 +48,8 @@ class ResultsViewController: UIViewController {
                 Firebase.shared.stopRevoteListener()
             }
             Firebase.shared.listenForRevote { (result) in
-                if result == 1 {
+                if result > self.revoteCount {
                     self.noMatchPopup()
-                    
                 }
             }
         }
@@ -59,7 +59,7 @@ class ResultsViewController: UIViewController {
         super.viewDidAppear(animated)
         guard let user = currentUser else {return}
         if user.isGameCreator {
-            Firebase.shared.listenForAllVotesSubmitted { (result) in
+            Firebase.shared.listenForSubmittedVotes { (result) in
                 self.likes = result
                 self.findMatches()
             }
@@ -74,8 +74,7 @@ class ResultsViewController: UIViewController {
     }
     
     func findMatches() {
-        let voteValues = self.likes
-        for personsVote in voteValues {
+        for personsVote in self.likes {
             if restaurantVotes[personsVote] != nil {
                 restaurantVotes[personsVote]! += 1
             } else {
@@ -86,33 +85,38 @@ class ResultsViewController: UIViewController {
     }
     
     func findHighestVotes() {
-//        var finalWinner: String?
         switch playerCount {
         case 1:
-            let winner = restaurantVotes.keys.randomElement()!
-            Firebase.shared.winningRestaurantFound(winningRest: winner)
-            displayWinner(winner: winner)
+            let winner = restaurantVotes.keys.randomElement()
+            Firebase.shared.winningRestaurantFound(winningRest: winner!)
+            displayWinner(winner: winner!)
         case 2:
             let unanimousWinner = restaurantVotes.filter { $0.value == playerCount }
             if !unanimousWinner.isEmpty {
                 let winner = unanimousWinner.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
-                displayWinner(winner: winner)
+                Firebase.shared.listenForWinningRest { (result) in
+                    self.displayWinner(winner: result)
+                }
             } else {
                 Firebase.shared.startRevote()
                 noMatchPopup()
             }
         case 3, 4, 5, 6, 7, 8, 9, 10:
-            let unanimousVote = restaurantVotes.filter { $1 == playerCount }
-            let majorityVote = restaurantVotes.filter { $1 >= playerCount!/2 + 1 }
+            let unanimousVote = restaurantVotes.filter { $0.value == playerCount }
+            let majorityVote = restaurantVotes.filter { $0.value >= playerCount!/2 + 1 }
             if !unanimousVote.isEmpty {
                 let winner = unanimousVote.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
-                displayWinner(winner: winner)
+                Firebase.shared.listenForWinningRest { (result) in
+                    self.displayWinner(winner: result)
+                }
             } else if !majorityVote.isEmpty {
                 let winner = majorityVote.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
-                displayWinner(winner: winner)
+                Firebase.shared.listenForWinningRest { (result) in
+                    self.displayWinner(winner: result)
+                }
             } else {
                 Firebase.shared.startRevote()
                 noMatchPopup()
@@ -144,9 +148,13 @@ class ResultsViewController: UIViewController {
         let alert = UIAlertController(title: "WHOOPSIE", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
             self.likes = []
-//            if let navController = self.navigationController {
-//                navController.popViewController(animated: true)
-//            }
+            if self.currentUser?.isGameCreator == false {
+                if self.revoteCount == 0 {
+                    self.revoteCount = 1
+                } else {
+                    self.revoteCount += 1
+                }
+            }
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
             var viewcontrollers = self.navigationController!.viewControllers
