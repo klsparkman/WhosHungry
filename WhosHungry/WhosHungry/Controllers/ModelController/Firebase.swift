@@ -26,8 +26,6 @@ class Firebase {
     private var revoteListener: ListenerRegistration?
     var votes: [String]?
     var playerCount: Int?
-    var revoteCount: Int?
-//    var voteCount: Int?
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
@@ -74,7 +72,8 @@ class Firebase {
     
     func createUserVoteCollection(userVote: [String], completion: @escaping (Result<[String], FirebaseError>) -> Void) {
         guard let game = currentGame else {return}
-        let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote]
+        let voteDictionary: [String : Any] = [Constants.submittedVotes : userVote,
+                                              Constants.onResultsPage : false]
         guard let user = UserController.shared.currentUser else {return}
         db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").setData(voteDictionary) { (error) in
             if let error = error {
@@ -83,6 +82,25 @@ class Firebase {
             } else {
                 print("Successfully saved users votes!")
                 completion(.success(userVote))
+            }
+        }
+    }
+    
+    func userOnResultPage(bool: Bool) {
+        guard let game = currentGame else {return}
+        guard let user = UserController.shared.currentUser else {return}
+        let usersVotePath = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)")
+        usersVotePath.getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("Error fetching the document data: \(error.localizedDescription)")
+            } else {
+//                guard let snapshot = documentSnapshot?.data() else {return}
+//                let resultPageStatus = snapshot[Constants.onResultsPage] as! Bool
+                if bool == true {
+                    usersVotePath.updateData([Constants.onResultsPage : true])
+                } else {
+                    usersVotePath.updateData([Constants.onResultsPage : false])
+                }
             }
         }
     }
@@ -176,7 +194,7 @@ class Firebase {
         }
     }
     
-    func listenForAllVotesSubmitted(completion: @escaping ([String]) -> Void) {
+    func listenForSubmittedVotes(completion: @escaping ([String]) -> Void) {
         guard let game = currentGame else {return}
         var submittedVotes: [String] = []
         allVotesSubmittedListener = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).addSnapshotListener({ (snapshot, error) in
@@ -186,6 +204,7 @@ class Firebase {
             case (.none, .some(let error)):
                 print("There was an error: \(error.localizedDescription)")
             case (.some(let snapshot), _):
+                submittedVotes = []
                 if snapshot.documents.count == ResultsViewController.shared.playerCount {
                     for documents in snapshot.documents {
                         let voteData = documents.data()[Constants.submittedVotes] as? [String] ?? []
@@ -229,14 +248,8 @@ class Firebase {
                 print("Document data was empty")
                 return
             }
-            
             let result = data[Constants.numberOfRevotes] as! Int
             completion(result)
-            if self.revoteCount != nil {
-                self.revoteCount! += 1
-            } else {
-                self.revoteCount = 1
-            }
         })
     }
     
