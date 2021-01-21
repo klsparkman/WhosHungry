@@ -37,7 +37,6 @@ class Firebase {
                                               Constants.mealType : game.mealType,
                                               Constants.users : game.users,
                                               Constants.gameHasBegun : game.gameHasBegun,
-                                              Constants.allVotesSubmitted : game.allVotesSubmitted,
                                               Constants.winningRestaurant : game.winningRestaurant,
                                               Constants.numberOfRevotes : game.numberOfRevotes
         ]
