@@ -214,8 +214,9 @@ class Firebase {
         })
     }
     
-    func listenForAllUsersOnResultsPage(completion: @escaping (Bool) -> Void) {
+    func listenForAllUsersOnResultsPage(completion: @escaping ([Bool]) -> Void) {
         guard let game = currentGame else {return}
+        var resultArray: [Bool] = []
         db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).addSnapshotListener { (snapshot, error) in
             switch (snapshot, error) {
             case (.none, .none):
@@ -223,13 +224,12 @@ class Firebase {
             case (.none, .some(let error)):
                 print("There was an error: \(error.localizedDescription)")
             case (.some(let snapshot), _):
+                resultArray = []
                 for documents in snapshot.documents {
                     let statusData = documents.data()[Constants.onResultsPage] as? Bool ?? false
-                    if statusData == false {
-                        completion(false)
-                    }
+                    resultArray.append(statusData)
                 }
-                completion(true)
+                completion(resultArray)
             }
         }
     }

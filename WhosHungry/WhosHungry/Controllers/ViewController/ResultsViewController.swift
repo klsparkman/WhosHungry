@@ -50,7 +50,12 @@ class ResultsViewController: UIViewController {
             Firebase.shared.listenForRevote { (result) in
                 if result > self.revoteCount {
                     self.noMatchPopup()
+                    Firebase.shared.userOnResultPage(bool: false)
                 }
+            }
+        } else {
+            Firebase.shared.listenForWinningRest { (result) in
+                self.displayWinner(winner: result)
             }
         }
     }
@@ -60,13 +65,17 @@ class ResultsViewController: UIViewController {
         guard let user = currentUser else {return}
         if user.isGameCreator {
             Firebase.shared.listenForAllUsersOnResultsPage { (result) in
-                if result == true {
-                    Firebase.shared.listenForSubmittedVotes { (result) in
-                        self.likes = result
-                        self.findMatches()
+                if result.count == self.playerCount {
+                    if result.contains(false) {
+                        return
+                    } else {
+                        Firebase.shared.listenForSubmittedVotes { (result) in
+                            self.likes = result
+                            self.findMatches()
+                            Firebase.shared.stopSubmittedVotesListener()
+                            Firebase.shared.stopAllUsersOnResultsPageListener()
+                        }
                     }
-                } else {
-                    return
                 }
             }
         }
@@ -121,9 +130,6 @@ class ResultsViewController: UIViewController {
             } else if !majorityVote.isEmpty {
                 let winner = majorityVote.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
-                Firebase.shared.listenForWinningRest { (result) in
-                    self.displayWinner(winner: result)
-                }
             } else {
                 Firebase.shared.startRevote()
                 noMatchPopup()
