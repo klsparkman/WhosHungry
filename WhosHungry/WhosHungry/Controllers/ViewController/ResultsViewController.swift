@@ -43,19 +43,41 @@ class ResultsViewController: UIViewController {
             waitForFriendsLabel.isHidden = true
         }
         if currentUser?.isGameCreator == false {
-            Firebase.shared.listenForWinningRest { (result) in
-                self.displayWinner(winner: result)
-                Firebase.shared.stopRevoteListener()
-            }
-            Firebase.shared.listenForRevote { (result) in
-                if result > self.revoteCount {
-                    self.noMatchPopup()
-                    Firebase.shared.userOnResultPage(bool: false)
+            Firebase.shared.listenForAllUsersOnResultsPage { (result) in
+                if result.count == self.playerCount{
+                    if result.contains(false) {
+                        return
+                    } else {
+                        Firebase.shared.listenForWinningRest { (result) in
+                            switch result {
+                            case .success(let winner):
+                                guard let winner = winner else {return}
+                                if winner != "" {
+                                    self.displayWinner(winner: winner)
+                                } else {
+                                    self.noMatchPopup()
+                                    Firebase.shared.userOnResultPage(bool: false)
+                                }
+                            case .failure(let error):
+                                print("There was an error listening for a winning restaurant: \(error)")
+                            }
+                        }
+                    }
                 }
             }
         } else {
             Firebase.shared.listenForWinningRest { (result) in
-                self.displayWinner(winner: result)
+                switch result {
+                case .success(let winner):
+                    guard let winner = winner else {return}
+                    if winner != " " {
+                        self.displayWinner(winner: winner)
+                    } else {
+                        self.noMatchPopup()
+                    }
+                case .failure(let error):
+                    print("There was an error listening for a winning restaurant: \(error)")
+                }
             }
         }
     }
@@ -110,11 +132,11 @@ class ResultsViewController: UIViewController {
             if !unanimousWinner.isEmpty {
                 let winner = unanimousWinner.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
-                Firebase.shared.listenForWinningRest { (result) in
-                    self.displayWinner(winner: result)
-                }
+                //                Firebase.shared.listenForWinningRest { (result) in
+                //                    self.displayWinner(winner: result)
+                //                }
             } else {
-                Firebase.shared.startRevote()
+                //                Firebase.shared.startRevote()
                 Firebase.shared.userOnResultPage(bool: false)
                 noMatchPopup()
             }
@@ -124,14 +146,14 @@ class ResultsViewController: UIViewController {
             if !unanimousVote.isEmpty {
                 let winner = unanimousVote.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
-                Firebase.shared.listenForWinningRest { (result) in
-                    self.displayWinner(winner: result)
-                }
+                //                Firebase.shared.listenForWinningRest { (result) in
+                //                    self.displayWinner(winner: result)
+                //                }
             } else if !majorityVote.isEmpty {
                 let winner = majorityVote.keys.randomElement()!
                 Firebase.shared.winningRestaurantFound(winningRest: winner)
             } else {
-                Firebase.shared.startRevote()
+                //                Firebase.shared.startRevote()
                 noMatchPopup()
             }
         default:
@@ -161,13 +183,13 @@ class ResultsViewController: UIViewController {
         let alert = UIAlertController(title: "WHOOPSIE", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
             self.likes = []
-            if self.currentUser?.isGameCreator == false {
-                if self.revoteCount == 0 {
-                    self.revoteCount = 1
-                } else {
-                    self.revoteCount += 1
-                }
-            }
+            //            if self.currentUser?.isGameCreator == false {
+            //                if self.revoteCount == 0 {
+            //                    self.revoteCount = 1
+            //                } else {
+            //                    self.revoteCount += 1
+            //                }
+            //            }
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
             var viewcontrollers = self.navigationController!.viewControllers
