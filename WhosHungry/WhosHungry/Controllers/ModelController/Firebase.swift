@@ -232,12 +232,11 @@ class Firebase {
         }
     }
     
-    func listenForWinningRest(completion: @escaping (Result<String?, Error>) -> Void) {
+    func listenForWinningRest(completion: @escaping (String) -> Void) {
         guard let game = currentGame else {return}
         winningRestListener = db.collection(Constants.gameContainer).document(game.uid).addSnapshotListener({ (snapshot, error) in
             guard let snapshot = snapshot else {
                 print("Error fetching document: \(error!)")
-                completion(.failure(error!))
                 return
             }
             guard let data = snapshot.data() else {
@@ -245,32 +244,15 @@ class Firebase {
                 return
             }
             let result = data[Constants.winningRestaurant] as! String
-            if result != "" {
-                completion(.success(result))
-            } else {
-                completion(.success(result))
-                print("Winning restaurant has not been updated yet")
+            if result == "" {
                 return
+            } else if result == Constants.noWinningRestaurant {
+                completion(Constants.noWinningRestaurant)
+            } else {
+                completion(result)
             }
         })
     }
-    
-//    func listenForRevote(completion: @escaping (Int) -> Void) {
-//        guard let game = currentGame,
-//              let user = UserController.shared.currentUser else {return}
-//        revoteListener = db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").addSnapshotListener({ (snapshot, error) in
-//            guard let document = snapshot else {
-//                print("Error fetching document: \(error!)")
-//                return
-//            }
-//            guard let data = document.data() else {
-//                print("Document data was empty")
-//                return
-//            }
-//            let result = data[Constants.numberOfRevotes] as! Int
-//            completion(result)
-//        })
-//    }
     
     func stopLikeListener() {
         guard let listener = likeListener else {return}
@@ -357,39 +339,14 @@ class Firebase {
         }
     }
     
-//    func startRevote() {
-//        guard let game = currentGame,
-//              let user = UserController.shared.currentUser else {return}
-//        //db.collection(Constants.gameContainer).document(game.uid).getDocument { (documentSnapshot, error) in
-//        db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").addSnapshotListener { (documentSnapshot, error) in
-//            if let error = error {
-//                print("There was an error fetching the current document data: \(error.localizedDescription)")
-//            } else {
-//                let gameRevoteNumber = self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)")
-//                guard let snapshot = documentSnapshot?.data() else {return}
-//                var voteCount = snapshot[Constants.numberOfRevotes] as! Int
-//                if voteCount == 0 {
-//                    voteCount = 1
-//                } else {
-//                    voteCount += 1
-//                }
-//                gameRevoteNumber.updateData([Constants.numberOfRevotes : voteCount])
-//            }
-//        }
-//    }
-    
-    func winningRestaurantFound(winningRest: String) {
+    func updateWinningRestaurantField(resultString: String) {
         guard let game = currentGame else {return}
         db.collection(Constants.gameContainer).document(game.uid).getDocument { (snapshot, error) in
             if let error = error {
                 print("There was an error fetching the current document data: \(error.localizedDescription)")
             } else {
                 let gameDoc = self.db.collection(Constants.gameContainer).document(game.uid)
-                guard let snapshot = snapshot?.data() else {return}
-                let winner = snapshot[Constants.winningRestaurant] as! String
-                if winner == "" {
-                    gameDoc.updateData([Constants.winningRestaurant : winningRest])
-                }
+                gameDoc.updateData([Constants.winningRestaurant : resultString])
             }
         }
     }
