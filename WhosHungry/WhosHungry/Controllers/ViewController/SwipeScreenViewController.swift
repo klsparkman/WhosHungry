@@ -37,7 +37,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var likedRestaurants: [String] = []
     var gameUID: String?
     let db = Firestore.firestore()
-//    var voteCount: Int?
 
     // Mark: - Lifecycle
     override func viewDidLoad() {
@@ -53,8 +52,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         restaurantImageView.layer.cornerRadius = 20
         restaurantImageView.clipsToBounds = true
         navigationController?.setNavigationBarHidden(true, animated: false)
-        RestaurantController.shared.restaurants = []
-        ResultsViewController.shared.delegate = self
+//        RestaurantController.shared.restaurants = []
     }
     
     func fetchRestaurants() {
@@ -120,11 +118,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                         guard let game = Firebase.shared.currentGame else {return}
                         guard let user = UserController.shared.currentUser else {return}
                         self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").updateData([Constants.submittedVotes : userVote])
-//                        if self.voteCount != nil {
-//                            self.voteCount! += 1
-//                        } else {
-//                            self.voteCount = 1
-//                        }
                     case .failure(let error):
                         print("Error updating user vote collection: \(error)")
                     }
@@ -243,13 +236,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         navigationController?.popViewController(animated: true)
     }
     
-    
-}
-
-extension SwipeScreenViewController: ResultsViewControllerDelegate {
-    func isRevoteHappening(_ sender: Bool) {
-        if sender == true {
-            self.resetVoting()
-        }
+    @IBAction func unwind( _ seg: UIStoryboardSegue) {
+        resetVoting()
     }
 }

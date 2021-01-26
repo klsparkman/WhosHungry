@@ -724,9 +724,11 @@
                         <outlet property="waitForFriendsLabel" destination="QWr-8D-rIC" id="As4-kj-ryM"/>
                         <outlet property="winningRestaurantYelpButton" destination="fhk-on-cyC" id="xKD-7E-pV2"/>
                         <outlet property="winningRestaurantYelpLabel" destination="HkV-5u-ntw" id="Dvs-ob-qzt"/>
+                        <segue destination="tMe-Ye-EOr" kind="unwind" identifier="unwindToSwipeScreen" unwindAction="unwind:" id="Lcc-hD-ZKc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gV8-ek-MNw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="tMe-Ye-EOr" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3808.8000000000002" y="-21.428571428571431"/>
         </scene>

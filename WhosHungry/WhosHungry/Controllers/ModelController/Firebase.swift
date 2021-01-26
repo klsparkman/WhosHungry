@@ -247,7 +247,7 @@ class Firebase {
             if result == "" {
                 return
             } else if result == Constants.noWinningRestaurant {
-                completion(Constants.noWinningRestaurant)
+                completion(result)
             } else {
                 completion(result)
             }
@@ -288,6 +288,12 @@ class Firebase {
         guard let listener = allUsersOnResultsPageListener else {return}
         listener.remove()
         print("Stopped listener for all users on results page")
+    }
+    
+    func stopListenForWinningRest() {
+        guard let listener = winningRestListener else {return}
+        listener.remove()
+        print("Stopped listener for winning restaurant")
     }
     
     func checkGameStatus(completion: @escaping (Result<Bool, Error>) -> Void) {

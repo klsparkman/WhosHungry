@@ -9,10 +9,6 @@
 import UIKit
 import SAConfettiView
 
-protocol ResultsViewControllerDelegate: AnyObject {
-    func isRevoteHappening(_ sender: Bool)
-}
-
 class ResultsViewController: UIViewController {
     
     // Mark: - Properties
@@ -23,7 +19,6 @@ class ResultsViewController: UIViewController {
     var likes: [String] = []
     var yelpURL: String?
     let currentUser = UserController.shared.currentUser
-    weak var delegate: ResultsViewControllerDelegate?
     var revoteCount = 0
     
     // Mark: - Outlets
@@ -36,35 +31,16 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Firebase.shared.userOnResultPage(bool: true)
-        delegate?.isRevoteHappening(false)
         winningRestaurantYelpLabel.isHidden = true
         winningRestaurantYelpButton.isHidden = true
         if self.playerCount == 1 {
             waitForFriendsLabel.isHidden = true
         }
-        if currentUser?.isGameCreator == false {
-            Firebase.shared.listenForAllUsersOnResultsPage { (result) in
-                if result.count == self.playerCount {
-                    if result.contains(false) {
-                        return
-                    } else {
-                        Firebase.shared.listenForWinningRest { (result) in
-                            if result != Constants.noWinningRestaurant {
-                                self.displayWinner(winner: result)
-                            } else {
-                                self.noMatchPopup()
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
         guard let user = currentUser else {return}
-        if user.isGameCreator {
+        if user.isGameCreator == true {
             Firebase.shared.listenForAllUsersOnResultsPage { (result) in
                 if result.count == self.playerCount {
                     if result.contains(false) {
@@ -83,10 +59,40 @@ class ResultsViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let user = currentUser else {return}
+        if user.isGameCreator == false {
+            Firebase.shared.listenForAllUsersOnResultsPage { (result) in
+                if result.count == self.playerCount {
+                    if result.contains(false) {
+                        return
+                    } else {
+                        self.listenForWinningRestaurant()
+                    }
+                }
+            }
+        } else if user.isGameCreator == true {
+            self.listenForWinningRestaurant()
+        }
+    }
+    
     @IBAction func yelpButtonTapped(_ sender: Any) {
         if let url = URL(string: yelpURL!) {
             UIApplication.shared.canOpenURL(url)
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func listenForWinningRestaurant() {
+        Firebase.shared.listenForWinningRest { (result) in
+            if result == Constants.noWinningRestaurant {
+                self.noMatchPopup()
+            } else {
+                self.displayWinner(winner: result)
+                Firebase.shared.stopListenForWinningRest()
+                Firebase.shared.stopAllUsersOnResultsPageListener()
+            }
         }
     }
     
@@ -112,9 +118,6 @@ class ResultsViewController: UIViewController {
             if !unanimousWinner.isEmpty {
                 let winner = unanimousWinner.keys.randomElement()!
                 Firebase.shared.updateWinningRestaurantField(resultString: winner)
-                Firebase.shared.listenForWinningRest { (result) in
-                    self.displayWinner(winner: result)
-                }
             } else {
                 Firebase.shared.updateWinningRestaurantField(resultString: Constants.noWinningRestaurant)
                 noMatchPopup()
@@ -156,15 +159,10 @@ class ResultsViewController: UIViewController {
     }
     
     func noMatchPopup() {
-        let alert = UIAlertController(title: "WHOOPSIE", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "WHOOPS", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
             self.likes = []
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "swipeScreenVC")
-            var viewcontrollers = self.navigationController!.viewControllers
-            viewcontrollers.removeLast()
-            viewcontrollers.append(vc)
-            self.navigationController?.setViewControllers(viewcontrollers, animated: true)
+            self.performSegue(withIdentifier: "unwindToSwipeScreen", sender: self)
             Firebase.shared.userOnResultPage(bool: false)
             guard let currentUser = self.currentUser else {return}
             if currentUser.isGameCreator {
