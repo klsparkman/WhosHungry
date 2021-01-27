@@ -52,7 +52,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         restaurantImageView.layer.cornerRadius = 20
         restaurantImageView.clipsToBounds = true
         navigationController?.setNavigationBarHidden(true, animated: false)
-//        RestaurantController.shared.restaurants = []
+        resetVoting()
     }
     
     func fetchRestaurants() {
@@ -65,9 +65,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 switch result {
                 case .success(_):
                     // Start showing cards
-                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
-                    else {return}
-                    self.populateCard(with: firstRestaurant)
+//                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
+//                    else {return}
+                    self.resetVoting()
+//                    self.populateCard(with: firstRestaurant)
                 case .failure(let error):
                     print(error, error.localizedDescription)
                 }
@@ -234,9 +235,5 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func backButton(_ sender: Any) {
         navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func unwind( _ seg: UIStoryboardSegue) {
-        resetVoting()
     }
 }

@@ -92,11 +92,7 @@ class Firebase {
             if let error = error {
                 print("Error fetching the document data: \(error.localizedDescription)")
             } else {
-                if bool == true {
-                    usersVotePath.updateData([Constants.onResultsPage : true])
-                } else {
-                    usersVotePath.updateData([Constants.onResultsPage : false])
-                }
+                usersVotePath.updateData([Constants.onResultsPage : bool])
             }
         }
     }
@@ -201,7 +197,7 @@ class Firebase {
                 print("There was an error: \(error.localizedDescription)")
             case (.some(let snapshot), _):
                 submittedVotes = []
-                if snapshot.documents.count == ResultsViewController.shared.playerCount {
+                if snapshot.documents.count == self.playerCount {
                     for documents in snapshot.documents {
                         let voteData = documents.data()[Constants.submittedVotes] as? [String] ?? []
                         submittedVotes.append(contentsOf: voteData)
@@ -345,14 +341,21 @@ class Firebase {
         }
     }
     
-    func updateWinningRestaurantField(resultString: String) {
+    func updateWinningRestaurantField(resultString: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let game = currentGame else {return}
         db.collection(Constants.gameContainer).document(game.uid).getDocument { (snapshot, error) in
             if let error = error {
                 print("There was an error fetching the current document data: \(error.localizedDescription)")
+                completion(.failure(error))
             } else {
                 let gameDoc = self.db.collection(Constants.gameContainer).document(game.uid)
-                gameDoc.updateData([Constants.winningRestaurant : resultString])
+                gameDoc.updateData([Constants.winningRestaurant : resultString]) { (error) in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    completion(.success(()))
+                }
             }
         }
     }

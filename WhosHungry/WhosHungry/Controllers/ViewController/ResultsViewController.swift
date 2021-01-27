@@ -12,7 +12,6 @@ import SAConfettiView
 class ResultsViewController: UIViewController {
     
     // Mark: - Properties
-    static let shared = ResultsViewController()
     var playerCount = Firebase.shared.playerCount
     var restaurantVotes: [String : Int] = [:]
     let generator = UINotificationFeedbackGenerator()
@@ -27,6 +26,10 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var winningRestaurantYelpButton: UIButton!
     @IBOutlet weak var waitForFriendsLabel: UITextView!
     
+    deinit {
+        print("Results VC is being deinitialized")
+    }
+    
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,18 +42,19 @@ class ResultsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         guard let user = currentUser else {return}
         if user.isGameCreator == true {
-            Firebase.shared.listenForAllUsersOnResultsPage { (result) in
-                if result.count == self.playerCount {
+            Firebase.shared.listenForAllUsersOnResultsPage { [weak self] (result) in
+                if result.count == self?.playerCount {
                     if result.contains(false) {
                         return
                     } else {
                         Firebase.shared.stopAllUsersOnResultsPageListener()
-                        Firebase.shared.listenForSubmittedVotes { (result) in
-                            self.likes = []
-                            self.likes = result
-                            self.findMatches()
+                        Firebase.shared.listenForSubmittedVotes { [weak self] (result) in
+                            self?.likes = []
+                            self?.likes = result
+                            self?.findMatches()
                             Firebase.shared.stopSubmittedVotesListener()
                         }
                     }
@@ -63,12 +67,12 @@ class ResultsViewController: UIViewController {
         super.viewDidAppear(animated)
         guard let user = currentUser else {return}
         if user.isGameCreator == false {
-            Firebase.shared.listenForAllUsersOnResultsPage { (result) in
-                if result.count == self.playerCount {
+            Firebase.shared.listenForAllUsersOnResultsPage { [weak self] (result) in
+                if result.count == self?.playerCount {
                     if result.contains(false) {
                         return
                     } else {
-                        self.listenForWinningRestaurant()
+                        self?.listenForWinningRestaurant()
                     }
                 }
             }
@@ -85,11 +89,11 @@ class ResultsViewController: UIViewController {
     }
     
     func listenForWinningRestaurant() {
-        Firebase.shared.listenForWinningRest { (result) in
+        Firebase.shared.listenForWinningRest { [weak self] (result) in
             if result == Constants.noWinningRestaurant {
-                self.noMatchPopup()
+                self?.noMatchPopup()
             } else {
-                self.displayWinner(winner: result)
+                self?.displayWinner(winner: result)
                 Firebase.shared.stopListenForWinningRest()
                 Firebase.shared.stopAllUsersOnResultsPageListener()
             }
@@ -110,30 +114,75 @@ class ResultsViewController: UIViewController {
     func findHighestVotes() {
         switch playerCount {
         case 1:
-            let winner = restaurantVotes.keys.randomElement()
-            Firebase.shared.updateWinningRestaurantField(resultString: winner!)
-            displayWinner(winner: winner!)
+            guard let winner = restaurantVotes.keys.randomElement() else {return}
+            Firebase.shared.updateWinningRestaurantField(resultString: winner) { [weak self] (result) in
+                switch result {
+                case .success(_):
+                    self?.displayWinner(winner: winner)
+                case .failure(let error):
+                    print("There was an error updating the winning restaurant to Firestore: \(error.localizedDescription)")
+                    self?.retryUpdatingInfoToFirestore()
+                }
+            }
         case 2:
             let unanimousWinner = restaurantVotes.filter { $0.value == playerCount }
             if !unanimousWinner.isEmpty {
                 let winner = unanimousWinner.keys.randomElement()!
-                Firebase.shared.updateWinningRestaurantField(resultString: winner)
+                Firebase.shared.updateWinningRestaurantField(resultString: winner) { [weak self] (result) in
+                    switch result {
+                    case .success(_):
+                        self?.displayWinner(winner: winner)
+                    case .failure(let error):
+                        print("There was an error updating the winning restaurant to Firestore: \(error.localizedDescription)")
+                        self?.retryUpdatingInfoToFirestore()
+                    }
+                }
             } else {
-                Firebase.shared.updateWinningRestaurantField(resultString: Constants.noWinningRestaurant)
-                noMatchPopup()
+                Firebase.shared.updateWinningRestaurantField(resultString: Constants.noWinningRestaurant) { [weak self] (result) in
+                    switch result {
+                    case .success(_):
+                        self?.noMatchPopup()
+                    case .failure(let error):
+                        print("There was an error updating winning restaurant field to noWinningRestaurant: \(error.localizedDescription)")
+                        self?.retryUpdatingInfoToFirestore()
+                    }
+                }
             }
         case 3, 4, 5, 6, 7, 8, 9, 10:
             let unanimousVote = restaurantVotes.filter { $0.value == playerCount }
             let majorityVote = restaurantVotes.filter { $0.value >= playerCount!/2 + 1 }
             if !unanimousVote.isEmpty {
-                let winner = unanimousVote.keys.randomElement()!
-                Firebase.shared.updateWinningRestaurantField(resultString: winner)
+                guard let winner = unanimousVote.keys.randomElement() else {return}
+                Firebase.shared.updateWinningRestaurantField(resultString: winner) { [weak self] (result) in
+                    switch result {
+                    case .success(_):
+                        self?.displayWinner(winner: winner)
+                    case .failure(let error):
+                        print("There was an error updating the winning restaurant to Firestore: \(error.localizedDescription)")
+                        self?.retryUpdatingInfoToFirestore()
+                    }
+                }
             } else if !majorityVote.isEmpty {
-                let winner = majorityVote.keys.randomElement()!
-                Firebase.shared.updateWinningRestaurantField(resultString: winner)
+                guard let winner = majorityVote.keys.randomElement() else {return}
+                Firebase.shared.updateWinningRestaurantField(resultString: winner) { [weak self] (result) in
+                    switch result {
+                    case .success(_):
+                        self?.displayWinner(winner: winner)
+                    case .failure(let error):
+                        print("There was an error updating the majority winner to Firestore: \(error.localizedDescription)")
+                        self?.retryUpdatingInfoToFirestore()
+                    }
+                }
             } else {
-                Firebase.shared.updateWinningRestaurantField(resultString: Constants.noWinningRestaurant)
-                noMatchPopup()
+                Firebase.shared.updateWinningRestaurantField(resultString: Constants.noWinningRestaurant) { [weak self] (result) in
+                    switch result {
+                    case .success(_):
+                        self?.noMatchPopup()
+                    case .failure(let error):
+                        print("There was an error updating winning restaurant field to noWinningRestaurant: \(error.localizedDescription)")
+                        self?.retryUpdatingInfoToFirestore()
+                    }
+                }
             }
         default:
             print("How did this happen? Only 10 players were allowed in the game!")
@@ -156,19 +205,47 @@ class ResultsViewController: UIViewController {
             self.restaurantRestultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
         }, completion: nil)
         generator.notificationOccurred(.success)
+        stopRemainingListeners()
+        view.setNeedsDisplay()
+        view.layoutIfNeeded()
     }
     
     func noMatchPopup() {
         let alert = UIAlertController(title: "WHOOPS", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
-            self.likes = []
-            self.performSegue(withIdentifier: "unwindToSwipeScreen", sender: self)
+        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] (_) in
+            self?.likes = []
             Firebase.shared.userOnResultPage(bool: false)
-            guard let currentUser = self.currentUser else {return}
+            guard let currentUser = self?.currentUser else {return}
             if currentUser.isGameCreator {
-                Firebase.shared.updateWinningRestaurantField(resultString: "")
+                Firebase.shared.updateWinningRestaurantField(resultString: "") { [weak self] (result) in
+                    switch result {
+                    case .success(_):
+                        print("Just updated the winning restaurant field")
+                        self?.stopRemainingListeners()
+                        self?.navigationController?.popViewController(animated: true)
+                    case .failure(let error):
+                        self?.retryUpdatingInfoToFirestore()
+                        print("There was an error updating winning restaurant field: \(error.localizedDescription)")
+                    }
+                }
+            } else {
+                self?.stopRemainingListeners()
+                print("Listeners have been stopped")
+                self?.navigationController?.popViewController(animated: true)
             }
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func retryUpdatingInfoToFirestore() {
+        
+    }
+    
+    func stopRemainingListeners() {
+        Firebase.shared.stopLikeListener()
+        Firebase.shared.stopSubmittedVotesListener()
+        Firebase.shared.stopRevoteListener()
+        Firebase.shared.stopAllUsersOnResultsPageListener()
+        Firebase.shared.stopListenForWinningRest()
     }
 }// End of class
