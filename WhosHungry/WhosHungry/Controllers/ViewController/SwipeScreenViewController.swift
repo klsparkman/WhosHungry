@@ -23,7 +23,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var cuisineLabel: UILabel!
     
     // Mark: - Properties
-    static var shared = SwipeScreenViewController()
     var divisor: CGFloat!
     var restaurant: Restaurant?
     var currentCardIndex: Int = 0
@@ -60,14 +59,14 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         let city = game.city
         let radius = game.radius * 1600
         let category = game.mealType
-        RestaurantController.shared.fetchRestaurants(searchTerm: city, radius: Int(radius), category: category) { (result) in
+        RestaurantController.shared.fetchRestaurants(searchTerm: city, radius: Int(radius), category: category) { [weak self] (result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):
                     // Start showing cards
 //                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
 //                    else {return}
-                    self.resetVoting()
+                    self?.resetVoting()
 //                    self.populateCard(with: firstRestaurant)
                 case .failure(let error):
                     print(error, error.localizedDescription)
@@ -113,12 +112,12 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             if likedRestaurants.isEmpty {
                 noRestaurantVote()
             } else {
-                Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { (result) in
+                Firebase.shared.createUserVoteCollection(userVote: likedRestaurants) { [weak self] (result) in
                     switch result {
                     case .success(let userVote):
                         guard let game = Firebase.shared.currentGame else {return}
                         guard let user = UserController.shared.currentUser else {return}
-                        self.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").updateData([Constants.submittedVotes : userVote])
+                        self?.db.collection(Constants.gameContainer).document(game.uid).collection(Constants.usersVotes).document("\(user.firstName + " " + user.lastName)").updateData([Constants.submittedVotes : userVote])
                     case .failure(let error):
                         print("Error updating user vote collection: \(error)")
                     }
