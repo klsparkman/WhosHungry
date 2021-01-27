@@ -18,7 +18,6 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var joinGameButton: UIButton!
     
     // Mark: - Properties
-    static let shared = GameChoiceViewController()
     var currentUser = UserController.shared.currentUser
     let db = Firestore.firestore()
     let remoteConfig = RemoteConfig.remoteConfig()

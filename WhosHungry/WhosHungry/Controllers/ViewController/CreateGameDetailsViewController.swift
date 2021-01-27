@@ -27,7 +27,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     @IBOutlet weak var distanceLabel: UILabel!
     
     // Mark: - Properties
-    static let shared = CreateGameDetailsViewController()
     var locManager = CLLocationManager()
     var currentLocation: CLLocation?
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
