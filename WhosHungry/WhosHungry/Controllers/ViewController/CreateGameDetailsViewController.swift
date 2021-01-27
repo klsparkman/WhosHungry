@@ -27,11 +27,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     @IBOutlet weak var distanceLabel: UILabel!
     
     // Mark: - Properties
-    var locManager = CLLocationManager()
-    var currentLocation: CLLocation?
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
     var mealType: String?
-    var gameInviteCode: String?
     let db = Firestore.firestore()
     var currentUser = UserController.shared.currentUser
     var inviteCode: String?

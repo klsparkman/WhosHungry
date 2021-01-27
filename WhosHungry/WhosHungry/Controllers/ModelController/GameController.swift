@@ -13,7 +13,6 @@ class GameController: NSObject {
     
     // Mark: - Properties
     static var shared = GameController()
-    let db = Firestore.firestore()
     let remoteConfig = RemoteConfig.remoteConfig()
     var googleAPIKey: String?
     var yelpAPIKey: String?

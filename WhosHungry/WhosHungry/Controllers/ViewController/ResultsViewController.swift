@@ -18,17 +18,12 @@ class ResultsViewController: UIViewController {
     var likes: [String] = []
     var yelpURL: String?
     let currentUser = UserController.shared.currentUser
-    var revoteCount = 0
     
     // Mark: - Outlets
     @IBOutlet weak var restaurantRestultLabel: UILabel!
     @IBOutlet weak var winningRestaurantYelpLabel: UILabel!
     @IBOutlet weak var winningRestaurantYelpButton: UIButton!
     @IBOutlet weak var waitForFriendsLabel: UITextView!
-    
-    deinit {
-        print("Results VC is being deinitialized")
-    }
     
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
@@ -108,8 +103,6 @@ class ResultsViewController: UIViewController {
                 restaurantVotes[personsVote] = 1
             }
         }
-//        let updatedRestVotes = restaurantVotes.filter( { $0.value <= playerCount! } )
-//        restaurantVotes = updatedRestVotes
         findHighestVotes()
     }
     

@@ -15,9 +15,8 @@ class Firebase {
     // Mark: - Properties
     static let shared = Firebase()
     let db = Firestore.firestore()
-    var navigationController: UINavigationController?
-    var users: [User] = []
     var currentGame: Game?
+    var playerCount: Int?
     private var likeListener: ListenerRegistration?
     private var userListener: ListenerRegistration?
     private var gameStartListener: ListenerRegistration?
@@ -25,8 +24,6 @@ class Firebase {
     private var winningRestListener: ListenerRegistration?
     private var revoteListener: ListenerRegistration?
     private var allUsersOnResultsPageListener: ListenerRegistration?
-    var votes: [String]?
-    var playerCount: Int?
     
     // Mark: - CRUD
     func createGame(game: Game, completion: @escaping (Result<Game, Error>) -> Void) {
