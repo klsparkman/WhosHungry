@@ -22,8 +22,6 @@ class UserController: NSObject {
     var currentUser: User?
     fileprivate var currentNonce: String?
     fileprivate var presentationVC: UIViewController?
-    let db = Firestore.firestore()
-    var navigationController: UINavigationController?
     let defaults = UserDefaults.standard
     weak var delegate: UserControllerDelegate?
     
@@ -112,7 +110,6 @@ extension UserController: ASAuthorizationControllerDelegate {
                     print("Error signing in: \(error)")
                 }
                 if let authUser = authDataResult?.user {
-//                    print(authUser.uid)
                     self.defaults.setValue(authUser.uid, forKey: "uid")
                     // Fetch a user in Firebase using the authenticated uid
                     Firebase.shared.fetchUser(withID: authUser.uid) { (result) in
@@ -121,7 +118,6 @@ extension UserController: ASAuthorizationControllerDelegate {
                         case .success(let user):
                             if let user = user {
                                 self.currentUser = user
-//                                SignInViewController.shared.loggedInCurrentUser = user
                                 self.delegate?.userLoggedIn(true)
                                 RestaurantController.shared.users.append(user)
                                 print("We found a user in Firebase")

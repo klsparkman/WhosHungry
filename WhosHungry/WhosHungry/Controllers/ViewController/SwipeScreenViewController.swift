@@ -24,7 +24,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     
     // Mark: - Properties
     var divisor: CGFloat!
-    var restaurant: Restaurant?
     var currentCardIndex: Int = 0
     var city: String?
     var radius: Double?
@@ -34,7 +33,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var restaurantVote: [Bool] = []
     var voteDictionary: [String : Int] = [:]
     var likedRestaurants: [String] = []
-    var gameUID: String?
     let db = Firestore.firestore()
 
     // Mark: - Lifecycle
@@ -63,11 +61,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):
-                    // Start showing cards
+//                     Start showing cards
 //                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
 //                    else {return}
                     self?.resetVoting()
-//                    self.populateCard(with: firstRestaurant)
+//                    self?.populateCard(with: firstRestaurant)
                 case .failure(let error):
                     print(error, error.localizedDescription)
                 }
@@ -160,7 +158,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         
         if sender.state == UIGestureRecognizer.State.ended {
             if card.center.x < 75 {
-                // (view.frame.width - 75) {
                 // Move off to the left side of the screen
                 restaurantVote.append(false)
                 UIView.animate(withDuration: 0.3, animations: {
@@ -177,7 +174,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
                 //Move off to the right side of the screen
                 restaurantVote.append(true)
                 UIView.animate(withDuration: 0.3, animations:  {
-                    //                    card.center = self.view.center
                     card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                     card.alpha = 0
                 }) { (success) in
