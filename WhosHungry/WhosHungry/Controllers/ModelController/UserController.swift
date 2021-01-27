@@ -11,7 +11,7 @@ import CryptoKit
 import AuthenticationServices
 import Firebase
 
-protocol UserControllerDelegate: class {
+protocol UserControllerDelegate: AnyObject {
     func userLoggedIn(_ sender: Bool)
 }
 

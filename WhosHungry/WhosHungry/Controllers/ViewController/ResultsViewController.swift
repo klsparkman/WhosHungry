@@ -108,6 +108,8 @@ class ResultsViewController: UIViewController {
                 restaurantVotes[personsVote] = 1
             }
         }
+//        let updatedRestVotes = restaurantVotes.filter( { $0.value <= playerCount! } )
+//        restaurantVotes = updatedRestVotes
         findHighestVotes()
     }
     

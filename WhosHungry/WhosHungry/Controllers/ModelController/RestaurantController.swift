@@ -55,13 +55,13 @@ class RestaurantController {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).businesses
 
                 let restaurants = restaurantContainers.compactMap({$0})
-//                let thing = Set(restaurants)
                 
                 guard !restaurants.isEmpty else {return completion(.failure(.noData))}
+                let uniqueRestaurants = restaurants.unique(by: { $0.name })
                 
                 let group = DispatchGroup()
                 
-                for restaurant in restaurants {
+                for restaurant in uniqueRestaurants {
                     group.enter()
                     var restaurantCopy = restaurant
                     self.fetchImage(for: restaurant) { result in
@@ -134,5 +134,21 @@ class RestaurantController {
     
     func restaurant(withName name: String) -> Restaurant? {
         restaurants.first(where: {$0.name == name})
+    }
+}
+
+public extension Sequence {
+    /// Returns the array of elements for which condition(element) is unique
+    func unique<T: Hashable>(by condition: (Iterator.Element) throws -> T) rethrows -> [Iterator.Element] {
+        var results: [Iterator.Element] = []
+        var tempSet = Set<T>()
+        for element in self {
+            let value: T = try condition(element)
+            if !tempSet.contains(value) {
+                tempSet.insert(value)
+                results.append(element)
+            }
+        }
+        return results
     }
 }

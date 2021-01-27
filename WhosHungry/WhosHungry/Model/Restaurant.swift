@@ -14,13 +14,14 @@ struct TopLevelObject: Codable {
 
 struct Restaurant: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, location, rating, id
+        case name, location, rating, id, alias
         case cuisines = "categories"
         case imageEndpoint = "image_url"
         case reviewCount = "review_count"
         case restaurantYelpLink = "url"
     }
     let name: String?
+    let alias: String?
     let imageEndpoint: String?
     let location: ResLocation?
     let rating: Double?
@@ -49,8 +50,10 @@ extension Restaurant: Equatable {
     static func == (lhs: Restaurant, rhs: Restaurant) -> Bool {
         return lhs.name == rhs.name
     }
-    
-//    func hash(into hasher: inout Hasher) {
-//        <#code#>
-//    }
+}
+
+extension Restaurant: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
 }
