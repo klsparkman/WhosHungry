@@ -86,7 +86,8 @@ class ResultsViewController: UIViewController {
     func listenForWinningRestaurant() {
         Firebase.shared.listenForWinningRest { [weak self] (result) in
             if result == Constants.noWinningRestaurant {
-                self?.noMatchPopup()
+                //THERE IS NO WINNER! TRY AGAIN...
+//                self?.noMatchPopup()
             } else {
                 self?.displayWinner(winner: result)
                 Firebase.shared.stopListenForWinningRest()
@@ -136,7 +137,8 @@ class ResultsViewController: UIViewController {
                 Firebase.shared.updateWinningRestaurantField(resultString: Constants.noWinningRestaurant) { [weak self] (result) in
                     switch result {
                     case .success(_):
-                        self?.noMatchPopup()
+                        print("There was no winning restaurant, try again")
+//                        self?.noMatchPopup()
                     case .failure(let error):
                         print("There was an error updating winning restaurant field to noWinningRestaurant: \(error.localizedDescription)")
                         self?.retryUpdatingInfoToFirestore()
@@ -172,7 +174,9 @@ class ResultsViewController: UIViewController {
                 Firebase.shared.updateWinningRestaurantField(resultString: Constants.noWinningRestaurant) { [weak self] (result) in
                     switch result {
                     case .success(_):
-                        self?.noMatchPopup()
+                        //SHOW NO WINNER?
+                    print("No winner was found, try again")
+//                        self?.noMatchPopup()
                     case .failure(let error):
                         print("There was an error updating winning restaurant field to noWinningRestaurant: \(error.localizedDescription)")
                         self?.retryUpdatingInfoToFirestore()
@@ -205,35 +209,45 @@ class ResultsViewController: UIViewController {
         view.layoutIfNeeded()
     }
     
-    func noMatchPopup() {
-        let alert = UIAlertController(title: "WHOOPS", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] (_) in
-            self?.likes = []
-            Firebase.shared.userOnResultPage(bool: false)
-            guard let currentUser = self?.currentUser else {return}
-            if currentUser.isGameCreator {
-                Firebase.shared.updateWinningRestaurantField(resultString: "") { [weak self] (result) in
-                    switch result {
-                    case .success(_):
-                        print("Just updated the winning restaurant field")
-                        self?.stopRemainingListeners()
-                        self?.navigationController?.popViewController(animated: true)
-                    case .failure(let error):
-                        self?.retryUpdatingInfoToFirestore()
-                        print("There was an error updating winning restaurant field: \(error.localizedDescription)")
-                    }
-                }
-            } else {
-                self?.stopRemainingListeners()
-                print("Listeners have been stopped")
-                self?.navigationController?.popViewController(animated: true)
-            }
-        }))
-        self.present(alert, animated: true, completion: nil)
+    func displayNoWinnerFound() {
+        
     }
     
+//    func noMatchPopup() {
+//        let alert = UIAlertController(title: "WHOOPS", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] (_) in
+//            self?.likes = []
+//            Firebase.shared.userOnResultPage(bool: false)
+//            guard let currentUser = self?.currentUser else {return}
+//            if currentUser.isGameCreator {
+//                Firebase.shared.updateWinningRestaurantField(resultString: "") { [weak self] (result) in
+//                    switch result {
+//                    case .success(_):
+//                        print("Just updated the winning restaurant field")
+//                        self?.stopRemainingListeners()
+//                        self?.navigationController?.popViewController(animated: true)
+//                    case .failure(let error):
+//                        self?.retryUpdatingInfoToFirestore()
+//                        print("There was an error updating winning restaurant field: \(error.localizedDescription)")
+//                    }
+//                }
+//            } else {
+//                self?.stopRemainingListeners()
+//                print("Listeners have been stopped")
+//                self?.navigationController?.popViewController(animated: true)
+//            }
+//        }))
+//        self.present(alert, animated: true, completion: nil)
+//    }
+    
     func retryUpdatingInfoToFirestore() {
-        
+        let alert = UIAlertController(title: "Error", message: "We encountered an error somewhere, please check your connection and try swiping again!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] (_) in
+            self?.likes = []
+            self?.stopRemainingListeners()
+            self?.navigationController?.popViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func stopRemainingListeners() {
