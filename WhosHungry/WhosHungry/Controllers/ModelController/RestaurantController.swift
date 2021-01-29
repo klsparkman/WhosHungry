@@ -42,25 +42,18 @@ class RestaurantController {
         let apiKey = yelpAPIKey.replacingOccurrences(of: "\"", with: "")
         request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
-        
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print(error, error.localizedDescription)
                 return completion(.failure(.thrown(error)))
             }
-            
             guard let data = data else {return completion(.failure(.noData))}
-
             do {
                 let restaurantContainers = try JSONDecoder().decode(TopLevelObject.self, from: data).businesses
-
                 let restaurants = restaurantContainers.compactMap({$0})
-                
                 guard !restaurants.isEmpty else {return completion(.failure(.noData))}
                 let uniqueRestaurants = restaurants.unique(by: { $0.name })
-                
                 let group = DispatchGroup()
-                
                 for restaurant in uniqueRestaurants {
                     group.enter()
                     var restaurantCopy = restaurant
@@ -87,10 +80,9 @@ class RestaurantController {
     
     func fetchImage(for restaurant: Restaurant, completion: @escaping (Result<UIImage, RestaurantError>) -> Void) {
         guard let imageEndpoint = restaurant.imageEndpoint,
-            let restaurantImage = URL(string: imageEndpoint)
-            else {
-                return completion(.failure(.noData)) }
-        
+              let restaurantImage = URL(string: imageEndpoint)
+        else {
+            return completion(.failure(.noData)) }
         URLSession.shared.dataTask(with: restaurantImage) { (data, response, error) in
             if let error = error {
                 return completion(.failure(.thrown(error)))

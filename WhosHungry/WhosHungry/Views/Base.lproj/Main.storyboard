@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kyg-g6-ZiL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kyg-g6-ZiL">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -668,62 +668,60 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="H8t-HB-6lj">
-                                <rect key="frame" x="2" y="345" width="410" height="334"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-OO-1Pf">
-                                        <rect key="frame" x="205" y="0.0" width="0.0" height="200"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="f8Q-Rm-Hjl"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
-                                        <color key="textColor" systemColor="systemTealColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap the yelp button for restaurant info and directions!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HkV-5u-ntw">
-                                        <rect key="frame" x="5" y="222" width="400" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="tyZ-7f-4nO"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhk-on-cyC">
-                                        <rect key="frame" x="190" y="304" width="30" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="SxG-l9-mJ8"/>
-                                            <constraint firstAttribute="width" constant="30" id="por-gE-riw"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                                        <state key="normal" backgroundImage="burst_desktop_xsmall_outline-1"/>
-                                        <connections>
-                                            <action selector="yelpButtonTapped:" destination="Jsk-So-OPZ" eventType="touchUpInside" id="Cp9-MM-0nC"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pT-OO-1Pf">
+                                <rect key="frame" x="20" y="323" width="374" height="250"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="334" id="4nb-1l-Zvh"/>
+                                    <constraint firstAttribute="height" constant="250" id="f8Q-Rm-Hjl"/>
                                 </constraints>
-                            </stackView>
+                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="50"/>
+                                <color key="textColor" systemColor="systemTealColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap the yelp button for restaurant info and directions!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HkV-5u-ntw">
+                                <rect key="frame" x="20" y="583" width="374" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="tyZ-7f-4nO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhk-on-cyC">
+                                <rect key="frame" x="192" y="665" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="SxG-l9-mJ8"/>
+                                    <constraint firstAttribute="width" constant="30" id="por-gE-riw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="46"/>
+                                <state key="normal" backgroundImage="burst_desktop_xsmall_outline-1"/>
+                                <connections>
+                                    <action selector="yelpButtonTapped:" destination="Jsk-So-OPZ" eventType="touchUpInside" id="Cp9-MM-0nC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tyr-tx-Te3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="H8t-HB-6lj" secondAttribute="trailing" constant="2" id="6qP-LD-R2F"/>
+                            <constraint firstItem="fhk-on-cyC" firstAttribute="centerX" secondItem="RqL-a7-G9K" secondAttribute="centerX" id="0OU-Mu-yWS"/>
+                            <constraint firstItem="HkV-5u-ntw" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="20" id="44k-CR-cNM"/>
                             <constraint firstItem="QWr-8D-rIC" firstAttribute="top" secondItem="Tyr-tx-Te3" secondAttribute="top" constant="21" id="7kD-Vc-Qin"/>
+                            <constraint firstItem="HkV-5u-ntw" firstAttribute="top" secondItem="1pT-OO-1Pf" secondAttribute="bottom" constant="10" id="9jp-nQ-fEa"/>
                             <constraint firstAttribute="bottom" secondItem="RqL-a7-G9K" secondAttribute="bottom" id="D3Q-XH-V1O"/>
+                            <constraint firstItem="fhk-on-cyC" firstAttribute="top" secondItem="HkV-5u-ntw" secondAttribute="bottom" constant="22" id="G0h-sR-ZLT"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="top" secondItem="GDH-3G-9tx" secondAttribute="top" id="J3h-TH-nKR"/>
                             <constraint firstItem="QWr-8D-rIC" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="16" id="JXj-hM-TZv"/>
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="QWr-8D-rIC" secondAttribute="trailing" constant="16" id="JpJ-vS-6tp"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" id="LuH-oj-sHM"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="trailing" secondItem="Tyr-tx-Te3" secondAttribute="trailing" id="j7c-QD-Zw2"/>
-                            <constraint firstItem="H8t-HB-6lj" firstAttribute="top" secondItem="QWr-8D-rIC" secondAttribute="bottom" constant="80" id="mDZ-Dy-lRR"/>
-                            <constraint firstItem="H8t-HB-6lj" firstAttribute="leading" secondItem="GDH-3G-9tx" secondAttribute="leading" constant="2" id="syI-SZ-kkz"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="HkV-5u-ntw" secondAttribute="trailing" constant="20" id="m5d-j3-TQj"/>
+                            <constraint firstItem="1pT-OO-1Pf" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="20" id="wAq-Kl-kMX"/>
+                            <constraint firstItem="1pT-OO-1Pf" firstAttribute="centerY" secondItem="RqL-a7-G9K" secondAttribute="centerY" id="xth-8i-wdD"/>
+                            <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="1pT-OO-1Pf" secondAttribute="trailing" constant="20" id="ymo-fL-h4h"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="restaurantRestultLabel" destination="1pT-OO-1Pf" id="F2T-9y-PUi"/>
+                        <outlet property="backgroundImageView" destination="RqL-a7-G9K" id="fRu-wU-804"/>
+                        <outlet property="restaurantResultLabel" destination="1pT-OO-1Pf" id="F2T-9y-PUi"/>
                         <outlet property="waitForFriendsLabel" destination="QWr-8D-rIC" id="As4-kj-ryM"/>
                         <outlet property="winningRestaurantYelpButton" destination="fhk-on-cyC" id="xKD-7E-pV2"/>
                         <outlet property="winningRestaurantYelpLabel" destination="HkV-5u-ntw" id="Dvs-ob-qzt"/>
@@ -731,7 +729,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gV8-ek-MNw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3808.8000000000002" y="-21.428571428571431"/>
+            <point key="canvasLocation" x="3808.6956521739135" y="-21.428571428571427"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dOS-MP-14K">

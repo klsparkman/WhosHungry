@@ -58,7 +58,6 @@ class UserController: NSObject {
             Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
-        
         while remainingLength > 0 {
             let randoms: [UInt8] = (0 ..< 16).map { _ in
                 var random: UInt8 = 0
@@ -84,7 +83,6 @@ class UserController: NSObject {
 
 extension UserController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
@@ -98,12 +96,11 @@ extension UserController: ASAuthorizationControllerDelegate {
                 return
             }
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce, accessToken: nil)
-            
             defaults.setValue(appleIDCredential.fullName?.givenName, forKey: "firstName")
             defaults.setValue(appleIDCredential.fullName?.familyName, forKey: "lastName")
             defaults.setValue(appleIDCredential.email, forKey: "email")
             defaults.synchronize()
-
+            
             Auth.auth().signIn(with: credential) { (authDataResult, error) in
                 //handle error
                 if let error = error {
@@ -147,18 +144,16 @@ extension UserController: ASAuthorizationControllerDelegate {
                             }
                         case .failure(let error):
                             print("Error doing stuff: \(error)")
-
+                            
                         }
                     }
                 }
-
                 switch authorization.credential {
                 case let appleIDCredential as ASAuthorizationAppleIDCredential:
                     let user = User(credentials: appleIDCredential)
-
                     //Still set currentUser
                     self.currentUser = user
-
+                    
                 default:
                     break
                 }

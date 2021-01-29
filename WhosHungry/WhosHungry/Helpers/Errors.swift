@@ -9,7 +9,7 @@
 import Foundation
 
 enum RestaurantError: LocalizedError {
-   
+    
     case invalidURL
     case thrown(Error)
     case noData
@@ -37,7 +37,6 @@ enum GameError: LocalizedError {
     case noData
     
     var errorDescription: String? {
-        
         switch self {
         case .noGameExists:
             return("There is no game that matches that invite code")
@@ -55,7 +54,6 @@ enum FirebaseError: LocalizedError {
     case noPreviousUser
     
     var errorDescription: String? {
-        
         switch self {
         case .fbError(let error):
             return "Firebase returned an error: \(error.localizedDescription)"
@@ -69,7 +67,6 @@ enum UserError: LocalizedError {
     
     case noData
     case firebaseError(Error)
-    
     var errorDescription: String? {
         switch self {
         case .noData:

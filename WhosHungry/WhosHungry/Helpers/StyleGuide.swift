@@ -9,7 +9,6 @@
 import UIKit
 
 extension UIView {
-    
     func addCornerRadius(_ radius: CGFloat = 4) {
         self.layer.cornerRadius = radius
     }
@@ -25,7 +24,6 @@ extension UIView {
 }
 
 struct StyleConstants {
-    
     static func setLabelBlackBorderStyle(label: UILabel) {
         label.layer.cornerRadius = 10
         label.layer.borderColor = UIColor.black.cgColor
