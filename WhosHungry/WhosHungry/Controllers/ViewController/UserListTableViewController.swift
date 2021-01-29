@@ -23,7 +23,6 @@ class UserListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Lets Begin", style: .plain, target: self, action: #selector(letsBeginButtonTapped))
-        
         if self.currentUser!.isGameCreator == true {
             self.navigationItem.rightBarButtonItem?.isEnabled = true
         } else {

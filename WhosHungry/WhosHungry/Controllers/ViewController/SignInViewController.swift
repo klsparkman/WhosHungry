@@ -97,7 +97,7 @@ extension UILabel {
         self.layer.shadowRadius = 8.0
         self.layer.shadowOpacity = 1.0
     }
-}//End of extension
+}//End of UILabel extension
 
 extension SignInViewController: UserControllerDelegate {
     func userLoggedIn(_ sender: Bool) {
@@ -109,4 +109,4 @@ extension SignInViewController: UserControllerDelegate {
             }
         }
     }
-}
+}// End of SignInVC extension

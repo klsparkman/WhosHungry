@@ -96,7 +96,7 @@ class Firebase {
     
     func updateUserList(inviteCode: String) {
         //Go to Firestore and see if the invite code matches a game
-        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+        Firebase.shared.fetchGame(withInviteCode: inviteCode) { (result) in
             switch result {
             //If it doesn't match a game, show an error
             case .failure(let error):
@@ -113,7 +113,7 @@ class Firebase {
             }
         }
     }
-                
+    
     // Mark: - Fetches
     func fetchUser(withID id: String, completion: @escaping (Result<User?, FirebaseError>) -> Void) {
         db.collection(Constants.userContainer).whereField(Constants.uid, isEqualTo: id).getDocuments { (querySnapshot, error) in
@@ -129,7 +129,7 @@ class Firebase {
         }
     }
     
-    func fetchGame(withinviteCode inviteCode: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
+    func fetchGame(withInviteCode inviteCode: String, completion: @escaping (Result<Game?, GameError>) -> Void) {
         db.collection(Constants.gameContainer).whereField(Constants.inviteCode, isEqualTo: inviteCode).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting documents: \(error)")

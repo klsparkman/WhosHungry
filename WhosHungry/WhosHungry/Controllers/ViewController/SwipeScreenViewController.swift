@@ -34,7 +34,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     var voteDictionary: [String : Int] = [:]
     var likedRestaurants: [String] = []
     let db = Firestore.firestore()
-
+    
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,11 +61,11 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):
-//                     Start showing cards
-//                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
-//                    else {return}
+                    //                     Start showing cards
+                    //                    guard let firstRestaurant = RestaurantController.shared.restaurants.first
+                    //                    else {return}
                     self?.resetVoting()
-//                    self?.populateCard(with: firstRestaurant)
+                //                    self?.populateCard(with: firstRestaurant)
                 case .failure(let error):
                     print(error, error.localizedDescription)
                 }
@@ -137,8 +137,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
             populateCard(with: restaurant)
         }
     }
-    
-    
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
         let card = sender.view!

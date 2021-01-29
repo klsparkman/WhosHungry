@@ -58,7 +58,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         guard let inviteCode = self.trimmedInviteCode else {return}
         Firebase.shared.updateUserList(inviteCode: inviteCode)
     }
-
+    
     @IBAction func inviteCodeTextFieldTapped(_ sender: Any) {
     }
     
@@ -66,7 +66,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
         fixInviteCode()
         guard let inviteCode = self.trimmedInviteCode else {return false}
-        Firebase.shared.fetchGame(withinviteCode: inviteCode) { (result) in
+        Firebase.shared.fetchGame(withInviteCode: inviteCode) { (result) in
             switch result {
             case .failure(let error):
                 print("There is an error fetching a game with that invite code: \(error.localizedDescription)")
