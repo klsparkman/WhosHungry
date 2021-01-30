@@ -225,8 +225,4 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
-    @IBAction func backButton(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-    }
 }

@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		35283B15256849EB002E686A /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35283B14256849EA002E686A /* Errors.swift */; };
 		3549B5A325264B8C00CA4DFF /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549B5A225264B8C00CA4DFF /* GameController.swift */; };
-		3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */; };
-		35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A29247630AA0097299E /* neon_pixel-7.ttf */; };
-		35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35847A2B24763AE40097299E /* lunasol regular.ttf */; };
 		358CBD19250FF89F00B340DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358CBD18250FF89F00B340DF /* Constants.swift */; };
 		358CBD1B2510073600B340DF /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358CBD1A2510073600B340DF /* UserController.swift */; };
 		359558D5244A37C1003A20BC /* CreateGameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */; };
@@ -38,9 +35,6 @@
 /* Begin PBXFileReference section */
 		35283B14256849EA002E686A /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		3549B5A225264B8C00CA4DFF /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
-		3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BeautySchoolDropout.ttf; sourceTree = "<group>"; };
-		35847A29247630AA0097299E /* neon_pixel-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neon_pixel-7.ttf"; sourceTree = "<group>"; };
-		35847A2B24763AE40097299E /* lunasol regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lunasol regular.ttf"; sourceTree = "<group>"; };
 		358CBD18250FF89F00B340DF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		358CBD1A2510073600B340DF /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		359558D4244A37C1003A20BC /* CreateGameDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameDetailsViewController.swift; sourceTree = "<group>"; };
@@ -81,16 +75,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		35847A282476308E0097299E /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				35847A29247630AA0097299E /* neon_pixel-7.ttf */,
-				35847A2B24763AE40097299E /* lunasol regular.ttf */,
-				3566AF0524770D1A00F53E97 /* BeautySchoolDropout.ttf */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
 		359C401124476B40007C2AEF = {
 			isa = PBXGroup;
 			children = (
@@ -113,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				35DCF24124AE907F00BA3783 /* WhosHungry.entitlements */,
-				35847A282476308E0097299E /* Fonts */,
 				359C40332447703B007C2AEF /* Model */,
 				359C403F2448D867007C2AEF /* Views */,
 				359C403C2448D80C007C2AEF /* Controllers */,
@@ -276,10 +259,7 @@
 			files = (
 				359C402A24476B43007C2AEF /* LaunchScreen.storyboard in Resources */,
 				359C402724476B43007C2AEF /* Assets.xcassets in Resources */,
-				35847A2A247630AA0097299E /* neon_pixel-7.ttf in Resources */,
 				359C402524476B40007C2AEF /* Main.storyboard in Resources */,
-				3566AF0624770D1A00F53E97 /* BeautySchoolDropout.ttf in Resources */,
-				35847A2C24763AE40097299E /* lunasol regular.ttf in Resources */,
 				359E26BA24A1AEA70011358A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,7 +477,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WhosHungry/WhosHungry.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 97JSCUVT38;
 				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -519,7 +499,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WhosHungry/WhosHungry.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 97JSCUVT38;
 				INFOPLIST_FILE = WhosHungry/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;

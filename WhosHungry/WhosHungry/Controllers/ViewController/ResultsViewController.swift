@@ -202,9 +202,9 @@ class ResultsViewController: UIViewController {
     
     func noMatchPopup() {
         let alert = UIAlertController(title: "WHOOPS", message: "No match was made! Please try swiping again and be more open to possibilities.", preferredStyle: .alert)
+        Firebase.shared.userOnResultPage(bool: false)
         alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] (_) in
             self?.likes = []
-            Firebase.shared.userOnResultPage(bool: false)
             guard let currentUser = self?.currentUser else {return}
             if currentUser.isGameCreator {
                 Firebase.shared.updateWinningRestaurantField(resultString: "") { [weak self] (result) in
