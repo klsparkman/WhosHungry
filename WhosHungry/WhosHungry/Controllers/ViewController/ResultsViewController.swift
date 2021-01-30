@@ -25,6 +25,7 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var winningRestaurantYelpButton: UIButton!
     @IBOutlet weak var waitForFriendsLabel: UITextView!
     @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var playAgainButton: UIButton!
     
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
@@ -32,6 +33,10 @@ class ResultsViewController: UIViewController {
         Firebase.shared.userOnResultPage(bool: true)
         winningRestaurantYelpLabel.isHidden = true
         winningRestaurantYelpButton.isHidden = true
+        playAgainButton.layer.borderWidth = 1
+        playAgainButton.layer.borderColor = UIColor.white.cgColor
+        playAgainButton.addCornerRadius(15)
+        playAgainButton.isHidden = true
         if self.playerCount == 1 {
             waitForFriendsLabel.isHidden = true
         }
@@ -198,6 +203,8 @@ class ResultsViewController: UIViewController {
         stopRemainingListeners()
         view.setNeedsDisplay()
         view.layoutIfNeeded()
+        playAgainButton.isHidden = false
+        view.bringSubviewToFront(playAgainButton)
     }
     
     func noMatchPopup() {
@@ -243,5 +250,10 @@ class ResultsViewController: UIViewController {
         Firebase.shared.stopRevoteListener()
         Firebase.shared.stopAllUsersOnResultsPageListener()
         Firebase.shared.stopListenForWinningRest()
+    }
+    
+    @IBAction func playAgainButtonTapped(_ sender: Any) {
+        let  vc =  self.navigationController?.viewControllers.filter({$0 is GameChoiceViewController}).first
+        self.navigationController?.popToViewController(vc!, animated: true)
     }
 }// End of class
