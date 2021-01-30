@@ -51,6 +51,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         placesTableView.delegate = self
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
+        radiusLabel.text = "\(15) miles"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +107,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     }
     
     @IBAction func radiusSlider(_ sender: Any) {
-        radiusLabel.text = "\(Int(radiusSlider.value))"
+        radiusLabel.text = "\(Int(radiusSlider.value)) miles"
     }
     
     @IBAction func breakfastButtonTapped(_ sender: Any) {
@@ -165,7 +166,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
               let inviteCode = self.inviteCode,
               let city = citySearchTextField.text,
               let mealType = mealType,
-              let radius = Double("\(radiusLabel.text!)")
+              let radius = Double("\(radiusLabel.text!)".replacingOccurrences(of: " miles", with: ""))
         else {return}
         let gameHasBegun = false
         let winningRestaurant = ""

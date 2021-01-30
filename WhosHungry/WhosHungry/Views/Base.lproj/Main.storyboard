@@ -360,7 +360,6 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
                                 </state>
                                 <connections>
-                                    <action selector="backButton:" destination="HEx-x6-OYD" eventType="touchUpInside" id="g1v-aX-EFY"/>
                                     <action selector="backButtonPressed:" destination="zJm-ZB-Ks6" eventType="touchUpInside" id="0a8-6S-sgI"/>
                                 </connections>
                             </button>
@@ -485,24 +484,6 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient.1" translatesAutoresizingMaskIntoConstraints="NO" id="ug7-pb-8vv">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4y-et-Sqc">
-                                        <rect key="frame" x="10" y="10" width="46" height="30"/>
-                                        <color key="backgroundColor" red="0.47368947560000002" green="0.33581765190000001" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="46" id="bwo-2y-91N"/>
-                                            <constraint firstAttribute="height" constant="30" id="zPH-Ke-iSL"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="arrow.left" catalog="system">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="backButton:" destination="HEx-x6-OYD" eventType="touchUpInside" id="7cX-C8-Sxh"/>
-                                        </connections>
-                                    </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLa-Yn-2Jd" userLabel="Card">
                                         <rect key="frame" x="49.666666666666657" y="118" width="315" height="600"/>
                                         <subviews>
@@ -611,9 +592,7 @@
                                     <constraint firstItem="ug7-pb-8vv" firstAttribute="top" secondItem="bvu-lH-BQ0" secondAttribute="top" id="Tel-aP-O60"/>
                                     <constraint firstAttribute="bottom" secondItem="VLa-Yn-2Jd" secondAttribute="bottom" constant="100" id="bew-M5-ZmW"/>
                                     <constraint firstAttribute="bottom" secondItem="ug7-pb-8vv" secondAttribute="bottom" id="nC6-FS-8CZ"/>
-                                    <constraint firstItem="Z4y-et-Sqc" firstAttribute="top" secondItem="bvu-lH-BQ0" secondAttribute="top" constant="10" id="pF8-3U-Lex"/>
                                     <constraint firstItem="VLa-Yn-2Jd" firstAttribute="centerX" secondItem="ug7-pb-8vv" secondAttribute="centerX" id="rrK-VG-xdY"/>
-                                    <constraint firstItem="Z4y-et-Sqc" firstAttribute="leading" secondItem="bvu-lH-BQ0" secondAttribute="leading" constant="10" id="xW0-OT-bJj"/>
                                     <constraint firstAttribute="trailing" secondItem="ug7-pb-8vv" secondAttribute="trailing" id="ylA-pK-2VD"/>
                                 </constraints>
                             </view>
