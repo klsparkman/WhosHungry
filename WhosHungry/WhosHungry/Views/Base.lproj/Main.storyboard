@@ -677,6 +677,21 @@
                                     <action selector="yelpButtonTapped:" destination="Jsk-So-OPZ" eventType="touchUpInside" id="Cp9-MM-0nC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BHy-ev-zsU">
+                                <rect key="frame" x="132" y="725" width="150" height="50"/>
+                                <color key="backgroundColor" systemColor="systemTealColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dyQ-Vg-hHj"/>
+                                    <constraint firstAttribute="width" constant="150" id="gz5-ma-xej"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <state key="normal" title="Play Again">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="playAgainButtonTapped:" destination="Jsk-So-OPZ" eventType="touchUpInside" id="jXG-vh-bvs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tyr-tx-Te3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -685,6 +700,7 @@
                             <constraint firstItem="HkV-5u-ntw" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="20" id="44k-CR-cNM"/>
                             <constraint firstItem="QWr-8D-rIC" firstAttribute="top" secondItem="Tyr-tx-Te3" secondAttribute="top" constant="21" id="7kD-Vc-Qin"/>
                             <constraint firstItem="HkV-5u-ntw" firstAttribute="top" secondItem="1pT-OO-1Pf" secondAttribute="bottom" constant="10" id="9jp-nQ-fEa"/>
+                            <constraint firstItem="BHy-ev-zsU" firstAttribute="centerX" secondItem="RqL-a7-G9K" secondAttribute="centerX" id="Bve-VX-sZf"/>
                             <constraint firstAttribute="bottom" secondItem="RqL-a7-G9K" secondAttribute="bottom" id="D3Q-XH-V1O"/>
                             <constraint firstItem="fhk-on-cyC" firstAttribute="top" secondItem="HkV-5u-ntw" secondAttribute="bottom" constant="22" id="G0h-sR-ZLT"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="top" secondItem="GDH-3G-9tx" secondAttribute="top" id="J3h-TH-nKR"/>
@@ -692,6 +708,7 @@
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="QWr-8D-rIC" secondAttribute="trailing" constant="16" id="JpJ-vS-6tp"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" id="LuH-oj-sHM"/>
                             <constraint firstItem="RqL-a7-G9K" firstAttribute="trailing" secondItem="Tyr-tx-Te3" secondAttribute="trailing" id="j7c-QD-Zw2"/>
+                            <constraint firstItem="BHy-ev-zsU" firstAttribute="top" secondItem="fhk-on-cyC" secondAttribute="bottom" constant="30" id="ljz-ag-r72"/>
                             <constraint firstItem="Tyr-tx-Te3" firstAttribute="trailing" secondItem="HkV-5u-ntw" secondAttribute="trailing" constant="20" id="m5d-j3-TQj"/>
                             <constraint firstItem="1pT-OO-1Pf" firstAttribute="leading" secondItem="Tyr-tx-Te3" secondAttribute="leading" constant="20" id="wAq-Kl-kMX"/>
                             <constraint firstItem="1pT-OO-1Pf" firstAttribute="centerY" secondItem="RqL-a7-G9K" secondAttribute="centerY" id="xth-8i-wdD"/>
@@ -700,6 +717,7 @@
                     </view>
                     <connections>
                         <outlet property="backgroundImageView" destination="RqL-a7-G9K" id="fRu-wU-804"/>
+                        <outlet property="playAgainButton" destination="BHy-ev-zsU" id="oce-ca-e0e"/>
                         <outlet property="restaurantResultLabel" destination="1pT-OO-1Pf" id="F2T-9y-PUi"/>
                         <outlet property="waitForFriendsLabel" destination="QWr-8D-rIC" id="As4-kj-ryM"/>
                         <outlet property="winningRestaurantYelpButton" destination="fhk-on-cyC" id="xKD-7E-pV2"/>
