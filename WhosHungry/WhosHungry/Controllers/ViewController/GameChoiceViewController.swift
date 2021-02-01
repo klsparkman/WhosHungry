@@ -49,6 +49,7 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func joinGameButtonTapped(_ sender: Any) {
+        UserController.shared.currentUser!.isGameCreator = false
         pasteCodeTextField.isHidden = false
         if pasteCodeTextField != nil {
         }

@@ -155,14 +155,16 @@ class Firebase {
                 return
             }
             let result = data[Constants.users]
-            let players = result as? [String] ?? []
+            let players = result as? [String] ?? []            
             
-            if self.playerCount != nil {
-                self.playerCount! += 1
-            } else {
-                self.playerCount = 1
-            }
+            
+//            if self.playerCount != nil {
+//                self.playerCount! += 1
+//            } else {
+//                self.playerCount = 1
+//            }
             completion(players)
+            self.playerCount = players.count
         }
     }
     
