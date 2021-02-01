@@ -27,6 +27,10 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var playAgainButton: UIButton!
     
+    deinit {
+        print("Results view controller is being deinitialized")
+    }
+    
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -196,7 +200,7 @@ class ResultsViewController: UIViewController {
         winningRestaurantYelpLabel.isHidden = false
         restaurantResultLabel.text = restaurant.name
         yelpURL = restaurant.restaurantYelpLink
-        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
+        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
             self.restaurantResultLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
         }, completion: nil)
         generator.notificationOccurred(.success)
@@ -255,5 +259,9 @@ class ResultsViewController: UIViewController {
     @IBAction func playAgainButtonTapped(_ sender: Any) {
         let  vc =  self.navigationController?.viewControllers.filter({$0 is GameChoiceViewController}).first
         self.navigationController?.popToViewController(vc!, animated: true)
+        restaurantVotes = [:]
+        likes = []
+        RestaurantController.shared.restaurants = []
+//        playerCount = 0
     }
 }// End of class

@@ -22,6 +22,10 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var cuisineLabel: UILabel!
     
+    deinit {
+        print("Swipe screen vc is being deinitialized")
+    }
+    
     // Mark: - Properties
     var divisor: CGFloat!
     var currentCardIndex: Int = 0

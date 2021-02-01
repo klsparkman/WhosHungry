@@ -26,6 +26,10 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     @IBOutlet weak var createGameButton: UIButton!
     @IBOutlet weak var distanceLabel: UILabel!
     
+    deinit {
+        print("Create game vc is being deinitialized")
+    }
+    
     // Mark: - Properties
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
     var mealType: String?
@@ -176,6 +180,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
             // MORE TO DO HERE!!!
             switch result {
             case .success(_):
+//                self.currentUser?.isGameCreator = true
                 print(self.currentUser!.isGameCreator) 
             case .failure(let error):
                 print("Error saving game: \(error.localizedDescription)")

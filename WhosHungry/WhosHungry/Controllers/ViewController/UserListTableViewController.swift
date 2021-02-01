@@ -19,6 +19,10 @@ class UserListTableViewController: UITableViewController {
     var players: [String] = []
     let currentUser = UserController.shared.currentUser
     
+    deinit {
+        print("User list vc is being deinitialized")
+    }
+    
     // Mark: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,8 +77,8 @@ class UserListTableViewController: UITableViewController {
         Firebase.shared.listenForUsers { [weak self] (result) in
             self?.players = []
             for player in result {
-                guard let playercount = self?.players.count else {return}
-                if playercount <= 10 {
+                guard let playerCount = self?.players.count else {return}
+                if playerCount <= 10 {
                     self?.players.append(player)
                 } else {
                     self?.maxPlayersJoined()
