@@ -28,9 +28,9 @@ class GameChoiceViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         pasteCodeTextField.isHidden = true
         joinThePartyButton.isHidden = true
-        createGameButton.layer.cornerRadius = 30
-        joinGameButton.layer.cornerRadius = 30
-        joinThePartyButton.layer.cornerRadius = 20
+        createGameButton.layer.cornerRadius = 15
+        joinGameButton.layer.cornerRadius = 15
+        joinThePartyButton.layer.cornerRadius = 15
         joinThePartyButton.layer.borderWidth = 2
         joinThePartyButton.layer.borderColor = UIColor.white.cgColor
         self.pasteCodeTextField.delegate = self
