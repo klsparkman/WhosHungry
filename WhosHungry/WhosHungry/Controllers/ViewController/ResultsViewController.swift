@@ -27,10 +27,6 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var playAgainButton: UIButton!
     
-    deinit {
-        print("Results view controller is being deinitialized")
-    }
-    
     // Mark: - Lifecycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()

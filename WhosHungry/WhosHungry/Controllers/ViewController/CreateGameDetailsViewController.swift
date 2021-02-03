@@ -26,10 +26,6 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     @IBOutlet weak var createGameButton: UIButton!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    deinit {
-        print("Create game vc is being deinitialized")
-    }
-    
     // Mark: - Properties
     var resultsArray: [Dictionary<String, AnyObject>] = Array()
     var mealType: String?

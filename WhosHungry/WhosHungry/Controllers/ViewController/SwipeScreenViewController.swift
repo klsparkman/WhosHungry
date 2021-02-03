@@ -22,10 +22,6 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var cuisineLabel: UILabel!
     
-    deinit {
-        print("Swipe screen vc is being deinitialized")
-    }
-    
     // Mark: - Properties
     var divisor: CGFloat!
     var currentCardIndex: Int = 0
@@ -46,6 +42,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         fetchRestaurants()
         card.layer.borderWidth = 1
         card.layer.borderColor = UIColor.white.cgColor
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

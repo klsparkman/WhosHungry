@@ -19,10 +19,6 @@ class UserListTableViewController: UITableViewController {
     var players: [String] = []
     let currentUser = UserController.shared.currentUser
     
-    deinit {
-        print("User list vc is being deinitialized")
-    }
-    
     // Mark: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
