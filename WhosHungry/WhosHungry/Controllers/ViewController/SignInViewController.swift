@@ -50,14 +50,15 @@ class SignInViewController: UIViewController {
     
     func animateTitle() {
         self.titleLabel.UILabelTextShadow(color: UIColor.cyan)
-        UIView.animate(withDuration: 3.0, delay: 0.2, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: .allowAnimatedContent, animations: {
-            self.titleLabel.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY)
-        }, completion: nil)
+        titleLabel.alpha = 0
+        titleLabel.fadeIn(duration: 2.8, delay: 0.2)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        titleLabel.alpha = 0
         self.animateTitle()
         self.setupView()
     }
@@ -110,3 +111,10 @@ extension SignInViewController: UserControllerDelegate {
         }
     }
 }// End of SignInVC extension
+
+extension UIView {
+    func fadeIn(duration: TimeInterval, delay: TimeInterval, completion: @escaping ((Bool) -> Void) = {(finished: Bool) -> Void in}) {
+        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {
+            self.alpha = 1.0
+        }, completion: completion)  }
+}
