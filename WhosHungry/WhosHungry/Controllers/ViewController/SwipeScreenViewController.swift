@@ -42,6 +42,7 @@ class SwipeScreenViewController: UIViewController, CLLocationManagerDelegate {
         fetchRestaurants()
         card.layer.borderWidth = 1
         card.layer.borderColor = UIColor.white.cgColor
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
