@@ -36,7 +36,9 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     // Mark: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        StyleConstants.setTextFieldStyle(textField: citySearchTextField)
+        citySearchTextField.layer.borderColor = UIColor.black.cgColor
+        citySearchTextField.layer.borderWidth = 1
+        citySearchTextField.layer.masksToBounds = true
         StyleConstants.setLabelWhiteBorderStyle(label: radiusLabel)
         StyleConstants.setLabelWhiteBorderStyle(label: distanceLabel)
         StyleConstants.setRadiusSliderStyle(slider: radiusSlider)
@@ -217,10 +219,13 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = placesTableView.dequeueReusableCell(withIdentifier: "placesCell") else {return UITableViewCell()}
-        if let placeName = cell.contentView.viewWithTag(102) as? UILabel {
-            let place = self.resultsArray[indexPath.row]
-            placeName.text = "\(place[Constants.address] as! String)"
-        }
+//        if let placeName = cell.contentView.viewWithTag(102) as? UILabel {
+//            let place = self.resultsArray[indexPath.row]
+//            placeName.text = "\(place[Constants.address] as! String)"
+//        }
+        let place = self.resultsArray[indexPath.row]
+        cell.textLabel?.text = "\(place[Constants.address] as! String)"
+//        cell.textLabel?.textColor = .black
         return cell
     }
     
