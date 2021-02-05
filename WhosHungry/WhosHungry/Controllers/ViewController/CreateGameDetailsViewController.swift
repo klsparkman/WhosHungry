@@ -55,6 +55,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         GameController.shared.updateViewWithRCValues()
         GameController.shared.fetchRemoteConfig()
         radiusLabel.text = "\(15) miles"
+        citySearchTextField.attributedPlaceholder = NSAttributedString(string: "What city are we eating in?",
+                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
     }
     
     override func viewWillAppear(_ animated: Bool) {
