@@ -47,6 +47,7 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
         StyleConstants.setButtonStyle(button: dinnerButton)
         StyleConstants.setButtonStyle(button: dessertButton)
         StyleConstants.setButtonStyle(button: generateCodeButton)
+        StyleConstants.setButtonStyle(button: createGameButton)
         placesTableView.isHidden = true
         citySearchTextField.delegate = self
         placesTableView.dataSource = self
@@ -219,13 +220,8 @@ class CreateGameDetailsViewController: UIViewController, CLLocationManagerDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = placesTableView.dequeueReusableCell(withIdentifier: "placesCell") else {return UITableViewCell()}
-//        if let placeName = cell.contentView.viewWithTag(102) as? UILabel {
-//            let place = self.resultsArray[indexPath.row]
-//            placeName.text = "\(place[Constants.address] as! String)"
-//        }
         let place = self.resultsArray[indexPath.row]
         cell.textLabel?.text = "\(place[Constants.address] as! String)"
-//        cell.textLabel?.textColor = .black
         return cell
     }
     

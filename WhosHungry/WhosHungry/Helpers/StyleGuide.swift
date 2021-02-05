@@ -64,4 +64,10 @@ struct StyleConstants {
         slider.layer.masksToBounds = true
         slider.value = 15
     }
+    
+    static func setMinFontScaleForButton(button: UIButton) {
+        button.titleLabel?.numberOfLines = 1;
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
+    }
 }
