@@ -72,6 +72,7 @@ class SignInViewController: UIViewController {
             appleButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
             appleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             appleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            appleButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     

@@ -23,7 +23,7 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var restaurantResultLabel: UILabel!
     @IBOutlet weak var winningRestaurantYelpLabel: UILabel!
     @IBOutlet weak var winningRestaurantYelpButton: UIButton!
-    @IBOutlet weak var waitForFriendsLabel: UITextView!
+    @IBOutlet weak var waitForFriendsLabel: UILabel!
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var playAgainButton: UIButton!
     
